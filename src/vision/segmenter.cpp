@@ -16,8 +16,8 @@ Segmenter& Segmenter::getInstance()
     return segmenter;
 }
 
-void Segmenter::runSegmentationAlgorithms()
+void Segmenter::runSegmentationAlgorithms(cv::Mat raw_image)
 {
     for(auto algorithm : algorithms_)
-        algorithm -> run();
+        algorithm -> run(raw_image);
 }

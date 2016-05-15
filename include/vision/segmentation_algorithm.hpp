@@ -26,7 +26,7 @@ class SegmentationAlgorithm
     SegmentationAlgorithm();
     virtual ~SegmentationAlgorithm() {}
 
-    virtual void run() = 0;
+    virtual void run(cv::Mat raw_image) = 0;
 
     cv::Mat getSegmentationOutput();
     bool isName(std::string name);

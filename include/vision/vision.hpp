@@ -20,6 +20,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <vision/segmenter.hpp>
+#include <vision/identifier.hpp>
 #include <vision/tracker.hpp>
 
 class Vision

@@ -50,7 +50,11 @@ add_executable(vision_node
   src/vision/vision.cpp
   src/vision/segmenter.cpp
   src/vision/segmentation_algorithm.cpp
+  src/vision/identifier.cpp
+  src/vision/identification_algorithm.cpp
   src/vision/tracker.cpp
-  src/vision/tracked_object.cpp)
+  src/vision/tracked_object.cpp
+  src/vision/dummy_segmentation_algorithm.cpp
+  src/vision/dummy_identification_algorithm.cpp)
 add_dependencies(vision_node unball_gencpp)
 target_link_libraries(vision_node ${catkin_LIBRARIES})

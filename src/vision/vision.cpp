@@ -21,8 +21,7 @@ Vision& Vision::getInstance()
  */
 void Vision::run()
 {
-    // Run calibration-related alterations on original image
-
-    Segmenter::getInstance().runSegmentationAlgorithms();
+    Segmenter::getInstance().runSegmentationAlgorithms(cv::Mat());
+    Identifier::getInstance().runIdentificationAlgorithms();
     Tracker::getInstance().runTracking();
 }
