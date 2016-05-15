@@ -15,21 +15,27 @@
 #define UNBALL_TRACKED_OBJECT_H_
 
 #include <string>
+#include <memory>
 
 #include <opencv2/opencv.hpp>
+#include <vision/identification_algorithm.hpp>
 
 class TrackedObject
 {
   public:
-    TrackedObject();
-    virtual ~TrackedObject() = 0;
+    TrackedObject(std::string name = "DefaultTrackedObject");
 
-    virtual void runTracking() = 0;
+    void runTracking();
 
     bool isName(std::string name);
 
   protected:
     std::string name_;
+
+    std::shared_ptr<IdentificationAlgorithm> identification_algorithm_;
+
+    cv::Point position_;
+    float orientation_;
 };
 
 #endif // UNBALL_TRACKED_OBJECT_H_

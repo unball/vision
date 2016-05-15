@@ -10,9 +10,14 @@
 
 #include <vision/tracked_object.hpp>
 
-TrackedObject::TrackedObject()
+TrackedObject::TrackedObject(std::string name)
 {
-    name_ = "TrackedObject_BaseClass";
+    name_ = name;
+}
+
+void TrackedObject::runTracking()
+{
+    // Do something (...)
 }
 
 bool TrackedObject::isName(std::string name)
