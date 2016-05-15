@@ -48,6 +48,7 @@ link_directories(
 add_executable(vision_node
   src/vision/vision_node.cpp
   src/vision/vision.cpp
+  src/vision/raw_image.cpp
   src/vision/segmenter.cpp
   src/vision/segmentation_algorithm.cpp
   src/vision/identifier.cpp

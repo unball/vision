@@ -21,7 +21,7 @@ Vision& Vision::getInstance()
  */
 void Vision::run()
 {
-    Segmenter::getInstance().runSegmentationAlgorithms(cv::Mat());
+    Segmenter::getInstance().runSegmentationAlgorithms();
     Identifier::getInstance().runIdentificationAlgorithms();
     Tracker::getInstance().runTracking();
 }

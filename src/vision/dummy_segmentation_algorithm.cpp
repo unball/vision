@@ -5,8 +5,7 @@ DummySegmentationAlgorithm::DummySegmentationAlgorithm()
     name_ = "DummySegmentationAlgorithm";
 }
 
-
-void DummySegmentationAlgorithm::run(cv::Mat raw_image)
+void DummySegmentationAlgorithm::run()
 {
-    raw_image.copyTo(output_image_);
+    RawImage::getInstance().getRawImage().copyTo(output_image_);
 }

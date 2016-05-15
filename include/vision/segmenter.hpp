@@ -25,7 +25,7 @@ class Segmenter
   public:
     static Segmenter& getInstance();
 
-    void runSegmentationAlgorithms(cv::Mat raw_image);
+    void runSegmentationAlgorithms();
 
   private:
     std::vector<std::shared_ptr<SegmentationAlgorithm>> algorithms_;
