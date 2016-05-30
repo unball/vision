@@ -16,6 +16,8 @@
 #include <vector>
 #include <memory>
 
+#include <ros/ros.h>
+
 #include <vision/tracked_object.hpp>
 
 class Tracker
@@ -24,6 +26,8 @@ class Tracker
     static Tracker& getInstance();
 
     void runTracking();
+
+    void addTrackedObject(std::shared_ptr<TrackedObject> obj);
 
   private:
     std::vector<std::shared_ptr<TrackedObject>> tracked_objects_;

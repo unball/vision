@@ -13,6 +13,8 @@ class Identifier
 
     void runIdentificationAlgorithms();
 
+    void addIdentificationAlgorithm(std::shared_ptr<IdentificationAlgorithm> algorithm);
+
   private:
     std::vector<std::shared_ptr<IdentificationAlgorithm>> algorithms_;
 };

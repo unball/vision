@@ -18,6 +18,12 @@ Tracker& Tracker::getInstance()
 
 void Tracker::runTracking()
 {
+    ROS_DEBUG("Tracking %d objects", (int)tracked_objects_.size());
     for(auto object : tracked_objects_)
         object->runTracking();
+}
+
+void Tracker::addTrackedObject(std::shared_ptr<TrackedObject> obj)
+{
+    tracked_objects_.push_back(obj);
 }

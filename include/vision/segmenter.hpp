@@ -27,7 +27,7 @@ class Segmenter
 
     void runSegmentationAlgorithms();
 
-    void AddSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> algorithm);
+    void addSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> algorithm);
 
   private:
     std::vector<std::shared_ptr<SegmentationAlgorithm>> algorithms_;

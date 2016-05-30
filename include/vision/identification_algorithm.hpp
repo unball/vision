@@ -17,6 +17,8 @@ class IdentificationAlgorithm
 
     bool isName(std::string name);
 
+    void setSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> seg_alg);
+
   protected:
     std::shared_ptr<SegmentationAlgorithm> segmentation_algorithm_;
 

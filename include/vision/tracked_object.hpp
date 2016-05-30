@@ -29,6 +29,8 @@ class TrackedObject
 
     bool isName(std::string name);
 
+    void setIdentificationAlgorithm(std::shared_ptr<IdentificationAlgorithm> id_alg);
+
   protected:
     std::string name_;
 
