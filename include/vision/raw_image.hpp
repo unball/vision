@@ -8,7 +8,7 @@ class RawImage
   public:
     static RawImage& getInstance();
 
-    void setRawImage(cv::Mat raw_image);
+    void setRawImage(const cv::Mat &raw_image);
     cv::Mat getRawImage();
 
   private:

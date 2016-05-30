@@ -6,9 +6,9 @@ RawImage& RawImage::getInstance()
     return rawImage;
 }
 
-void RawImage::setRawImage(cv::Mat raw_image)
+void RawImage::setRawImage(const cv::Mat &raw_image)
 {
-    raw_image_ = raw_image;
+    raw_image.copyTo(raw_image_);
 }
 
 cv::Mat RawImage::getRawImage()
