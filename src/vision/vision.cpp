@@ -16,6 +16,11 @@ Vision& Vision::getInstance()
     return vision;
 }
 
+Vision::Vision()
+{
+    ConfigParser::getInstance().parseConfigFile();
+}
+
 /**
  * Execute vision processing.
  */

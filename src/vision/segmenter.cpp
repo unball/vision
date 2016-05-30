@@ -21,3 +21,8 @@ void Segmenter::runSegmentationAlgorithms()
     for(auto algorithm : algorithms_)
         algorithm -> run();
 }
+
+void Segmenter::AddSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> algorithm)
+{
+    algorithms_.push_back(algorithm);
+}

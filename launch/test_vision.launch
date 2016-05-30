@@ -1,0 +1,4 @@
+<launch>
+  <rosparam command="load" file="$(find vision)/config/vision.yaml" />
+  <node name="vision_system" pkg="vision" type="vision_node" />
+</launch>

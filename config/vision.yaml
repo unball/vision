@@ -1,1 +1,10 @@
 vision:
+    object_list: ["dummy_object", "dummy_object_2"]
+
+    dummy_object:
+        segmentation_algorithm: "DummySegmentationAlgorithm"
+        identification_algorithm: "DummyIdentificationAlgorithm"
+
+    dummy_object_2:
+        segmentation_algorithm: "DummySegmentationAlgorithm"
+        identification_algorithm: "DummyIdentificationAlgorithm"

@@ -22,6 +22,7 @@
 #include <vision/segmenter.hpp>
 #include <vision/identifier.hpp>
 #include <vision/tracker.hpp>
+#include <vision/config_parser.hpp>
 
 class Vision
 {
@@ -29,6 +30,8 @@ class Vision
     static Vision& getInstance();
 
     void run();
+  private:
+    Vision();
 };
 
 #endif // UNBALL_VISION_H_

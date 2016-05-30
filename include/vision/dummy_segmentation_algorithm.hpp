@@ -1,6 +1,8 @@
 #ifndef UNBALL_DUMMY_SEGMENTATION_ALGORITHM_H_
 #define UNBALL_DUMMY_SEGMENTATION_ALGORITHM_H_
 
+#include <ros/ros.h>
+
 #include <vision/raw_image.hpp>
 #include <vision/segmentation_algorithm.hpp>
 
