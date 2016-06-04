@@ -18,6 +18,7 @@ Segmenter& Segmenter::getInstance()
 
 void Segmenter::runSegmentationAlgorithms()
 {
+    ROS_DEBUG("[Segmenter]:Executing %d algorithms", (int)algorithms_.size());
     for(auto algorithm : algorithms_)
         algorithm -> run();
 }
@@ -25,4 +26,12 @@ void Segmenter::runSegmentationAlgorithms()
 void Segmenter::addSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> algorithm)
 {
     algorithms_.push_back(algorithm);
+}
+
+std::shared_ptr<SegmentationAlgorithm> Segmenter::searchSegmentationAlgorithm(std::string name)
+{
+    for (auto algorithm : algorithms_)
+        if (algorithm->isName(name))
+            return algorithm;
+    return NULL;
 }

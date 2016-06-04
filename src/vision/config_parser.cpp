@@ -31,8 +31,12 @@ void ConfigParser::loadSegmentationAlgorithmInfo(std::string obj_name)
     std::string path = "/vision/" + obj_name + "/segmentation_algorithm";
     std::string algorithm_name;
     ros::param::get(path.c_str(), algorithm_name);
-    current_seg_alg_ = AlgorithmFactory::getInstance().makeSegmentationAlgorithm(algorithm_name);
-    Segmenter::getInstance().addSegmentationAlgorithm(current_seg_alg_);
+    current_seg_alg_ = Segmenter::getInstance().searchSegmentationAlgorithm(algorithm_name);
+    if (not current_seg_alg_)
+    {
+        current_seg_alg_ = AlgorithmFactory::getInstance().makeSegmentationAlgorithm(algorithm_name);
+        Segmenter::getInstance().addSegmentationAlgorithm(current_seg_alg_);
+    }
 }
 
 void ConfigParser::loadIdentificationAlgorithmInfo(std::string obj_name)
@@ -40,9 +44,13 @@ void ConfigParser::loadIdentificationAlgorithmInfo(std::string obj_name)
     std::string path = "/vision/" + obj_name + "/identification_algorithm";
     std::string algorithm_name;
     ros::param::get(path.c_str(), algorithm_name);
-    current_id_alg_ = AlgorithmFactory::getInstance().makeIdentificationAlgorithm(algorithm_name);
-    current_id_alg_->setSegmentationAlgorithm(current_seg_alg_);
-    Identifier::getInstance().addIdentificationAlgorithm(current_id_alg_);
+    current_id_alg_ = Identifier::getInstance().searchIdentificationAlgorithm(algorithm_name);
+    if (not current_id_alg_)
+    {
+        current_id_alg_ = AlgorithmFactory::getInstance().makeIdentificationAlgorithm(algorithm_name);
+        current_id_alg_->setSegmentationAlgorithm(current_seg_alg_);
+        Identifier::getInstance().addIdentificationAlgorithm(current_id_alg_);
+    }
 }
 
 void ConfigParser::createObject(std::string obj_name)

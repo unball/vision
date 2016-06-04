@@ -18,6 +18,8 @@
 #include <vector>
 #include <memory>
 
+#include <ros/ros.h>
+
 #include <vision/segmentation_algorithm.hpp>
 
 class Segmenter
@@ -28,6 +30,7 @@ class Segmenter
     void runSegmentationAlgorithms();
 
     void addSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> algorithm);
+    std::shared_ptr<SegmentationAlgorithm> searchSegmentationAlgorithm(std::string name);
 
   private:
     std::vector<std::shared_ptr<SegmentationAlgorithm>> algorithms_;
