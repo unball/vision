@@ -1,5 +1,7 @@
 #include <vision/dummy_identification_algorithm.hpp>
 
+IdentificationRegister<DummyIdentificationAlgorithm> DummyIdentificationAlgorithm::reg("DummyIdentificationAlgorithm");
+
 DummyIdentificationAlgorithm::DummyIdentificationAlgorithm()
 {
     name_ = "DummyIdentificationAlgorithm";

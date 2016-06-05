@@ -11,11 +11,10 @@
 #include <unordered_map>
 #include <string>
 
-// Segmentation algorithms
-#include <vision/dummy_segmentation_algorithm.hpp>
+#include <ros/ros.h>
 
-// Identification algorithms
-#include <vision/dummy_identification_algorithm.hpp>
+#include <vision/segmentation_algorithm.hpp>
+#include <vision/identification_algorithm.hpp>
 
 template<typename T>
 std::shared_ptr<SegmentationAlgorithm> newSegmentationAlgorithm() { return std::make_shared<T>(); }
@@ -26,17 +25,32 @@ std::shared_ptr<IdentificationAlgorithm> newIdentificationAlgorithm() { return s
 class AlgorithmFactory
 {
   public:
-    static AlgorithmFactory& getInstance();
-    std::shared_ptr<SegmentationAlgorithm> makeSegmentationAlgorithm(std::string algorithm_name);
-    std::shared_ptr<IdentificationAlgorithm> makeIdentificationAlgorithm(std::string algorithm_name);
+    static std::shared_ptr<SegmentationAlgorithm> makeSegmentationAlgorithm(std::string algorithm_name);
+    static std::shared_ptr<IdentificationAlgorithm> makeIdentificationAlgorithm(std::string algorithm_name);
 
-  private:
-    AlgorithmFactory();
-    void initSegmentationMap();
-    void initIdentificationMap();
+  protected:
+    static std::unordered_map<std::string, std::shared_ptr<SegmentationAlgorithm>(*)()> segmentation_map;
+    static std::unordered_map<std::string, std::shared_ptr<IdentificationAlgorithm>(*)()> identification_map;
+};
 
-    std::unordered_map<std::string, std::shared_ptr<SegmentationAlgorithm>(*)()> segmentation_map;
-    std::unordered_map<std::string, std::shared_ptr<IdentificationAlgorithm>(*)()> identification_map;
+template<typename T>
+class SegmentationRegister : AlgorithmFactory
+{
+  public:
+    SegmentationRegister(const std::string& name)
+    {
+        segmentation_map[name] = &newSegmentationAlgorithm<T>;
+    }
+};
+
+template<typename T>
+class IdentificationRegister : AlgorithmFactory
+{
+  public:
+    IdentificationRegister(const std::string& name)
+    {
+        identification_map[name] = &newIdentificationAlgorithm<T>;
+    }
 };
 
 #endif // VISION_ALGORITHM_FACTORY_H_

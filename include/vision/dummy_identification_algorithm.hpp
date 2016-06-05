@@ -3,6 +3,7 @@
 
 #include <vision/identification_algorithm.hpp>
 #include <vision/vision_gui.hpp>
+#include <vision/algorithm_factory.hpp>
 
 class DummyIdentificationAlgorithm : public IdentificationAlgorithm
 {
@@ -10,6 +11,9 @@ class DummyIdentificationAlgorithm : public IdentificationAlgorithm
     DummyIdentificationAlgorithm();
 
     void run();
+
+  private:
+    static IdentificationRegister<DummyIdentificationAlgorithm> reg;
 };
 
 #endif // VISION_DUMMY_IDENTIFICATION_ALGORITHM_H_

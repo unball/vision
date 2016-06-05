@@ -5,6 +5,7 @@
 
 #include <vision/raw_image.hpp>
 #include <vision/segmentation_algorithm.hpp>
+#include <vision/algorithm_factory.hpp>
 
 class DummySegmentationAlgorithm : public SegmentationAlgorithm
 {
@@ -12,6 +13,9 @@ class DummySegmentationAlgorithm : public SegmentationAlgorithm
     DummySegmentationAlgorithm();
 
     void run();
+
+  private:
+    static SegmentationRegister<DummySegmentationAlgorithm> reg;
 };
 
 #endif // VISION_DUMMY_SEGMENTATION_ALGORITHM_H_

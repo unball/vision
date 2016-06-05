@@ -39,7 +39,7 @@ void ConfigParser::loadSegmentationAlgorithmInfo(std::string obj_name)
 
 void ConfigParser::createNewSegmentationAlgorithm(std::string algorithm_name, std::string algorithm_arguments)
 {
-    current_seg_alg_ = AlgorithmFactory::getInstance().makeSegmentationAlgorithm(algorithm_name);
+    current_seg_alg_ = AlgorithmFactory::makeSegmentationAlgorithm(algorithm_name);
     current_seg_alg_->setArguments(algorithm_arguments);
     Segmenter::getInstance().addSegmentationAlgorithm(current_seg_alg_);
 }
@@ -58,7 +58,7 @@ void ConfigParser::loadIdentificationAlgorithmInfo(std::string obj_name)
 
 void ConfigParser::createNewIdentificationAlgorithm(std::string algorithm_name, std::string algorithm_arguments)
 {
-    current_id_alg_ = AlgorithmFactory::getInstance().makeIdentificationAlgorithm(algorithm_name);
+    current_id_alg_ = AlgorithmFactory::makeIdentificationAlgorithm(algorithm_name);
     current_id_alg_->setSegmentationAlgorithm(current_seg_alg_);
     current_id_alg_->setArguments(algorithm_arguments);
     Identifier::getInstance().addIdentificationAlgorithm(current_id_alg_);
