@@ -16,6 +16,9 @@ Vision& Vision::getInstance()
     return vision;
 }
 
+/**
+ * Starts the vision system.
+ */
 Vision::Vision()
 {
     has_received_first_image_ = false;
@@ -24,7 +27,8 @@ Vision::Vision()
 }
 
 /**
- * Execute vision processing.
+ * Execute vision processing. Nothing will be done until the first image has been
+ * received.
  */
 void Vision::run()
 {
@@ -38,6 +42,9 @@ void Vision::run()
     }
 }
 
+/**
+ * Receives the raw image, and passes it on to the RawImage class and the VisionGUI.
+ */
 void Vision::setRawImage(const cv::Mat &raw_image)
 {
     if (isValidSize(raw_image))
@@ -50,7 +57,6 @@ void Vision::setRawImage(const cv::Mat &raw_image)
 
 /**
  * Check whether an image has a valid size, i.e., neither the width nor the height can be zero.
- * @param img image that will be checked.
  * @return true if the image has proper size, false otherwise.
  */
 bool Vision::isValidSize(const cv::Mat &img)

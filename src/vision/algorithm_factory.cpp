@@ -9,14 +9,14 @@ AlgorithmFactory& AlgorithmFactory::getInstance()
 std::shared_ptr<SegmentationAlgorithm> AlgorithmFactory::makeSegmentationAlgorithm(std::string algorithm_name)
 {
     if (segmentation_map.find(algorithm_name) == segmentation_map.end())
-        return NULL;
+        return nullptr;
     return segmentation_map[algorithm_name]();
 }
 
 std::shared_ptr<IdentificationAlgorithm> AlgorithmFactory::makeIdentificationAlgorithm(std::string algorithm_name)
 {
     if (identification_map.find(algorithm_name) == identification_map.end())
-        return NULL;
+        return nullptr;
     return identification_map[algorithm_name]();
 }
 
