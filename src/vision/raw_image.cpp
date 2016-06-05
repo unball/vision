@@ -13,5 +13,5 @@ void RawImage::setRawImage(const cv::Mat &raw_image)
 
 cv::Mat RawImage::getRawImage()
 {
-    return raw_image_;
+    return raw_image_.clone();
 }
