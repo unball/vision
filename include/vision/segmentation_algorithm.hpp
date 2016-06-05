@@ -1,8 +1,4 @@
 /**
- * @file   segmentation_algorithm.hpp
- * @author Gabriel Naves da Silva
- * @date   21/03/2016
- *
  * @attention Copyright (C) 2014 UnBall Robot Soccer Team
  *
  * @brief  SegmentationAlgorithm class
@@ -20,25 +16,18 @@
 
 #include <opencv2/opencv.hpp>
 
-class SegmentationAlgorithm
+#include <vision/algorithm.hpp>
+
+class SegmentationAlgorithm : public Algorithm
 {
   public:
-    SegmentationAlgorithm();
     virtual ~SegmentationAlgorithm() {}
-
-    virtual void init() {}
-
-    virtual void run() = 0;
 
     cv::Mat getSegmentationOutput();
     std::string getFullName();
     bool isName(std::string name);
 
-    void setArguments(std::string arguments);
-
   protected:
-    std::string name_;
-    std::string arguments_;
     cv::Mat output_image_;
 };
 
