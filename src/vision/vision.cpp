@@ -30,3 +30,8 @@ void Vision::run()
     Identifier::getInstance().runIdentificationAlgorithms();
     Tracker::getInstance().runTracking();
 }
+
+void Vision::setRawImage(const cv::Mat &raw_image)
+{
+    RawImage::getInstance().setRawImage(raw_image);
+}

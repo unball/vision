@@ -30,6 +30,9 @@ class Vision
     static Vision& getInstance();
 
     void run();
+
+    void setRawImage(const cv::Mat &raw_image);
+
   private:
     Vision();
 };

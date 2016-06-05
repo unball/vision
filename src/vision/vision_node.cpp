@@ -29,14 +29,15 @@ void publishVisionMessage(ros::Publisher &publisher);
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "vision_node");
-
     ros::NodeHandle node_handle;
-    ros::Rate loop_rate(30);
+    image_transport::ImageTransport img_transport(node_handle);
+
+    image_transport::Subscriber rgb_sub;
+    rgb_sub = img_transport.subscribe("camera/rgb/image_raw", 1, receiveRGBFrame);
+
     ros::Publisher publisher = node_handle.advertise<vision::VisionMessage>("vision_topic", 1);
 
-    image_transport::ImageTransport img_transport(node_handle);
-    image_transport::Subscriber rgb_sub, depth_sub;
-
+    ros::Rate loop_rate(30);
     while (ros::ok())
     {
         Vision::getInstance().run();
@@ -49,45 +50,24 @@ int main(int argc, char **argv)
 }
 
 /**
- * Receives the RGB frame and passes it to the vision object
+ * Receives the RGB frame and passes it to the RawImage instance, on the vision system.
  * @param msg a ROS image message pointer.
  */
 void receiveRGBFrame(const sensor_msgs::ImageConstPtr &msg)
 {
-    // cv_bridge::CvImagePtr cv_ptr;
+    cv_bridge::CvImagePtr cv_ptr;
 
-    // try
-    // {
-    //     cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-    // }
-    // catch (cv_bridge::Exception &e)
-    // {
-    //     ROS_WARN("cv_bridge exception: %s", e.what());
-    //     return;
-    // }
+    try
+    {
+        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+    }
+    catch (cv_bridge::Exception &e)
+    {
+        ROS_WARN("cv_bridge exception: %s", e.what());
+        return;
+    }
 
-    // Vision::getInstance().setRGBFrame(cv_ptr->image);
-}
-
-/**
- * Receives the depth frame and passes it to the vision object
- * @param msg a ROS image message pointer.
- */
-void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
-{
-    // cv_bridge::CvImagePtr cv_ptr;
-
-    // try
-    // {
-    //     cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_32FC1);
-    // }
-    // catch (cv_bridge::Exception &e)
-    // {
-    //     ROS_WARN("cv_bridge exception: %s", e.what());
-    //     return;
-    // }
-
-    // Vision::getInstance().setDepthFrame(cv_ptr->image);
+    Vision::getInstance().setRawImage(cv_ptr->image);
 }
 
 /**
