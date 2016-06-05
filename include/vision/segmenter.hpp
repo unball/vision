@@ -27,6 +27,7 @@ class Segmenter
   public:
     static Segmenter& getInstance();
 
+    void init();
     void runSegmentationAlgorithms();
 
     void addSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> algorithm);

@@ -31,12 +31,12 @@ class Vision
     static Vision& getInstance();
 
     void run();
-
     void setRawImage(const cv::Mat &raw_image);
-    bool isValidSize(const cv::Mat &img);
 
   private:
     Vision();
+
+    bool isValidSize(const cv::Mat &img);
 
     bool has_received_first_image_;
 };

@@ -18,8 +18,9 @@ Vision& Vision::getInstance()
 
 Vision::Vision()
 {
-    ConfigParser::getInstance().parseConfigFile();
     has_received_first_image_ = false;
+    ConfigParser::getInstance().parseConfigFile();
+    Segmenter::getInstance().init();
 }
 
 /**

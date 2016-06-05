@@ -8,7 +8,7 @@ Identifier& Identifier::getInstance()
 
 void Identifier::runIdentificationAlgorithms()
 {
-    ROS_ERROR("[Identifier]: Executing %d algorithms", (int)algorithms_.size());
+    ROS_INFO("[Identifier]: Executing %d algorithms", (int)algorithms_.size());
     for(auto algorithm : algorithms_)
         algorithm -> run();
 }

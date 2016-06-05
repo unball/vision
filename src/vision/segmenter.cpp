@@ -16,11 +16,17 @@ Segmenter& Segmenter::getInstance()
     return segmenter;
 }
 
+void Segmenter::init()
+{
+    ROS_INFO("[Segmenter]init: Running %d algorithms", (int)algorithms_.size());
+    for (auto algorithm : algorithms_)
+        algorithm->init();
+}
+
 void Segmenter::runSegmentationAlgorithms()
 {
-    ROS_ERROR("[Segmenter]:Executing %d algorithms", (int)algorithms_.size());
-    for(auto algorithm : algorithms_)
-        algorithm -> run();
+    for (auto algorithm : algorithms_)
+        algorithm->run();
 }
 
 void Segmenter::addSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> algorithm)
