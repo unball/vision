@@ -62,3 +62,8 @@ add_executable(vision_node
   src/vision/dummy_identification_algorithm.cpp)
 add_dependencies(vision_node unball_gencpp)
 target_link_libraries(vision_node ${catkin_LIBRARIES})
+
+add_executable(dummy_image
+  src/dummy_camera/dummy_image.cpp)
+add_dependencies(dummy_image unball_gencpp)
+target_link_libraries(dummy_image ${catkin_LIBRARIES})

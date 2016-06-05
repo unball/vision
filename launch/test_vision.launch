@@ -1,4 +1,5 @@
 <launch>
   <rosparam command="load" file="$(find vision)/config/vision.yaml" />
+  <node name="dummy_image" pkg="vision" type="dummy_image" args="$(find vision)/data/lena.png"/>
   <node name="vision_system" pkg="vision" type="vision_node" />
 </launch>
