@@ -10,8 +10,8 @@
  * The tracker class manages the objects that are being tracked.
  */
 
-#ifndef UNBALL_TRACKER_H_
-#define UNBALL_TRACKER_H_
+#ifndef VISION_TRACKER_H_
+#define VISION_TRACKER_H_
 
 #include <vector>
 #include <memory>
@@ -33,4 +33,4 @@ class Tracker
     std::vector<std::shared_ptr<TrackedObject>> tracked_objects_;
 };
 
-#endif // UNBALL_TRACKER_H_
+#endif // VISION_TRACKER_H_

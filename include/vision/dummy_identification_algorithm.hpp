@@ -1,5 +1,5 @@
-#ifndef UNBALL_DUMMY_IDENTIFICATION_ALGORITHM_H_
-#define UNBALL_DUMMY_IDENTIFICATION_ALGORITHM_H_
+#ifndef VISION_DUMMY_IDENTIFICATION_ALGORITHM_H_
+#define VISION_DUMMY_IDENTIFICATION_ALGORITHM_H_
 
 #include <vision/identification_algorithm.hpp>
 
@@ -11,4 +11,4 @@ class DummyIdentificationAlgorithm : public IdentificationAlgorithm
     void run();
 };
 
-#endif // UNBALL_DUMMY_IDENTIFICATION_ALGORITHM_H_
+#endif // VISION_DUMMY_IDENTIFICATION_ALGORITHM_H_

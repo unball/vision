@@ -1,5 +1,5 @@
-#ifndef UNBALL_IDENTIFICATION_ALGORITHM_H_
-#define UNBALL_IDENTIFICATION_ALGORITHM_H_
+#ifndef VISION_IDENTIFICATION_ALGORITHM_H_
+#define VISION_IDENTIFICATION_ALGORITHM_H_
 
 #include <string>
 #include <memory>
@@ -31,4 +31,4 @@ class IdentificationAlgorithm
     IdentificationOutput output_info_;
 };
 
-#endif // UNBALL_IDENTIFICATION_ALGORITHM_H_
+#endif // VISION_IDENTIFICATION_ALGORITHM_H_

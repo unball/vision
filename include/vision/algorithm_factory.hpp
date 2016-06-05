@@ -4,8 +4,8 @@
     is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name
  */
 
-#ifndef ALGORITHM_FACTORY_H_
-#define ALGORITHM_FACTORY_H_
+#ifndef VISION_ALGORITHM_FACTORY_H_
+#define VISION_ALGORITHM_FACTORY_H_
 
 #include <memory>
 #include <unordered_map>
@@ -39,4 +39,4 @@ class AlgorithmFactory
     std::unordered_map<std::string, std::shared_ptr<IdentificationAlgorithm>(*)()> identification_map;
 };
 
-#endif // ALGORITHM_FACTORY_H_
+#endif // VISION_ALGORITHM_FACTORY_H_

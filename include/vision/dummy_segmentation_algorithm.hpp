@@ -1,5 +1,5 @@
-#ifndef UNBALL_DUMMY_SEGMENTATION_ALGORITHM_H_
-#define UNBALL_DUMMY_SEGMENTATION_ALGORITHM_H_
+#ifndef VISION_DUMMY_SEGMENTATION_ALGORITHM_H_
+#define VISION_DUMMY_SEGMENTATION_ALGORITHM_H_
 
 #include <ros/ros.h>
 
@@ -14,4 +14,4 @@ class DummySegmentationAlgorithm : public SegmentationAlgorithm
     void run();
 };
 
-#endif // UNBALL_DUMMY_SEGMENTATION_ALGORITHM_H_
+#endif // VISION_DUMMY_SEGMENTATION_ALGORITHM_H_

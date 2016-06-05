@@ -1,5 +1,5 @@
-#ifndef UNBALL_IDENTIFIER_H_
-#define UNBALL_IDENTIFIER_H_
+#ifndef VISION_IDENTIFIER_H_
+#define VISION_IDENTIFIER_H_
 
 #include <vector>
 #include <memory>
@@ -22,4 +22,4 @@ class Identifier
     std::vector<std::shared_ptr<IdentificationAlgorithm>> algorithms_;
 };
 
-#endif // UNBALL_IDENTIFIER_H_
+#endif // VISION_IDENTIFIER_H_

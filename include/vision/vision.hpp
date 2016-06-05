@@ -10,8 +10,8 @@
  * Defines computer vision class
  */
 
-#ifndef UNBALL_VISION_H_
-#define UNBALL_VISION_H_
+#ifndef VISION_VISION_H_
+#define VISION_VISION_H_
 
 #include <vector>
 
@@ -37,4 +37,4 @@ class Vision
     Vision();
 };
 
-#endif // UNBALL_VISION_H_
+#endif // VISION_VISION_H_

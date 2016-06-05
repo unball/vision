@@ -1,5 +1,5 @@
-#ifndef CONFIG_PARSER_H_
-#define CONFIG_PARSER_H_
+#ifndef VISION_CONFIG_PARSER_H_
+#define VISION_CONFIG_PARSER_H_
 
 #include <ros/ros.h>
 
@@ -31,4 +31,4 @@ class ConfigParser
     std::shared_ptr<TrackedObject> current_tracked_obj_;
 };
 
-#endif // CONFIG_PARSER_H_
+#endif // VISION_CONFIG_PARSER_H_

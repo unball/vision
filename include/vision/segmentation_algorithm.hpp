@@ -13,8 +13,8 @@
  * algorithms that may be implemented within this project.
  */
 
-#ifndef UNBALL_SEGMENTATION_ALGORITHM_H_
-#define UNBALL_SEGMENTATION_ALGORITHM_H_
+#ifndef VISION_SEGMENTATION_ALGORITHM_H_
+#define VISION_SEGMENTATION_ALGORITHM_H_
 
 #include <string>
 
@@ -42,4 +42,4 @@ class SegmentationAlgorithm
     cv::Mat output_image_;
 };
 
-#endif // UNBALL_SEGMENTATION_ALGORITHM_H_
+#endif // VISION_SEGMENTATION_ALGORITHM_H_

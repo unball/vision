@@ -12,8 +12,8 @@
  * The segmenter class manages the available segmentation algorithms.
  */
 
-#ifndef UNBALL_SEGMENTER_H_
-#define UNBALL_SEGMENTER_H_
+#ifndef VISION_SEGMENTER_H_
+#define VISION_SEGMENTER_H_
 
 #include <vector>
 #include <memory>
@@ -36,4 +36,4 @@ class Segmenter
     std::vector<std::shared_ptr<SegmentationAlgorithm>> algorithms_;
 };
 
-#endif // UNBALL_SEGMENTER_H_
+#endif // VISION_SEGMENTER_H_

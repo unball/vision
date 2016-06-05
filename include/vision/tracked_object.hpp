@@ -11,8 +11,8 @@
  * common to all objects that require tracking, like the robots and the ball.
  */
 
-#ifndef UNBALL_TRACKED_OBJECT_H_
-#define UNBALL_TRACKED_OBJECT_H_
+#ifndef VISION_TRACKED_OBJECT_H_
+#define VISION_TRACKED_OBJECT_H_
 
 #include <string>
 #include <memory>
@@ -40,4 +40,4 @@ class TrackedObject
     float orientation_;
 };
 
-#endif // UNBALL_TRACKED_OBJECT_H_
+#endif // VISION_TRACKED_OBJECT_H_
