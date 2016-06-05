@@ -20,7 +20,7 @@ void VisionGUI::setInitialImage(const cv::Mat &raw_image)
 
 cv::Mat VisionGUI::getOutputImage()
 {
-    return output_image_.clone();
+    return output_image_;
 }
 
 void VisionGUI::showOutputImage()
