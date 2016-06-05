@@ -17,8 +17,11 @@
 #include <vision/segmentation_algorithm.hpp>
 #include <vision/identification_algorithm.hpp>
 
-typedef std::unordered_map<std::string, std::function<std::shared_ptr<SegmentationAlgorithm>()>> seg_map;
-typedef std::unordered_map<std::string, std::function<std::shared_ptr<IdentificationAlgorithm>()>> id_map;
+namespace AlgFactoryMapType
+{
+    typedef std::unordered_map<std::string, std::function<std::shared_ptr<SegmentationAlgorithm>()>> seg_map;
+    typedef std::unordered_map<std::string, std::function<std::shared_ptr<IdentificationAlgorithm>()>> id_map;
+}
 
 class AlgorithmFactory
 {
@@ -27,8 +30,8 @@ class AlgorithmFactory
     static std::shared_ptr<IdentificationAlgorithm> makeIdentificationAlgorithm(std::string algorithm_name);
 
   protected:
-    static seg_map segmentation_map;
-    static id_map identification_map;
+    static AlgFactoryMapType::seg_map segmentation_map;
+    static AlgFactoryMapType::id_map identification_map;
 };
 
 template<typename T>

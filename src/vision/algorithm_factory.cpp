@@ -1,7 +1,7 @@
 #include <vision/algorithm_factory.hpp>
 
-seg_map AlgorithmFactory::segmentation_map;
-id_map AlgorithmFactory::identification_map;
+AlgFactoryMapType::seg_map AlgorithmFactory::segmentation_map;
+AlgFactoryMapType::id_map AlgorithmFactory::identification_map;
 
 std::shared_ptr<SegmentationAlgorithm> AlgorithmFactory::makeSegmentationAlgorithm(std::string algorithm_name)
 {
