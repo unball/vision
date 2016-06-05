@@ -20,7 +20,17 @@ cv::Mat SegmentationAlgorithm::getSegmentationOutput()
     return output_image_;
 }
 
+std::string SegmentationAlgorithm::getFullName()
+{
+    return name_ + arguments_;
+}
+
 bool SegmentationAlgorithm::isName(std::string name)
 {
-    return name == name_;
+    return name == getFullName();
+}
+
+void SegmentationAlgorithm::setArguments(std::string arguments)
+{
+    arguments_ = arguments;
 }

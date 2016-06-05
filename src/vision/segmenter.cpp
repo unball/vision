@@ -18,7 +18,7 @@ Segmenter& Segmenter::getInstance()
 
 void Segmenter::runSegmentationAlgorithms()
 {
-    ROS_DEBUG("[Segmenter]:Executing %d algorithms", (int)algorithms_.size());
+    ROS_ERROR("[Segmenter]:Executing %d algorithms", (int)algorithms_.size());
     for(auto algorithm : algorithms_)
         algorithm -> run();
 }

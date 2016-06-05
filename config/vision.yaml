@@ -1,5 +1,5 @@
 vision:
-    object_list: ["dummy_object", "dummy_object_2"]
+    object_list: ["dummy_object", "dummy_object_2", "dummy_object_3", "dummy_object_4"]
 
     dummy_object:
         segmentation_algorithm: "DummySegmentationAlgorithm"
@@ -7,4 +7,16 @@ vision:
 
     dummy_object_2:
         segmentation_algorithm: "DummySegmentationAlgorithm"
+        segmentation_arguments: "Arg1"
         identification_algorithm: "DummyIdentificationAlgorithm"
+
+    dummy_object_3:
+        segmentation_algorithm: "DummySegmentationAlgorithm"
+        identification_algorithm: "DummyIdentificationAlgorithm"
+        identification_arguments: "Arg1 Arg2 Arg3"
+
+    dummy_object_4:
+        segmentation_algorithm: "DummySegmentationAlgorithm"
+        segmentation_arguments: "Arg2"
+        identification_algorithm: "DummyIdentificationAlgorithm"
+        identification_arguments: "Arg1 Arg2 Arg3"
