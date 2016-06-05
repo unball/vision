@@ -1,7 +1,7 @@
 #include <vision/algorithm_factory.hpp>
 
-std::unordered_map<std::string, std::shared_ptr<SegmentationAlgorithm>(*)()> AlgorithmFactory::segmentation_map;
-std::unordered_map<std::string, std::shared_ptr<IdentificationAlgorithm>(*)()> AlgorithmFactory::identification_map;
+seg_map AlgorithmFactory::segmentation_map;
+id_map AlgorithmFactory::identification_map;
 
 std::shared_ptr<SegmentationAlgorithm> AlgorithmFactory::makeSegmentationAlgorithm(std::string algorithm_name)
 {
