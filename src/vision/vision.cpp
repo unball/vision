@@ -19,6 +19,7 @@ Vision& Vision::getInstance()
 Vision::Vision()
 {
     ConfigParser::getInstance().parseConfigFile();
+    has_received_first_image_ = false;
 }
 
 /**
@@ -26,12 +27,19 @@ Vision::Vision()
  */
 void Vision::run()
 {
-    Segmenter::getInstance().runSegmentationAlgorithms();
-    Identifier::getInstance().runIdentificationAlgorithms();
-    Tracker::getInstance().runTracking();
+    if (has_received_first_image_)
+    {
+        Segmenter::getInstance().runSegmentationAlgorithms();
+        Identifier::getInstance().runIdentificationAlgorithms();
+        Tracker::getInstance().runTracking();
+
+        VisionGUI::getInstance().showOutputImage();
+    }
 }
 
 void Vision::setRawImage(const cv::Mat &raw_image)
 {
+    has_received_first_image_ = true;
     RawImage::getInstance().setRawImage(raw_image);
+    VisionGUI::getInstance().setInitialImage(raw_image);
 }

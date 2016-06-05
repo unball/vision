@@ -57,6 +57,7 @@ add_executable(vision_node
   src/vision/tracked_object.cpp
   src/vision/config_parser.cpp
   src/vision/algorithm_factory.cpp
+  src/vision/vision_gui.cpp
   src/vision/dummy_segmentation_algorithm.cpp
   src/vision/dummy_identification_algorithm.cpp)
 add_dependencies(vision_node unball_gencpp)

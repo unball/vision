@@ -23,6 +23,7 @@
 #include <vision/identifier.hpp>
 #include <vision/tracker.hpp>
 #include <vision/config_parser.hpp>
+#include <vision/vision_gui.hpp>
 
 class Vision
 {
@@ -35,6 +36,8 @@ class Vision
 
   private:
     Vision();
+
+    bool has_received_first_image_;
 };
 
 #endif // VISION_VISION_H_
