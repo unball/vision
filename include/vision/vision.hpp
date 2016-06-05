@@ -33,6 +33,7 @@ class Vision
     void run();
 
     void setRawImage(const cv::Mat &raw_image);
+    bool isValidSize(const cv::Mat &img);
 
   private:
     Vision();

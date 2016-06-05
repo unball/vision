@@ -39,7 +39,20 @@ void Vision::run()
 
 void Vision::setRawImage(const cv::Mat &raw_image)
 {
-    has_received_first_image_ = true;
-    RawImage::getInstance().setRawImage(raw_image);
-    VisionGUI::getInstance().setInitialImage(raw_image);
+    if (isValidSize(raw_image))
+    {
+        has_received_first_image_ = true;
+        RawImage::getInstance().setRawImage(raw_image);
+        VisionGUI::getInstance().setInitialImage(raw_image);
+    }
+}
+
+/**
+ * Check whether an image has a valid size, i.e., neither the width nor the height can be zero.
+ * @param img image that will be checked.
+ * @return true if the image has proper size, false otherwise.
+ */
+bool Vision::isValidSize(const cv::Mat &img)
+{
+    return not (img.rows == 0 or img.cols == 0);
 }

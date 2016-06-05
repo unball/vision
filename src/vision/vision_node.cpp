@@ -23,7 +23,6 @@
 #include <vision/vision.hpp>
 
 void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
-bool isValidSize(const cv::Mat &img);
 void publishVisionMessage(ros::Publisher &publisher);
 
 int main(int argc, char **argv)
@@ -67,18 +66,7 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr &msg)
         return;
     }
 
-    if (isValidSize(cv_ptr->image))
-        Vision::getInstance().setRawImage(cv_ptr->image);
-}
-
-/**
- * Check whether an image has a valid size, i.e., neither the width nor the height can be zero.
- * @param img image that will be checked.
- * @return true if the image has proper size, false otherwise.
- */
-bool isValidSize(const cv::Mat &img)
-{
-    return not (img.rows == 0 or img.cols == 0);
+    Vision::getInstance().setRawImage(cv_ptr->image);
 }
 
 /**
