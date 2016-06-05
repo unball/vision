@@ -23,6 +23,7 @@ int main(int argc, char **argv)
     image_transport::ImageTransport it(nh); // Used to publish and subscribe to images.
     image_transport::Publisher pub = it.advertise("/camera/rgb/image_raw", 1);
     cv_bridge::CvImage frame;
+    cv::namedWindow("dummy_image");
 
     // Check if enough arguments where given
     if(argc != 2)
@@ -47,15 +48,14 @@ int main(int argc, char **argv)
     // Set frame encoding
     frame.encoding = sensor_msgs::image_encodings::BGR8;
 
-    // Show the image being sent
-    cv::namedWindow("dummy_image");
-    cv::imshow("dummy_image", frame.image);
-    cv::waitKey(1);
-
-    // Publish the image
     ROS_INFO("Publishing dummy image");
     while (ros::ok())
     {
+        // Show the image being sent
+        cv::imshow("dummy_image", frame.image);
+        cv::waitKey(1);
+
+        // Publish the image
         pub.publish(frame.toImageMsg());
         ros::spinOnce();
         loop_rate.sleep();

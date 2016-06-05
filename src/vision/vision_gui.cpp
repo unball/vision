@@ -26,4 +26,5 @@ cv::Mat VisionGUI::getOutputImage()
 void VisionGUI::showOutputImage()
 {
     cv::imshow(OUTPUT_IMAGE_NAME, output_image_);
+    cv::waitKey(1);
 }
