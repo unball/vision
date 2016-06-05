@@ -21,6 +21,9 @@ class ConfigParser
     void loadSegmentationAlgorithmInfo(std::string obj_name);
     void loadIdentificationAlgorithmInfo(std::string obj_name);
 
+    void createNewSegmentationAlgorithm(std::string algorithm_name, std::string algorithm_arguments);
+    void createNewIdentificationAlgorithm(std::string algorithm_name, std::string algorithm_arguments);
+
     void createObject(std::string obj_name);
 
     std::vector<std::string> object_list_;

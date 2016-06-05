@@ -34,11 +34,15 @@ void ConfigParser::loadSegmentationAlgorithmInfo(std::string obj_name)
     ros::param::get(path + "/segmentation_arguments", algorithm_arguments);
     current_seg_alg_ = Segmenter::getInstance().searchSegmentationAlgorithm(algorithm_name + algorithm_arguments);
     if (not current_seg_alg_)
-    {
-        current_seg_alg_ = AlgorithmFactory::getInstance().makeSegmentationAlgorithm(algorithm_name);
-        current_seg_alg_->setArguments(algorithm_arguments);
-        Segmenter::getInstance().addSegmentationAlgorithm(current_seg_alg_);
-    }
+        createNewSegmentationAlgorithm(algorithm_name, algorithm_arguments);
+}
+
+void ConfigParser::createNewSegmentationAlgorithm(std::string algorithm_name, std::string algorithm_arguments)
+{
+    current_seg_alg_ = AlgorithmFactory::getInstance().makeSegmentationAlgorithm(algorithm_name);
+    current_seg_alg_->setArguments(algorithm_arguments);
+    current_seg_alg_->init();
+    Segmenter::getInstance().addSegmentationAlgorithm(current_seg_alg_);
 }
 
 void ConfigParser::loadIdentificationAlgorithmInfo(std::string obj_name)
@@ -50,12 +54,16 @@ void ConfigParser::loadIdentificationAlgorithmInfo(std::string obj_name)
     current_id_alg_ = Identifier::getInstance().searchIdentificationAlgorithm(
         algorithm_name + algorithm_arguments + current_seg_alg_->getFullName());
     if (not current_id_alg_)
-    {
-        current_id_alg_ = AlgorithmFactory::getInstance().makeIdentificationAlgorithm(algorithm_name);
-        current_id_alg_->setSegmentationAlgorithm(current_seg_alg_);
-        current_id_alg_->setArguments(algorithm_arguments);
-        Identifier::getInstance().addIdentificationAlgorithm(current_id_alg_);
-    }
+        createNewIdentificationAlgorithm(algorithm_name, algorithm_arguments);
+}
+
+void ConfigParser::createNewIdentificationAlgorithm(std::string algorithm_name, std::string algorithm_arguments)
+{
+    current_id_alg_ = AlgorithmFactory::getInstance().makeIdentificationAlgorithm(algorithm_name);
+    current_id_alg_->setSegmentationAlgorithm(current_seg_alg_);
+    current_id_alg_->setArguments(algorithm_arguments);
+    current_id_alg_->init();
+    Identifier::getInstance().addIdentificationAlgorithm(current_id_alg_);
 }
 
 void ConfigParser::createObject(std::string obj_name)
