@@ -15,7 +15,7 @@ class DummySegmentationAlgorithm : public SegmentationAlgorithm
     void run();
 
   private:
-    static SegmentationRegister<DummySegmentationAlgorithm> reg;
+    static AlgorithmRegister<DummySegmentationAlgorithm> reg;
 };
 
 #endif // VISION_DUMMY_SEGMENTATION_ALGORITHM_H_

@@ -17,12 +17,6 @@
 #include <vision/segmentation_algorithm.hpp>
 #include <vision/identification_algorithm.hpp>
 
-namespace AlgFactoryMapType
-{
-    typedef std::unordered_map<std::string, std::function<std::shared_ptr<SegmentationAlgorithm>()>> seg_map;
-    typedef std::unordered_map<std::string, std::function<std::shared_ptr<IdentificationAlgorithm>()>> id_map;
-}
-
 class AlgorithmFactory
 {
   public:
@@ -30,27 +24,18 @@ class AlgorithmFactory
     static std::shared_ptr<IdentificationAlgorithm> makeIdentificationAlgorithm(std::string algorithm_name);
 
   protected:
-    static AlgFactoryMapType::seg_map segmentation_map;
-    static AlgFactoryMapType::id_map identification_map;
+    typedef std::unordered_map<std::string, std::function<std::shared_ptr<Algorithm>()>> alg_map;
+
+    static alg_map algorithm_map;
 };
 
 template<typename T>
-class SegmentationRegister : AlgorithmFactory
+class AlgorithmRegister : AlgorithmFactory
 {
   public:
-    SegmentationRegister(const std::string& name)
+    AlgorithmRegister(const std::string& name)
     {
-        segmentation_map[name] = std::make_shared<T>;
-    }
-};
-
-template<typename T>
-class IdentificationRegister : AlgorithmFactory
-{
-  public:
-    IdentificationRegister(const std::string& name)
-    {
-        identification_map[name] = std::make_shared<T>;
+        algorithm_map[name] = std::make_shared<T>;
     }
 };
 

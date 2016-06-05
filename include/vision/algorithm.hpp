@@ -24,6 +24,8 @@ class Algorithm
 
     void setArguments(std::string arguments);
 
+    std::string getAlgorithmName();
+
   protected:
     std::string name_;
     std::string arguments_;

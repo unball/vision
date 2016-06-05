@@ -1,6 +1,6 @@
 #include <vision/dummy_segmentation_algorithm.hpp>
 
-SegmentationRegister<DummySegmentationAlgorithm> DummySegmentationAlgorithm::reg("DummySegmentationAlgorithm");
+AlgorithmRegister<DummySegmentationAlgorithm> DummySegmentationAlgorithm::reg("DummySegmentationAlgorithm");
 
 DummySegmentationAlgorithm::DummySegmentationAlgorithm()
 {
