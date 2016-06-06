@@ -26,6 +26,8 @@ class AlgorithmFactory
   protected:
     typedef std::unordered_map<std::string, std::function<std::shared_ptr<Algorithm>()>> alg_map;
 
+    static void factoryError(std::string method, std::string algorithm_name);
+
     static alg_map algorithm_map;
 };
 
