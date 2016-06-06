@@ -9,3 +9,8 @@ void IdentificationAlgorithm::setSegmentationAlgorithm(std::shared_ptr<Segmentat
 {
     segmentation_algorithm_ = seg_alg;
 }
+
+std::shared_ptr<IdentificationOutput> IdentificationAlgorithm::getSegmentationOutput()
+{
+    return output_info_;
+}

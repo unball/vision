@@ -17,10 +17,12 @@ class IdentificationAlgorithm : public Algorithm
 
     void setSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> seg_alg);
 
+    std::shared_ptr<IdentificationOutput> getSegmentationOutput();
+
   protected:
     std::shared_ptr<SegmentationAlgorithm> segmentation_algorithm_;
 
-    IdentificationOutput output_info_;
+    std::shared_ptr<IdentificationOutput> output_info_;
 };
 
 #endif // VISION_IDENTIFICATION_ALGORITHM_H_
