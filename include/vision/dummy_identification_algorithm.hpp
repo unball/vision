@@ -13,7 +13,7 @@ class DummyIdentificationAlgorithm : public IdentificationAlgorithm
     void run();
 
   private:
-    static AlgorithmRegister<DummyIdentificationAlgorithm> reg;
+    REGISTER_ALGORITHM_DEC(DummyIdentificationAlgorithm);
 };
 
 #endif // VISION_DUMMY_IDENTIFICATION_ALGORITHM_H_

@@ -17,6 +17,12 @@
 #include <vision/segmentation_algorithm.hpp>
 #include <vision/identification_algorithm.hpp>
 
+#define REGISTER_ALGORITHM_DEC(NAME) \
+    static AlgorithmRegister<NAME> reg
+
+#define REGISTER_ALGORITHM_DEF(NAME) \
+    AlgorithmRegister<NAME> NAME::reg(#NAME)
+
 class AlgorithmFactory
 {
   public:
