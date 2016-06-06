@@ -10,7 +10,7 @@
 class DummySegmentationAlgorithm : public SegmentationAlgorithm
 {
   public:
-    DummySegmentationAlgorithm();
+    ALGORITHM_TYPE(DummySegmentationAlgorithm);
 
     void run();
 

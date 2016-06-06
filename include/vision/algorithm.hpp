@@ -14,6 +14,9 @@
 
 #include <string>
 
+#define ALGORITHM_TYPE(NAME) \
+    NAME() { name_ = #NAME; }
+
 class Algorithm
 {
   public:

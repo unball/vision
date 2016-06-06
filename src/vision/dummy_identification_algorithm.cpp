@@ -2,11 +2,6 @@
 
 REGISTER_ALGORITHM_DEF(DummyIdentificationAlgorithm);
 
-DummyIdentificationAlgorithm::DummyIdentificationAlgorithm()
-{
-    name_ = "DummyIdentificationAlgorithm";
-}
-
 void DummyIdentificationAlgorithm::run()
 {
     output_info_.object_center = cv::Point(10,10);

@@ -8,7 +8,7 @@
 class DummyIdentificationAlgorithm : public IdentificationAlgorithm
 {
   public:
-    DummyIdentificationAlgorithm();
+    ALGORITHM_TYPE(DummyIdentificationAlgorithm);
 
     void run();
 
