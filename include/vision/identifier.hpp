@@ -13,6 +13,7 @@ class Identifier
   public:
     static Identifier& getInstance();
 
+    void init();
     void runIdentificationAlgorithms();
 
     void addIdentificationAlgorithm(std::shared_ptr<IdentificationAlgorithm> algorithm);

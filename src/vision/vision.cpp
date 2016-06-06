@@ -24,6 +24,7 @@ Vision::Vision()
     has_received_first_image_ = false;
     ConfigParser::getInstance().parseConfigFile();
     Segmenter::getInstance().init();
+    Identifier::getInstance().init();
 }
 
 /**
