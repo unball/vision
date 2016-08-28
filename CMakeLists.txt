@@ -45,22 +45,8 @@ link_directories(
   ${SDFormat_LIBRARY_DIRS}
 )
 
-add_executable(vision_node
-  src/vision/vision_node.cpp
-  src/vision/vision.cpp
-  src/vision/raw_image.cpp
-  src/vision/algorithm.cpp
-  src/vision/segmenter.cpp
-  src/vision/segmentation_algorithm.cpp
-  src/vision/identifier.cpp
-  src/vision/identification_algorithm.cpp
-  src/vision/tracker.cpp
-  src/vision/tracked_object.cpp
-  src/vision/config_parser.cpp
-  src/vision/algorithm_factory.cpp
-  src/vision/vision_gui.cpp
-  src/vision/dummy_segmentation_algorithm.cpp
-  src/vision/dummy_identification_algorithm.cpp)
+file(GLOB_RECURSE vision_node_sources src/vision/*.cpp)
+add_executable(vision_node ${vision_node_sources})
 add_dependencies(vision_node unball_gencpp)
 target_link_libraries(vision_node ${catkin_LIBRARIES})
 
@@ -69,7 +55,7 @@ add_executable(dummy_image
 add_dependencies(dummy_image unball_gencpp)
 target_link_libraries(dummy_image ${catkin_LIBRARIES})
 
-add_executable(calibration_node
-  src/calibration/calibration_node.cpp)
+file(GLOB_RECURSE calibration_node_sources src/calibration/*.cpp)
+add_executable(calibration_node ${calibration_node_sources})
 add_dependencies(calibration_node unball_gencpp)
 target_link_libraries(calibration_node ${catkin_LIBRARIES})
