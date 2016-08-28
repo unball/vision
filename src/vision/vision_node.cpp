@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     image_transport::ImageTransport img_transport(node_handle);
 
     image_transport::Subscriber rgb_sub;
-    rgb_sub = img_transport.subscribe("camera/rgb/image_raw", 1, receiveRGBFrame);
+    rgb_sub = img_transport.subscribe("/camera/rgb/image_calibrated", 1, receiveRGBFrame);
 
     ros::Publisher publisher = node_handle.advertise<vision::VisionMessage>("vision_topic", 1);
 
@@ -62,7 +62,7 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr &msg)
     }
     catch (cv_bridge::Exception &e)
     {
-        ROS_WARN("cv_bridge exception: %s", e.what());
+        ROS_ERROR("cv_bridge exception: %s", e.what());
         return;
     }
 

@@ -68,3 +68,8 @@ add_executable(dummy_image
   src/dummy_camera/dummy_image.cpp)
 add_dependencies(dummy_image unball_gencpp)
 target_link_libraries(dummy_image ${catkin_LIBRARIES})
+
+add_executable(calibration_node
+  src/calibration/calibration_node.cpp)
+add_dependencies(calibration_node unball_gencpp)
+target_link_libraries(calibration_node ${catkin_LIBRARIES})
