@@ -27,7 +27,7 @@
 class Vision
 {
   public:
-    static Vision& getInstance();
+    static Vision& getInstance(); // Singleton
 
     void run();
     void setRawImage(const cv::Mat &raw_image);
