@@ -8,11 +8,15 @@ class RawImage
   public:
     static RawImage& getInstance();
 
-    void setRawImage(const cv::Mat &raw_image);
-    cv::Mat getRawImage();
+    void setRawRGBImage(const cv::Mat &raw_image);
+    cv::Mat getRawRGBImage();
+
+    void setRawDepthImage(const cv::Mat &raw_image);
+    cv::Mat getRawDepthImage();
 
   private:
-    cv::Mat raw_image_;
+    cv::Mat raw_rgb_image_;
+    cv::Mat raw_depth_image_;
 };
 
 #endif // VISION_RAW_IMAGE_H_

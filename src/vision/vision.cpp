@@ -21,7 +21,8 @@ Vision& Vision::getInstance()
  */
 Vision::Vision()
 {
-    has_received_first_image_ = false;
+    has_received_all_images_ = has_received_first_rgb_image_ =
+        has_received_first_depth_image_ = false;
     ConfigParser::getInstance().parseConfigFile();
     Segmenter::getInstance().init();
     Identifier::getInstance().init();
@@ -33,27 +34,46 @@ Vision::Vision()
  */
 void Vision::run()
 {
-    if (has_received_first_image_)
+    if (has_received_all_images_)
     {
         Segmenter::getInstance().runSegmentationAlgorithms();
         Identifier::getInstance().runIdentificationAlgorithms();
         Tracker::getInstance().runTracking();
 
-        VisionGUI::getInstance().showOutputImage();
+        VisionGUI::getInstance().showOutputImages();
     }
 }
 
 /**
- * Receives the raw image, and passes it on to the RawImage class and the VisionGUI.
+ * Receives the raw rgb image, and passes it on to the RawImage class and the VisionGUI.
  */
-void Vision::setRawImage(const cv::Mat &raw_image)
+void Vision::setRawRGBImage(const cv::Mat &rgb_image)
 {
-    if (isValidSize(raw_image))
+    if (isValidSize(rgb_image))
     {
-        has_received_first_image_ = true;
-        RawImage::getInstance().setRawImage(raw_image);
-        VisionGUI::getInstance().setInitialImage(raw_image);
+        has_received_first_rgb_image_ = true;
+        RawImage::getInstance().setRawRGBImage(rgb_image);
+        VisionGUI::getInstance().setInitialRGBImage(rgb_image);
     }
+
+    if (has_received_first_rgb_image_ and has_received_first_depth_image_)
+        has_received_all_images_ = true;
+}
+
+/**
+ * Receives the raw depth image, and passes it on to the RawImage class and the VisionGUI.
+ */
+void Vision::setRawDepthImage(const cv::Mat &depth_image)
+{
+    if (isValidSize(depth_image))
+    {
+        has_received_first_depth_image_ = true;
+        RawImage::getInstance().setRawDepthImage(depth_image);
+        VisionGUI::getInstance().setInitialDepthImage(depth_image);
+    }
+
+    if (has_received_first_rgb_image_ and has_received_first_depth_image_)
+        has_received_all_images_ = true;
 }
 
 /**

@@ -6,12 +6,22 @@ RawImage& RawImage::getInstance()
     return rawImage;
 }
 
-void RawImage::setRawImage(const cv::Mat &raw_image)
+void RawImage::setRawRGBImage(const cv::Mat &raw_image)
 {
-    raw_image.copyTo(raw_image_);
+    raw_image.copyTo(raw_rgb_image_);
 }
 
-cv::Mat RawImage::getRawImage()
+cv::Mat RawImage::getRawRGBImage()
 {
-    return raw_image_.clone();
+    return raw_rgb_image_.clone();
+}
+
+void RawImage::setRawDepthImage(const cv::Mat &raw_image)
+{
+    raw_image.copyTo(raw_depth_image_);
+}
+
+cv::Mat RawImage::getRawDepthImage()
+{
+    return raw_depth_image_.clone();
 }

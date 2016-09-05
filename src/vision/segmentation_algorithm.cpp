@@ -6,9 +6,14 @@
 
 #include <vision/segmentation_algorithm.hpp>
 
-cv::Mat SegmentationAlgorithm::getSegmentationOutput()
+cv::Mat SegmentationAlgorithm::getSegmentationRGBOutput()
 {
-    return output_image_;
+    return output_rgb_image_;
+}
+
+cv::Mat SegmentationAlgorithm::getSegmentationDepthOutput()
+{
+    return output_depth_image_;
 }
 
 std::string SegmentationAlgorithm::getFullName()

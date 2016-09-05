@@ -17,7 +17,7 @@ class IdentificationAlgorithm : public Algorithm
 
     void setSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> seg_alg);
 
-    std::shared_ptr<IdentificationOutput> getSegmentationOutput();
+    std::shared_ptr<IdentificationOutput> getIdentificationOutput();
 
   protected:
     std::shared_ptr<SegmentationAlgorithm> segmentation_algorithm_;
