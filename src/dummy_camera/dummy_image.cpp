@@ -117,6 +117,7 @@ void loadRGBImage(int argc, char **argv) {
 void loadDepthImage(int argc, char **argv) {
     int depth_image_name_index = argc - 1;
     depth_frame.image = cv::imread(argv[depth_image_name_index], CV_LOAD_IMAGE_ANYDEPTH);
+    depth_frame.image.convertTo(depth_frame.image, CV_32FC1, 1.0);
     if (not depth_frame.image.data)
     {
         ROS_ERROR("Could not find image file on %s", argv[depth_image_name_index]);
