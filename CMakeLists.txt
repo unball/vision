@@ -59,3 +59,18 @@ file(GLOB_RECURSE calibration_node_sources src/calibration/*.cpp)
 add_executable(calibration_node ${calibration_node_sources})
 add_dependencies(calibration_node unball_gencpp)
 target_link_libraries(calibration_node ${catkin_LIBRARIES})
+
+add_executable(save_kinect_video
+  src/camera/save_kinect_video.cpp)
+add_dependencies(save_kinect_video unball_gencpp)
+target_link_libraries(save_kinect_video ${catkin_LIBRARIES})
+
+add_executable(show_camera
+  src/camera/show_camera.cpp)
+add_dependencies(show_camera unball_gencpp)
+target_link_libraries(show_camera ${catkin_LIBRARIES})
+
+add_executable(show_kinect_camera
+  src/camera/show_kinect_camera.cpp)
+add_dependencies(show_kinect_camera unball_gencpp)
+target_link_libraries(show_kinect_camera ${catkin_LIBRARIES})
