@@ -1,7 +1,8 @@
 <launch>
   <rosparam command="load" file="$(find vision)/config/vision.yaml"/>
   <rosparam command="load" file="$(find vision)/config/image.yaml"/>
-  <node name="dummy_image" pkg="vision" type="dummy_image" args="$(find vision)/data/lena.png $(find vision)/data/dummy_depth_image.png"/>
+  <!-- <node name="dummy_image" pkg="vision" type="dummy_image" args="$(find vision)/data/lena.png $(find vision)/data/dummy_depth_image.png"/> -->
+  <node name="dummy_camera" pkg="vision" type="dummy_camera" args="$(find vision)/data/rgb_video.avi $(find vision)/data/depth" />
   <node name="calibration_node" pkg="vision" type="calibration_node"/>
   <node name="vision_system" pkg="vision" type="vision_node"/>
 </launch>
