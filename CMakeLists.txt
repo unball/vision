@@ -50,6 +50,11 @@ add_executable(vision_node ${vision_node_sources})
 add_dependencies(vision_node unball_gencpp)
 target_link_libraries(vision_node ${catkin_LIBRARIES})
 
+add_executable(dummy_camera
+  src/dummy_camera/dummy_camera.cpp)
+add_dependencies(dummy_camera unball_gencpp)
+target_link_libraries(dummy_camera ${catkin_LIBRARIES})
+
 add_executable(dummy_image
   src/dummy_camera/dummy_image.cpp)
 add_dependencies(dummy_image unball_gencpp)
