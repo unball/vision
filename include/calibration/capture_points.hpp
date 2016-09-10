@@ -1,5 +1,5 @@
-#ifndef VISION_CAPTURE_POINTS
-#define VISION_CAPTURE_POINTS
+#ifndef VISION_CAPTURE_POINTS_H_
+#define VISION_CAPTURE_POINTS_H_
 
 #include <opencv2/opencv.hpp>
 #include <string>
@@ -8,20 +8,16 @@
 class CapturePoints
 {
   public:
-	CapturePoints();
-	~CapturePoints();
-	void fromImage(cv::Mat, std::string);
-
-
-
-	static void mouseCallback(int event, int x, int y, int, void*);
+    CapturePoints(){};
+    CapturePoints(std::string window);
+    void fromWindow(std::string window);
+    std::vector<cv::Point2f> getVector();
+    int getVectorSize();
 
   private:
-    cv::Mat frame_;
-
-  	std::string rgb_frame_title_;
-
-    std::vector<cv::Point2f> points_; // Points for rgb homography
+    static void mouseCallback(int event, int x, int y, int, void*);
+    
+    std::vector<cv::Point2f> points_;
 };
 
 
