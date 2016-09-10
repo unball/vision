@@ -1,6 +1,11 @@
 #ifndef SELECT_FIELD_H
 #define SELECT_FIELD_H
 
+#include <string>
+#include <opencv2/opencv.hpp>
+
+#include <calibration/capture_points.hpp>
+
 class SelectField
 {
   public:
