@@ -2,8 +2,10 @@
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
 #include <cv_bridge/cv_bridge.h>
-
 #include <opencv2/opencv.hpp>
+
+#include "calibration/matching.hpp"
+#include "calibration/select_field.hpp"
 
 image_transport::Subscriber rgb_sub, depth_sub;
 image_transport::Publisher rgb_pub, depth_pub;
@@ -17,9 +19,14 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
 void receiveDepthFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishFrames();
 void showFrames();
+void createWindows(std::string rgb_name, std::string depth_name);
 
 int main(int argc, char **argv)
 {
+    std::string rgb_match_name = "RGB Calibration matching";
+    std::string depth_match_name = "Depth Calibration matching";
+    std::string rgb_select_name = "RGB Calibration";
+
     ros::init(argc, argv, "calibration_node");
     ros::NodeHandle node_handle;
     image_transport::ImageTransport it(node_handle);
@@ -29,12 +36,29 @@ int main(int argc, char **argv)
     depthSetup(it);
 
     // Set loop rate
-    ros::Rate loop_rate(15);
+    ros::Rate loop_rate(45);
 
+    createWindows(rgb_match_name, depth_match_name);
+    Matching matcher(rgb_match_name, depth_match_name);
+    SelectField selecter(rgb_select_name);
+
+    bool selecterstarted = false;
     while (ros::ok())
     {
+        if(not matcher.isDone()){
+            matcher.showFrames(rgb_frame.image, depth_frame.image);
+            matcher.run();
+        }
+        else if (not selecterstarted){
+            selecter.start();
+            selecterstarted = true;
+        }
+        else if (not selecter.isDone()){
+            selecter.showFrame(rgb_frame.image);
+            selecter.run();
+        }
+
         publishFrames();
-        showFrames();
         ros::spinOnce();
         loop_rate.sleep();
     }
@@ -107,10 +131,16 @@ void publishFrames() {
 
 void showFrames() {
     if (using_rgb and not (rgb_frame.image.rows == 0 or rgb_frame.image.cols == 0))
-        cv::imshow("Calibrated rgb image", rgb_frame.image);
+        cv::imshow("Calibrated RGB frame", rgb_frame.image);
 
     if (using_depth and not (depth_frame.image.rows == 0 or depth_frame.image.cols == 0))
-        cv::imshow("Calibrated depth image", depth_frame.image);
+        cv::imshow("Calibrated Depth frame", depth_frame.image);
 
     cv::waitKey(1);
+}
+
+void createWindows(std::string rgb_name, std::string depth_name){
+    cv::namedWindow(rgb_name);
+    cv::namedWindow(depth_name);
+
 }
