@@ -15,6 +15,7 @@ class SelectField
     void start();
     void showFrame(cv::Mat rgb_frame);
     bool isDone();
+  
   private:
     void close();
     std::string rgb_window_;
@@ -22,6 +23,7 @@ class SelectField
     std::vector<cv::Point2f> dst_points_;
     cv::Mat field_matrix_;
     bool is_selected_;
+    void run();
 };
 
 #endif

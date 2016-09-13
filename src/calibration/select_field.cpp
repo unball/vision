@@ -24,6 +24,12 @@ void SelectField::close(){
 void SelectField::run(){
     auto src_points = rgb_cap_.getVector();
 
+    rbg_cap_.fromWindow(rbg_window);
+}
+
+void SelectField::run(){
+    auto src_points = rbg_cap_.getVector();
+
     if (src_points.size() != 6)
     {
         ROS_WARN("6 points are needed for homography.");
