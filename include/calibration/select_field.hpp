@@ -15,6 +15,8 @@ class SelectField
     void start();
     void showFrame(cv::Mat rgb_frame);
     bool isDone();
+    cv::Mat warp(cv::Mat rgb_frame);
+
   private:
     void close();
     std::string rgb_window_;

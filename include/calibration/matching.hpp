@@ -14,7 +14,8 @@ class Matching
     cv::Mat getMatrix();
     bool isDone();
     void showFrames(cv::Mat rbg_frame, cv::Mat depth_frame);
-  
+    cv::Mat match(cv::Mat frame);
+
   private:
     void close();
     bool is_done_;
@@ -22,6 +23,7 @@ class Matching
     CapturePoints depth_cap_, rbg_cap_;
     std::vector<cv::Point2f> rgb_points_, depth_points_;
     std::string rgb_window_, depth_window_;
+    cv::Mat frame_;
 };
 
 

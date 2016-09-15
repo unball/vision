@@ -49,3 +49,13 @@ void Matching::showFrames(cv::Mat rgb_frame, cv::Mat depth_frame){
 
     cv::waitKey(1);
 }
+
+cv::Mat Matching::match(cv::Mat frame){
+    cv::Mat result;
+    
+    if(matching_matrix_.rows != 0 or matching_matrix_.cols != 0)
+        cv::warpPerspective(frame, result, matching_matrix_, cv::Size(640,480));
+    else
+        ROS_ERROR("Matching matrix not calculated");
+    return result;
+}

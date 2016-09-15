@@ -18,7 +18,7 @@ void depthSetup(image_transport::ImageTransport &it);
 void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
 void receiveDepthFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishFrames();
-void showFrames();
+void showFrames(cv::Mat rgb_frame_);
 void createWindows(std::string rgb_name, std::string depth_name);
 
 int main(int argc, char **argv)
@@ -36,13 +36,14 @@ int main(int argc, char **argv)
     depthSetup(it);
 
     // Set loop rate
-    ros::Rate loop_rate(45);
+    ros::Rate loop_rate(30);
 
     createWindows(rgb_match_name, depth_match_name);
     Matching matcher(rgb_match_name, depth_match_name);
     SelectField selecter(rgb_select_name);
 
     bool selecterstarted = false;
+    cv::Mat rgb_perspective;
     while (ros::ok())
     {
         if(not matcher.isDone()){
@@ -54,8 +55,14 @@ int main(int argc, char **argv)
             selecterstarted = true;
         }
         else if (not selecter.isDone()){
-            selecter.showFrame(rgb_frame.image);
-            selecter.run();
+           selecter.showFrame(rgb_frame.image);
+           selecter.run();
+        }
+        else{
+            /*At this point all clicks must be done*/
+            matcher.match(depth_frame.image);
+            rgb_perspective = selecter.warp(rgb_frame.image);
+            showFrames(rgb_perspective);
         }
 
         publishFrames();
@@ -129,9 +136,9 @@ void publishFrames() {
         depth_pub.publish(depth_frame.toImageMsg());
 }
 
-void showFrames() {
-    if (using_rgb and not (rgb_frame.image.rows == 0 or rgb_frame.image.cols == 0))
-        cv::imshow("Calibrated RGB frame", rgb_frame.image);
+void showFrames(cv::Mat rgb_frame_) {
+    if (using_rgb and not (rgb_frame_.rows == 0 or rgb_frame_.cols == 0))
+        cv::imshow("Calibrated RGB frame", rgb_frame_);
 
     if (using_depth and not (depth_frame.image.rows == 0 or depth_frame.image.cols == 0))
         cv::imshow("Calibrated Depth frame", depth_frame.image);

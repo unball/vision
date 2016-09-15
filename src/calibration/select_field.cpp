@@ -55,3 +55,13 @@ void SelectField::showFrame(cv::Mat rgb_frame){
 bool SelectField::isDone(){
     return is_selected_;
 }
+
+cv::Mat SelectField::warp(cv::Mat rgb_frame){
+     cv::Mat result;
+    
+    if(field_matrix_.rows != 0 or field_matrix_.cols != 0)
+        cv::warpPerspective(rgb_frame, result, field_matrix_, cv::Size(640,480));
+    else
+        ROS_ERROR("Matching matrix not calculated");
+    return result;
+}
