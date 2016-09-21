@@ -11,6 +11,7 @@
 image_transport::Subscriber rgb_sub, depth_sub;
 image_transport::Publisher rgb_pub, depth_pub;
 cv_bridge::CvImage rgb_frame, depth_frame;
+cv_bridge::CvImage rgb_frame_to_pub, depth_frame_to_pub;
 bool using_rgb, using_depth;
 
 void loadConfig();
@@ -46,9 +47,10 @@ int main(int argc, char **argv)
     Matching matcher(rgb_match_name, depth_match_name);
     SelectField selecter(rgb_select_name);
     DepthFix depth_fixer;
+    
     bool selecterstarted = false;
 
-    cv::Mat rgb_perspective;
+    cv::Mat rgb_fixed;
     cv::Mat depth_fixed;
 
     while (ros::ok())
@@ -70,12 +72,16 @@ int main(int argc, char **argv)
         }
         else{
             /*At this point all clicks must be done*/
+            
             matcher.match(depth_frame.image);
-            rgb_perspective = selecter.warp(rgb_frame.image);
+            rgb_fixed = selecter.warp(rgb_frame.image);
             depth_fixed = depth_fixer.fix(depth_frame.image);
-            showFrames(rgb_perspective, depth_fixed);
+            
+            rgb_frame_to_pub.image = rgb_fixed;
+            depth_frame_to_pub.image = depth_fixed;
+            
+            showFrames(rgb_fixed, depth_fixed);
         }
-        
 
         publishFrames();
         ros::spinOnce();
@@ -121,6 +127,7 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr &msg)
     }
 
     rgb_frame.image = cv_ptr->image;
+    rgb_frame_to_pub.image = cv_ptr->image;
 }
 
 void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
@@ -138,14 +145,15 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
     }
 
     depth_frame.image = cv_ptr->image;
+    depth_frame_to_pub.image = cv_ptr->image;
 }
 
 void publishFrames() {
     if (using_rgb)
-        rgb_pub.publish(rgb_frame.toImageMsg());
+        rgb_pub.publish(rgb_frame_to_pub.toImageMsg());
 
     if (using_depth)
-        depth_pub.publish(depth_frame.toImageMsg());
+        depth_pub.publish(depth_frame_to_pub.toImageMsg());
 }
 
 void showFrames(cv::Mat rgb_frame_, cv::Mat depth_frame_) {
