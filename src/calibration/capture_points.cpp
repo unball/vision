@@ -11,7 +11,7 @@ void CapturePoints::fromWindow(std::string window){
 void CapturePoints::mouseCallback(int event, int x, int y, int, void* points_vector){
     std::vector<cv::Point2f> *point_ptr = (std::vector<cv::Point2f>*) points_vector;
     if(event == cv::EVENT_LBUTTONDOWN){
-        ROS_ERROR("RGB frame button click at: (%d,%d)", x, y);
+        ROS_INFO("RGB frame button click at: (%d,%d)", x, y);
         point_ptr->push_back(cv::Point2f(x, y));
     }
 }
