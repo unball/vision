@@ -22,6 +22,8 @@
 
 #include <vision/vision.hpp>
 
+#include "vision/findrobots.hpp"
+
 image_transport::Subscriber rgb_sub, depth_sub;
 cv_bridge::CvImage rgb_frame, depth_frame;
 bool using_rgb, using_depth;
@@ -42,14 +44,16 @@ int main(int argc, char **argv)
     subscriberSetup(img_transport);
 
     ros::Publisher publisher = node_handle.advertise<vision::VisionMessage>("vision_topic", 1);
-
     ros::Rate loop_rate(30);
+
+    FindRobots robotFinder;
     while (ros::ok())
     {
         Vision::getInstance().run();
         publishVisionMessage(publisher);
         ros::spinOnce();
         loop_rate.sleep();
+        robotFinder.find(depth_frame.image);
     }
 
     return 0;
