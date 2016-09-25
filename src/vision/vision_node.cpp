@@ -1,4 +1,4 @@
-    /**
+/**
  * @file   vision_node.cpp
  * @author Matheus Vieira Portela
  * @author Gabriel Naves da Silva
@@ -22,6 +22,8 @@
 
 #include <vision/vision.hpp>
 
+#include <vision/findrobots.hpp>
+
 image_transport::Subscriber rgb_sub, depth_sub;
 cv_bridge::CvImage rgb_frame, depth_frame;
 bool using_rgb, using_depth;
@@ -42,8 +44,10 @@ int main(int argc, char **argv)
     subscriberSetup(img_transport);
 
     ros::Publisher publisher = node_handle.advertise<vision::VisionMessage>("vision_topic", 1);
-
     ros::Rate loop_rate(30);
+
+    FindRobots finder;
+    
     while (ros::ok())
     {
         Vision::getInstance().run();
@@ -82,7 +86,7 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr &msg)
     }
     catch (cv_bridge::Exception &e)
     {
-        ROS_ERROR("cv_bridge exception on rgb image: %s", e.what());
+        ROS_ERROR("cv_bridge exception: %s", e.what());
         return;
     }
 
@@ -103,7 +107,7 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
     }
     catch (cv_bridge::Exception &e)
     {
-        ROS_WARN("cv_bridge exception on depth image: %s", e.what());
+        ROS_WARN("cv_bridge exception: %s", e.what());
         return;
     }
 
