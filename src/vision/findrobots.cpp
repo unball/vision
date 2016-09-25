@@ -1,11 +1,15 @@
-#include "findrobots.hpp"
+#include <vision/findrobots.hpp>
 
-FindRobots::FindRobots(){
-}
+REGISTER_ALGORITHM_DEF(FindRobots);
 
-void FindRobots::find(cv::Mat input){
+void FindRobots::run(){
+    cv::Mat input;
     auto upperPoints = preProcessor(input);
     cv::imshow("Canny", upperPoints);
+}
+
+void FindRobots::init(){
+
 }
 
 cv::Mat FindRobots::preProcessor(cv::Mat input){

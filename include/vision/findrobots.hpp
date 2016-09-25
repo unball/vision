@@ -1,16 +1,22 @@
 #ifndef FIND_ROBOTS_H
 #define FIND_ROBOTS_H
 
-#include "opencv2/opencv.hpp"
+#include <ros/ros.h>
 
-class FindRobots
+#include <opencv2/opencv.hpp>
+#include <vision/algorithm_factory.hpp>
+
+class FindRobots : public SegmentationAlgorithm
 {
 public:
-    FindRobots();
-    void find(cv::Mat);
+    
+    ALGORITHM_TYPE(FindRobots);
+    void run();
+    void init();
     std::vector<cv::Rect> getRobots();
-
+    
 private:
+    REGISTER_ALGORITHM_DEC(FindRobots);
     cv::Mat preProcessor(cv::Mat);
     void extractPoints(cv::Mat&);
     
