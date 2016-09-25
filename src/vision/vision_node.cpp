@@ -1,4 +1,4 @@
-/**
+    /**
  * @file   vision_node.cpp
  * @author Matheus Vieira Portela
  * @author Gabriel Naves da Silva
@@ -86,7 +86,7 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr &msg)
     }
     catch (cv_bridge::Exception &e)
     {
-        ROS_ERROR("cv_bridge exception: %s", e.what());
+        ROS_ERROR("cv_bridge exception on rgb image: %s", e.what());
         return;
     }
 
@@ -107,7 +107,7 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
     }
     catch (cv_bridge::Exception &e)
     {
-        ROS_WARN("cv_bridge exception: %s", e.what());
+        ROS_WARN("cv_bridge exception on depth image: %s", e.what());
         return;
     }
 

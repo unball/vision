@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     Matching matcher(rgb_match_name, depth_match_name);
     SelectField selecter(rgb_select_name);
     DepthFix depth_fixer;
-    
+
     bool selecterstarted = false;
 
     cv::Mat rgb_fixed;
@@ -72,14 +72,14 @@ int main(int argc, char **argv)
         }
         else{
             /*At this point all clicks must be done*/
-            
+
             matcher.match(depth_frame.image);
             rgb_fixed = selecter.warp(rgb_frame.image);
             depth_fixed = depth_fixer.fix(depth_frame.image);
-            
+
             rgb_frame_to_pub.image = rgb_fixed;
             depth_frame_to_pub.image = depth_fixed;
-            
+
             showFrames(rgb_fixed, depth_fixed);
         }
 
@@ -101,6 +101,7 @@ void rgbSetup(image_transport::ImageTransport &it) {
         rgb_sub = it.subscribe("/camera/rgb/image_raw", 1, receiveRGBFrame);
         rgb_pub = it.advertise("/camera/rgb/image_calibrated", 1);
         rgb_frame.encoding = sensor_msgs::image_encodings::BGR8;
+        rgb_frame_to_pub.encoding = sensor_msgs::image_encodings::BGR8;
     }
 }
 
@@ -109,6 +110,7 @@ void depthSetup(image_transport::ImageTransport &it) {
         depth_sub = it.subscribe("/camera/depth/image", 1, receiveDepthFrame);
         depth_pub = it.advertise("/camera/depth/image_calibrated", 1);
         depth_frame.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
+        depth_frame_to_pub.encoding = sensor_msgs::image_encodings::TYPE_8UC1;
     }
 }
 
