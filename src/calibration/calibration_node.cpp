@@ -66,7 +66,6 @@ int main(int argc, char **argv)
             selecterstarted = true;
         }
         else if (not selecter.isDone()){
-           depth_frame.image = depth_fixer.fix(depth_frame.image);
            selecter.showFrame(rgb_frame.image);
            selecter.run();
         }
