@@ -46,15 +46,12 @@ int main(int argc, char **argv)
     ros::Publisher publisher = node_handle.advertise<vision::VisionMessage>("vision_topic", 1);
     ros::Rate loop_rate(30);
 
-    FindRobots finder;
-    
     while (ros::ok())
     {
         Vision::getInstance().run();
         publishVisionMessage(publisher);
         ros::spinOnce();
         loop_rate.sleep();
-        robotFinder.find(depth_frame.image);
     }
 
     return 0;
