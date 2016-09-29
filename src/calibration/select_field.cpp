@@ -18,9 +18,10 @@ SelectField::SelectField(std::string rgb_window){
     bool calibrate;
     ros::param::get("/vision/calibration/calibrate_rectify_matrix", calibrate);
     
+    //if needs calibration
     if (calibrate == true)
         is_selected_ = false;
-    else
+    else //retrive field matrix
     {
         is_selected_ = true;
         FileManager file("field", "read");
@@ -50,6 +51,7 @@ void SelectField::run(){
     field_matrix_ = cv::findHomography(srcp,dstp);
     is_selected_ = true;
 
+    //write field matrix to file
     FileManager file("field", "write");    
     file.write(field_matrix_);
 }

@@ -11,9 +11,10 @@ Matching::Matching(std::string rgb_window, std::string depth_window){
     bool calibrate;
     ros::param::get("/vision/calibration/calibrate_match_matrix", calibrate);
     
+    //if needs calibration
     if (calibrate == true)
         is_done_ = false;
-    else
+    else //retrieve matching matrix
     {
         is_done_ = true;
         FileManager file("match", "read");
@@ -41,6 +42,7 @@ void Matching::run(){
     is_done_ = true;
     ROS_WARN("DONE");
 
+    //write matching matrix to file
     FileManager file("match", "write");    
     file.write(matching_matrix_);
 }

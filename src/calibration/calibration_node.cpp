@@ -37,8 +37,6 @@ int main(int argc, char **argv)
     rgbSetup(it);
     depthSetup(it);
 
-    int noise_thresh_;
-
     // Set loop rate
     ros::Rate loop_rate(30);
 
