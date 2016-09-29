@@ -5,6 +5,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <calibration/capture_points.hpp>
+#include "calibration/file_manager.hpp"
 
 class SelectField
 {
@@ -19,6 +20,7 @@ class SelectField
 
   private:
     void close();
+    void createWindows(std::string rgb_name);
     std::string rgb_window_;
     CapturePoints rgb_cap_;
     std::vector<cv::Point2f> dst_points_;

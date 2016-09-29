@@ -1,9 +1,10 @@
 #include "calibration/file_manager.hpp"
+#include <ros/package.h>
 
 FileManager::FileManager(std::string filename, std::string mode){
     mode_ = mode;
     filename += ".yml";
-    std::string sourceDir = "../data/";
+    auto sourceDir = ros::package::getPath("vision").append("/data/");
 
     if (mode == "write")
     {
@@ -19,17 +20,19 @@ FileManager::~FileManager(){
     matrixManager.release();
 }
 
-void FileManager::save(cv::Mat matrix){
+void FileManager::write(cv::Mat matrix){
     if(mode_ == "write")
         matrixManager << "Matrix" << matrix;
     else
-        ROS_ERROR("Can't save: file manager setted to read");
+        ROS_ERROR("Can't write: file manager set to read");
 }
 
-cv::Mat FileManager::getMatrix(){
-    cv::Mat readedMatrix;
-    if (mode_ == "save")
-        matrixManager["Matrix"] >> readedMatrix;
+cv::Mat FileManager::read(){
+    cv::Mat readMatrix;
+    if (mode_ == "read")
+        matrixManager["Matrix"] >> readMatrix;
     else
-        ROS_ERROR("Can't save: file manager setted to write");
+        ROS_ERROR("Can't read: file manager set to write");
+
+    return readMatrix;
 }

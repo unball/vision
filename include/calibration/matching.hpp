@@ -5,6 +5,8 @@
 #include <ros/ros.h>
 
 #include <calibration/capture_points.hpp>
+#include "calibration/file_manager.hpp"
+
 
 class Matching
 {
@@ -18,6 +20,7 @@ class Matching
 
   private:
     void close();
+    void createWindows(std::string rgb_name, std::string depth_name);
     bool is_done_;
     cv::Mat matching_matrix_;
     CapturePoints depth_cap_, rbg_cap_;

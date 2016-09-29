@@ -9,7 +9,6 @@ cv::Mat DepthFix::fix(cv::Mat &depth_frame){
     cv::normalize(depth_frame, depth_frame, 0, 256, cv::NORM_MINMAX, CV_8UC1);
     adjustNoise(depth_frame);
     return depth_frame;
-    */
     
     double min;
     double max;
@@ -23,10 +22,12 @@ cv::Mat DepthFix::fix(cv::Mat &depth_frame){
     // function is found in contrib module, so include contrib.hpp 
     // and link accordingly
     cv::Mat falseColorsMap;
-    applyColorMap(adjMap, falseColorsMap, cv::COLORMAP_BONE);
+    // applyColorMap(adjMap, falseColorsMap, cv::COLORMAP_BONE);
     cv::normalize(falseColorsMap, falseColorsMap, 0, 256, cv::NORM_MINMAX, CV_8UC1);
 
     return falseColorsMap;
+    */
+    return depth_frame;
 }
 
 void DepthFix::adjustNoise(cv::Mat &image){
