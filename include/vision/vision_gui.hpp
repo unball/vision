@@ -11,8 +11,9 @@ class VisionGUI
     static VisionGUI& getInstance();
 
     void setInitialRGBImage(const cv::Mat &raw_image);
-    cv::Mat getOutputRGBImage();
     void setInitialDepthImage(const cv::Mat &raw_image);
+
+    cv::Mat getOutputRGBImage();
     cv::Mat getOutputDepthImage();
 
     void showOutputImages();

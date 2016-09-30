@@ -22,6 +22,8 @@
 
 #include <vision/vision.hpp>
 
+#include <vision/findrobots.hpp>
+
 image_transport::Subscriber rgb_sub, depth_sub;
 cv_bridge::CvImage rgb_frame, depth_frame;
 bool using_rgb, using_depth;
@@ -42,8 +44,8 @@ int main(int argc, char **argv)
     subscriberSetup(img_transport);
 
     ros::Publisher publisher = node_handle.advertise<vision::VisionMessage>("vision_topic", 1);
-
     ros::Rate loop_rate(30);
+
     while (ros::ok())
     {
         Vision::getInstance().run();
@@ -99,7 +101,7 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
 
     try
     {
-        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_32FC1);
+        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_8UC1);
     }
     catch (cv_bridge::Exception &e)
     {
