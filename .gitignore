@@ -1,8 +1,9 @@
-#Ignore data files
-data/*
-
 #Ignore .avi files
 *.avi
 
 #ignore .png files
 *.png
+
+#ignore sublime project
+*.sublime-project
+*.sublime-workspace

@@ -20,12 +20,11 @@ class SelectField
 
   private:
     void close();
-    void createWindows(std::string rgb_name);
     std::string rgb_window_;
     CapturePoints rgb_cap_;
     std::vector<cv::Point2f> dst_points_;
     cv::Mat field_matrix_;
-    bool is_selected_;
+    bool is_done_;
 };
 
 #endif

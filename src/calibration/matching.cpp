@@ -1,27 +1,27 @@
 #include "calibration/matching.hpp"
 
 Matching::Matching(std::string rgb_window, std::string depth_window){
+    createWindows(rgb_window, depth_window);
+
     depth_cap_.fromWindow(depth_window);
     rbg_cap_.fromWindow(rgb_window);
     rgb_window_ = rgb_window;
     depth_window_ = depth_window;
-    
-    createWindows(rgb_window_, depth_window_);
-    
+
     bool calibrate;
     ros::param::get("/vision/calibration/calibrate_match_matrix", calibrate);
-    
-    //if needs calibration
+
+    // if needs calibration
     if (calibrate == true)
         is_done_ = false;
-    else //retrieve matching matrix
+    else // retrieve matching matrix
     {
         is_done_ = true;
         FileManager file("match", "read");
         matching_matrix_ = file.read();
         close();
     }
-    
+
 }
 
 void Matching::run(){
@@ -40,10 +40,9 @@ void Matching::run(){
 
     matching_matrix_ = cv::findHomography(srcp,dstp);
     is_done_ = true;
-    ROS_WARN("DONE");
 
     //write matching matrix to file
-    FileManager file("match", "write");    
+    FileManager file("match", "write");
     file.write(matching_matrix_);
 }
 
@@ -72,7 +71,7 @@ void Matching::showFrames(cv::Mat rgb_frame, cv::Mat depth_frame){
 
 cv::Mat Matching::match(cv::Mat frame){
     cv::Mat result;
-    
+
     if(matching_matrix_.rows > 0 and matching_matrix_.cols > 0)
         cv::warpPerspective(frame, result, matching_matrix_, cv::Size(640,480));
     else

@@ -17,16 +17,15 @@ SelectField::SelectField(std::string rgb_window){
 
     bool calibrate;
     ros::param::get("/vision/calibration/calibrate_rectify_matrix", calibrate);
-    
+
     //if needs calibration
     if (calibrate == true)
-        is_selected_ = false;
+        is_done_ = false;
     else //retrive field matrix
     {
-        is_selected_ = true;
+        is_done_ = true;
         FileManager file("field", "read");
         field_matrix_ = file.read();
-        close();
     }
 }
 
@@ -42,17 +41,17 @@ void SelectField::run(){
         ROS_WARN("6 points are needed for homography.");
         return;
     }
-    
+
     close();
 
     cv::Mat srcp(src_points);
     cv::Mat dstp(dst_points_);
 
     field_matrix_ = cv::findHomography(srcp,dstp);
-    is_selected_ = true;
+    is_done_ = true;
 
     //write field matrix to file
-    FileManager file("field", "write");    
+    FileManager file("field", "write");
     file.write(field_matrix_);
 }
 
@@ -70,19 +69,15 @@ void SelectField::showFrame(cv::Mat rgb_frame){
 }
 
 bool SelectField::isDone(){
-    return is_selected_;
+    return is_done_;
 }
 
 cv::Mat SelectField::warp(cv::Mat rgb_frame){
      cv::Mat result;
-    
+
     if(field_matrix_.rows > 0 and field_matrix_.cols > 0)
         cv::warpPerspective(rgb_frame, result, field_matrix_, cv::Size(640,480));
     else
         ROS_ERROR("Field matrix not calculated");
     return result;
-}
-
-void SelectField::createWindows(std::string rgb_name){
-    cv::namedWindow(rgb_name);
 }
