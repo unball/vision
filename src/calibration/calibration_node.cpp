@@ -21,7 +21,7 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
 void receiveDepthFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishFrames();
 void showFrames(cv::Mat rgb_frame_, cv::Mat depth_frame_);
-void createWindows(std::string rgb_name, std::string depth_name);
+bool isImageValid(cv::Mat image);
 
 int main(int argc, char **argv)
 {
@@ -37,24 +37,27 @@ int main(int argc, char **argv)
     rgbSetup(it);
     depthSetup(it);
 
-    int noise_thresh_;
-
     // Set loop rate
     ros::Rate loop_rate(30);
-
-    createWindows(rgb_match_name, depth_match_name);
 
     Matching matcher(rgb_match_name, depth_match_name);
     SelectField selecter(rgb_select_name);
     DepthFix depth_fixer;
 
     bool selecterstarted = false;
+    ros::param::get("/vision/calibration/calibrate_rectify_matrix", selecterstarted);
+    selecterstarted = not selecterstarted;
 
     cv::Mat rgb_fixed;
     cv::Mat depth_fixed;
 
     while (ros::ok())
     {
+        ros::spinOnce();
+        loop_rate.sleep();
+
+        if (not isImageValid(rgb_frame.image) or not isImageValid(depth_frame.image))
+            continue;
 
         if(not matcher.isDone()){
             depth_fixed = depth_fixer.fix(depth_frame.image);
@@ -66,7 +69,6 @@ int main(int argc, char **argv)
             selecterstarted = true;
         }
         else if (not selecter.isDone()){
-           depth_frame.image = depth_fixer.fix(depth_frame.image);
            selecter.showFrame(rgb_frame.image);
            selecter.run();
         }
@@ -81,11 +83,8 @@ int main(int argc, char **argv)
             depth_frame_to_pub.image = depth_fixed;
 
             showFrames(rgb_fixed, depth_fixed);
+            publishFrames();
         }
-
-        publishFrames();
-        ros::spinOnce();
-        loop_rate.sleep();
     }
 
     return 0;
@@ -168,8 +167,6 @@ void showFrames(cv::Mat rgb_frame_, cv::Mat depth_frame_) {
     cv::waitKey(1);
 }
 
-void createWindows(std::string rgb_name, std::string depth_name){
-    cv::namedWindow(rgb_name);
-    cv::namedWindow(depth_name);
-
+bool isImageValid(cv::Mat image) {
+    return (image.rows > 0 and image.cols > 0);
 }

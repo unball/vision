@@ -9,14 +9,13 @@ class FileManager
 {
   public:
     FileManager(std::string filename, std::string mode);
-    void save(cv::Mat matrix);
+    void write(cv::Mat matrix);
     ~FileManager();
-    cv::Mat getMatrix();
+    cv::Mat read();
   private:
     std::string mode_;
     cv::FileStorage matrixManager;
 };
-
 
 
 #endif

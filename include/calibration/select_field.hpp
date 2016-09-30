@@ -5,6 +5,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <calibration/capture_points.hpp>
+#include "calibration/file_manager.hpp"
 
 class SelectField
 {
@@ -23,7 +24,7 @@ class SelectField
     CapturePoints rgb_cap_;
     std::vector<cv::Point2f> dst_points_;
     cv::Mat field_matrix_;
-    bool is_selected_;
+    bool is_done_;
 };
 
 #endif

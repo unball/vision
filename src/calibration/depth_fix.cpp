@@ -10,17 +10,17 @@ cv::Mat DepthFix::fix(cv::Mat &depth_frame){
     adjustNoise(depth_frame);
     return depth_frame;
     */
-    
+
     double min;
     double max;
     cv::minMaxIdx(depth_frame, &min, &max);
     cv::Mat adjMap;
     float scale = 255 / (max-min);
-    depth_frame.convertTo(adjMap, CV_8UC1, scale, -min); 
+    depth_frame.convertTo(adjMap, CV_8UC1, scale, -min);
 
-    // this is great. It converts your grayscale image into a tone-mapped one, 
+    // this is great. It converts your grayscale image into a tone-mapped one,
     // much more pleasing for the eye
-    // function is found in contrib module, so include contrib.hpp 
+    // function is found in contrib module, so include contrib.hpp
     // and link accordingly
     cv::Mat falseColorsMap;
     applyColorMap(adjMap, falseColorsMap, cv::COLORMAP_BONE);

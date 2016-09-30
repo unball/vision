@@ -14,7 +14,19 @@ SelectField::SelectField(std::string rgb_window){
     dst_points_.push_back(cv::Point2f(0.0,480.0));
     dst_points_.push_back(cv::Point2f(320.0,480.0));
     dst_points_.push_back(cv::Point2f(640.0,480.0));
-    is_selected_ = false;
+
+    bool calibrate;
+    ros::param::get("/vision/calibration/calibrate_rectify_matrix", calibrate);
+
+    //if needs calibration
+    if (calibrate == true)
+        is_done_ = false;
+    else //retrive field matrix
+    {
+        is_done_ = true;
+        FileManager file("field", "read");
+        field_matrix_ = file.read();
+    }
 }
 
 void SelectField::close(){
@@ -29,14 +41,18 @@ void SelectField::run(){
         ROS_WARN("6 points are needed for homography.");
         return;
     }
-    
+
     close();
 
     cv::Mat srcp(src_points);
     cv::Mat dstp(dst_points_);
 
     field_matrix_ = cv::findHomography(srcp,dstp);
-    is_selected_ = true;
+    is_done_ = true;
+
+    //write field matrix to file
+    FileManager file("field", "write");
+    file.write(field_matrix_);
 }
 
 void SelectField::start(){
@@ -53,15 +69,15 @@ void SelectField::showFrame(cv::Mat rgb_frame){
 }
 
 bool SelectField::isDone(){
-    return is_selected_;
+    return is_done_;
 }
 
 cv::Mat SelectField::warp(cv::Mat rgb_frame){
      cv::Mat result;
-    
-    if(field_matrix_.rows != 0 or field_matrix_.cols != 0)
+
+    if(field_matrix_.rows > 0 and field_matrix_.cols > 0)
         cv::warpPerspective(rgb_frame, result, field_matrix_, cv::Size(640,480));
     else
-        ROS_ERROR("Matching matrix not calculated");
+        ROS_ERROR("Field matrix not calculated");
     return result;
 }

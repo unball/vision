@@ -1,12 +1,17 @@
 vision:
     calibration:
-        calibrate_match_matrix: true
-        calibrate_rectify_matrix: true
+        calibrate_match_matrix: false
+        calibrate_rectify_matrix: false
 
     object_list:
-     - "robots"
+     - "ball"
+     # - "robots"
+
+    ball:
+      segmentation_algorithm: "BallInRangeColorSegmentation"
+      identification_algorithm: "DummyIdentificationAlgorithm"
 
     robots:
       segmentation_algorithm: "FindRobots"
+      identification_algorithm: "DummyIdentificationAlgorithm"
 
-    

@@ -5,6 +5,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vision/algorithm_factory.hpp>
+#include <vision/raw_image.hpp>
 
 class FindRobots : public SegmentationAlgorithm
 {
@@ -13,22 +14,18 @@ public:
     ALGORITHM_TYPE(FindRobots);
     void run();
     void init();
-    std::vector<cv::Rect> getRobots();
     
 private:
     REGISTER_ALGORITHM_DEC(FindRobots);
     cv::Mat preProcessor(cv::Mat);
-    void extractPoints(cv::Mat&);
-    
+    std::string window_name_ = "Find Robots";
+
     cv::Mat input_;
     std::vector<cv::Rect> robots;
     int area_;
 
-    int _cannythresh1;
-    int _cannythresh2;
-    int erosion_size = 1;
-    int erosion_size2 = 1;
-    bool hasclosed_;
+    int cannythresh1_;
+    int cannythresh2_;
     
     
 };
