@@ -4,10 +4,9 @@ REGISTER_ALGORITHM_DEF(FindRobots);
 
 void FindRobots::run(){
     RawImage::getInstance().getRawDepthImage().copyTo(input_);
-    auto upperPoints = preProcessor(input_);
-    cv::imshow(window_name_, upperPoints);
-    if(cv::waitKey(30) == 'r')
-        cv::destroyWindow(window_name_);
+    RawImage::getInstance().getRawRGBImage().copyTo(rgb_input_);
+    cv::Mat upperPoints = preProcessor(input_);
+    find(upperPoints);
 }
 
 void FindRobots::init(){
@@ -23,9 +22,108 @@ cv::Mat FindRobots::preProcessor(cv::Mat input){
 
     input.copyTo(cannyMat);
     
-    cv::cvtColor(cannyMat, cannyMat, CV_BGR2HSV);
     cv::split(cannyMat, channels);
-    
     cv::Canny(channels[2], cannyMat, cannythresh1_, cannythresh2_, 3);
+    cv::imshow(window_name_, cannyMat);
+    if(cv::waitKey(30) == 'r')
+        cv::destroyWindow(window_name_);
+    
     return cannyMat;
 }
+
+void FindRobots::find(cv::Mat input){
+    cv::Mat upperPoints =  input;
+    extractPoints(upperPoints);
+    cv::Mat rgb_input = rgb_input_;
+
+    std::vector<std::vector<cv::Point>> newcontours;
+    std::vector<cv::Vec4i> newhierarchy;
+
+    uchar *p;
+    cv::dilate(upperPoints, upperPoints, cv::Mat());
+
+    cv::createTrackbar("Area", "white image", &area_, 2000);
+
+    for (int i = 0; i < upperPoints.rows; ++i)
+    {
+        p = upperPoints.ptr<uchar>(i);
+        for (int j = 0; j < upperPoints.cols; ++j)
+        {
+            if ((int)p[j] == 255)
+            {
+                int area = 10;
+                bool islost = true;
+                
+                for (int k = 0; k < 20 and j+k < upperPoints.cols; ++k)
+                    if(p[j+k] == 255)
+                        islost = false;
+
+                if (islost)
+                    p[j] = 0;
+
+                for (int k = 5; k < area and p[j+1] != 255; ++k, ++j)
+                    p[j] = 255;
+            }else if ((int)p[j] != 0)
+            {
+                p[j] = 0;
+            }
+        }
+    }
+
+    cv::findContours(upperPoints, newcontours, newhierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
+
+    auto color = cv::Scalar::all(255);
+    for (uint i = 0; i < newcontours.size(); ++i)
+    {
+        auto newboundingRect = cv::boundingRect(newcontours[i]);
+
+        if (newboundingRect.area() > area_)
+        {
+            cv::drawContours(upperPoints, newcontours, i, color, 3, 8, newhierarchy);
+            if (newboundingRect.height/newboundingRect.width < 3  and newboundingRect.height/newboundingRect.width > 0.34)
+            {   
+                robots.push_back(newboundingRect);
+                cv::rectangle(input, newboundingRect, cv::Scalar(255,255,255),3, 8,0); 
+                //cv::rectangle(rgb_input, newboundingRect, cv::Scalar(255,255,255),3, 8,0);      
+            }
+        }
+    }
+
+    if (not hasclosed_){
+        if (upperPoints.rows > 0 and upperPoints.cols > 0)
+        {
+            cv::imshow("white image", input);
+            //cv::imshow("white rgb image", rgb_input);
+            if (cv::waitKey(30) == 'w'){
+                cv::destroyWindow("white image");
+                //cv::destroyWindow("white rgb image");
+                hasclosed_ = true;  
+            }
+        } 
+    }
+}
+
+void FindRobots::extractPoints(cv::Mat& upperPoints){
+    auto color = cv::Scalar::all(0);
+    cv::drawContours(upperPoints, contours_, -1, color, 6, 10, hierarchy_);
+    int const max_kernel_size = 21;
+
+    cv::createTrackbar( "Kernel size:\n 2n +1", "RGB Video", &erosion_size, max_kernel_size);
+    cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,
+                                       cv::Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                       cv::Point( erosion_size, erosion_size ) );
+    cv::createTrackbar( "Kernel size 2:\n 2n +1", "RGB Video", &erosion_size2, max_kernel_size);
+
+    cv::Mat element2 = getStructuringElement( cv::MORPH_RECT,
+                                       cv::Size( 2*erosion_size2 + 1, 2*erosion_size2+1 ),
+                                       cv::Point( erosion_size2, erosion_size2 ) );
+    cv::dilate(upperPoints, upperPoints, element);
+    cv::erode(upperPoints, upperPoints, element2);
+}
+
+std::vector<cv::Rect> FindRobots::getRobots(){
+    auto toreturn = robots;
+    robots.clear();
+    return toreturn;
+}
+

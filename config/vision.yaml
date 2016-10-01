@@ -5,7 +5,7 @@ vision:
 
     object_list:
      - "ball"
-     # - "robots"
+     - "robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
