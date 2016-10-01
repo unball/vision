@@ -78,9 +78,10 @@ int main(int argc, char **argv)
             matcher.match(depth_frame.image);
             rgb_fixed = selecter.warp(rgb_frame.image);
             depth_fixed = depth_fixer.fix(depth_frame.image);
+            depth_fixed.convertTo(depth_frame_to_pub.image, CV_8UC1);
 
             rgb_frame_to_pub.image = rgb_fixed;
-            depth_frame_to_pub.image = depth_fixed;
+            
 
             showFrames(rgb_fixed, depth_fixed);
             publishFrames();
@@ -109,7 +110,8 @@ void depthSetup(image_transport::ImageTransport &it) {
         depth_sub = it.subscribe("/camera/depth/image", 1, receiveDepthFrame);
         depth_pub = it.advertise("/camera/depth/image_calibrated", 1);
         depth_frame.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
-        depth_frame_to_pub.encoding = sensor_msgs::image_encodings::TYPE_8UC1;
+        
+        depth_frame_to_pub.encoding = sensor_msgs::image_encodings::TYPE_8UC3;
     }
 }
 
@@ -146,7 +148,6 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
     }
 
     depth_frame.image = cv_ptr->image;
-    depth_frame_to_pub.image = cv_ptr->image;
 }
 
 void publishFrames() {

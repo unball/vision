@@ -3,7 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/contrib/contrib.hpp>
-
+#include <ros/ros.h>
 
 class DepthFix
 {

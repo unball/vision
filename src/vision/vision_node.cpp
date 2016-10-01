@@ -101,7 +101,7 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
 
     try
     {
-        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_8UC1);
+        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_8UC3);
     }
     catch (cv_bridge::Exception &e)
     {
