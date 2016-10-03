@@ -70,7 +70,7 @@ void FindRobots::find(cv::Mat input){
         }
     }
 
-    cv::findContours(upperPoints, newcontours, newhierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE );
+    cv::findContours(upperPoints, newcontours, newhierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     auto color = cv::Scalar::all(255);
     for (uint i = 0; i < newcontours.size(); ++i)
@@ -80,11 +80,19 @@ void FindRobots::find(cv::Mat input){
         if (newboundingRect.area() > area_)
         {
             cv::drawContours(upperPoints, newcontours, i, color, 3, 8, newhierarchy);
-            if (newboundingRect.height/newboundingRect.width < 3  and newboundingRect.height/newboundingRect.width > 0.34)
+            float height = float(newboundingRect.height);
+            float width = float(newboundingRect.width);
+            int x = (newboundingRect.width/2) + newboundingRect.x;
+            int y = (newboundingRect.height/2) + newboundingRect.y;
+            float ratio = height/width;
+            if ((ratio) < 1.3  and (ratio) > 0.73)
             {   
+                if (x > 64 and x < 576 and y > 48 and y < 432)
+                {
                 robots.push_back(newboundingRect);
-                cv::rectangle(input, newboundingRect, cv::Scalar(255,255,255),3, 8,0); 
-                //cv::rectangle(rgb_input, newboundingRect, cv::Scalar(255,255,255),3, 8,0);      
+                cv::rectangle(input, newboundingRect, cv::Scalar(133,133,133),3, 8,0); 
+                cv::rectangle(rgb_input, newboundingRect, cv::Scalar(255,255,255),3, 8,0);      
+                }
             }
         }
     }
@@ -93,10 +101,10 @@ void FindRobots::find(cv::Mat input){
         if (upperPoints.rows > 0 and upperPoints.cols > 0)
         {
             cv::imshow("white image", input);
-            //cv::imshow("white rgb image", rgb_input);
+            cv::imshow("white rgb image", rgb_input);
             if (cv::waitKey(30) == 'w'){
                 cv::destroyWindow("white image");
-                //cv::destroyWindow("white rgb image");
+                cv::destroyWindow("white rgb image");
                 hasclosed_ = true;  
             }
         } 
@@ -110,15 +118,17 @@ void FindRobots::extractPoints(cv::Mat& upperPoints){
 
     cv::createTrackbar( "Kernel size:\n 2n +1", "RGB Video", &erosion_size, max_kernel_size);
     cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,
-                                       cv::Size( 2*erosion_size + 1, 2*erosion_size+1 ),
-                                       cv::Point( erosion_size, erosion_size ) );
+                                       cv::Size( 4*erosion_size + 1, 4*erosion_size + 1 ),
+                                       cv::Point( erosion_size, erosion_size ));
     cv::createTrackbar( "Kernel size 2:\n 2n +1", "RGB Video", &erosion_size2, max_kernel_size);
 
     cv::Mat element2 = getStructuringElement( cv::MORPH_RECT,
-                                       cv::Size( 2*erosion_size2 + 1, 2*erosion_size2+1 ),
+                                       cv::Size( 4*erosion_size2 + 1, 4*erosion_size2+1 ),
                                        cv::Point( erosion_size2, erosion_size2 ) );
     cv::dilate(upperPoints, upperPoints, element);
+    cv::dilate(upperPoints, upperPoints, element);
     cv::erode(upperPoints, upperPoints, element2);
+   
 }
 
 std::vector<cv::Rect> FindRobots::getRobots(){
