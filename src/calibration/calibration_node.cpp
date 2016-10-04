@@ -98,7 +98,7 @@ void loadConfig() {
 
 void rgbSetup(image_transport::ImageTransport &it) {
     if (using_rgb) {
-        rgb_sub = it.subscribe("/camera/rgb/image_raw", 1, receiveRGBFrame);
+        rgb_sub = it.subscribe("/camera/rgb/image_color", 1, receiveRGBFrame);
         rgb_pub = it.advertise("/camera/rgb/image_calibrated", 1);
         rgb_frame.encoding = sensor_msgs::image_encodings::BGR8;
         rgb_frame_to_pub.encoding = sensor_msgs::image_encodings::BGR8;
