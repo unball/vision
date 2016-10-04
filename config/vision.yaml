@@ -13,5 +13,5 @@ vision:
 
     robots:
       segmentation_algorithm: "FindRobots"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "RobotIdentification"
 

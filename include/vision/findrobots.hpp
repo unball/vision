@@ -20,18 +20,14 @@ private:
     cv::Mat preProcessor(cv::Mat);
     void extractPoints(cv::Mat&);
     void find(cv::Mat);
-    std::vector<cv::Rect> getRobots();
 
     std::string window_name_ = "Find Robots";
     std::vector<std::vector<cv::Point>> contours_;
     std::vector<cv::Vec4i> hierarchy_;
 
-    int resizeRatio_ = 0;
     cv::Mat input_;
     cv::Mat rgb_input_;
-    std::vector<cv::Rect> robots;
-    int area_;
-
+    cv::Mat depth_to_pub_;
 
     int cannythresh1_ = 40;
     int cannythresh2_ = 20;

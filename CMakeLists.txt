@@ -56,6 +56,7 @@ add_executable(vision_node
   src/vision/dummy_identification_algorithm.cpp
   src/vision/dummy_segmentation_algorithm.cpp
   src/vision/findrobots.cpp
+  src/vision/robot_identification.cpp  
   src/vision/identification_algorithm.cpp
   src/vision/identifier.cpp
   src/vision/raw_image.cpp
