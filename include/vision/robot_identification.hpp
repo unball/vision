@@ -17,8 +17,16 @@ public:
 
 private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
-    void indentify(cv::Mat input);
+    void find(cv::Mat input);
+    void identify(cv::Mat rgb_input);
     std::vector<cv::Rect> robots_;
+
+    cv::Mat segmentedImage_;
+    int hsv_min_h_, hsv_max_h_;
+    int hsv_min_s_, hsv_max_s_;
+    int hsv_min_v_, hsv_max_v_;
+    std::string window_name_ = "HSV";
+
     cv::Mat rgb_input_;
     cv::Mat depth_input_;
     std::vector<std::vector<cv::Point>> contours_;
