@@ -1,8 +1,10 @@
 <launch>
   <rosparam command="load" file="$(find vision)/config/vision.yaml"/>
   <rosparam command="load" file="$(find vision)/config/image.yaml"/>
+  <!-- <include file="$(find freenect_launch)/launch/freenect.launch" /> -->
   <!-- <node name="dummy_image" pkg="vision" type="dummy_image" output="screen" args="$(find vision)/data/lena.png $(find vision)/data/dummy_depth_image.png"/> -->
-  <node name="dummy_camera" pkg="vision" type="dummy_camera" output="screen" args="$(find vision)/data/rgb_video.avi $(find vision)/data/depth" />
+  <!-- <node name="dummy_camera" pkg="vision" type="dummy_camera" output="screen" args="$(find vision)/data/rgb_video.avi $(find vision)/data/depth" /> -->
+  <include file="$(find freenect_launch)/launch/freenect.launch" />
   <node name="calibration_node" pkg="vision" type="calibration_node" output="screen"/>
-  <node name="vision_system" pkg="vision" type="vision_node"/>
+  <!-- <node name="vision_system" pkg="vision" type="vision_node"/> -->
 </launch>
