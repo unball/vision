@@ -28,6 +28,7 @@ int main(int argc, char **argv)
     std::string rgb_match_name = "RGB Calibration matching";
     std::string depth_match_name = "Depth Calibration matching";
     std::string rgb_select_name = "RGB Calibration";
+    std::string depth_select_name = "Depth Calibration";
 
     ros::init(argc, argv, "calibration_node");
     ros::NodeHandle node_handle;
@@ -42,6 +43,7 @@ int main(int argc, char **argv)
 
     Matching matcher(rgb_match_name, depth_match_name);
     SelectField selecter(rgb_select_name);
+    SelectField selecter_depth(depth_select_name);
     DepthFix depth_fixer;
 
     bool selecterstarted = false;
@@ -59,25 +61,36 @@ int main(int argc, char **argv)
         if (not isImageValid(rgb_frame.image) or not isImageValid(depth_frame.image))
             continue;
 
-        if(not matcher.isDone()){
+        if(matcher.isDone()){
             depth_fixed = depth_fixer.fix(depth_frame.image);
             matcher.showFrames(rgb_frame.image, depth_fixed);
             matcher.run();
         }
         else if (not selecterstarted){
             selecter.start();
+            selecter_depth.start();
             selecterstarted = true;
         }
-        else if (not selecter.isDone()){
-           selecter.showFrame(rgb_frame.image);
-           selecter.run();
+        else if (not selecter.isDone() || not selecter_depth.isDone()){
+            if (not selecter.isDone())
+            {
+                selecter.showFrame(rgb_frame.image);
+                selecter.run();
+            }
+            if (not selecter_depth.isDone())
+            {
+                depth_fixed = depth_fixer.fix(depth_frame.image);
+                selecter_depth.showFrame(depth_fixed);
+                selecter_depth.run();
+            }            
         }
         else{
             /*At this point all clicks must be done*/
 
-            matcher.match(depth_frame.image);
-            rgb_fixed = selecter.warp(rgb_frame.image);
             depth_fixed = depth_fixer.fix(depth_frame.image);
+            depth_fixed = selecter_depth.warp(depth_fixed);
+            rgb_fixed = selecter.warp(rgb_frame.image);
+
             depth_fixed.convertTo(depth_frame_to_pub.image, CV_8UC1);
 
             rgb_frame_to_pub.image = rgb_fixed;
@@ -107,7 +120,7 @@ void rgbSetup(image_transport::ImageTransport &it) {
 
 void depthSetup(image_transport::ImageTransport &it) {
     if (using_depth) {
-        depth_sub = it.subscribe("/camera/depth/image", 1, receiveDepthFrame);
+        depth_sub = it.subscribe("/camera/depth/image_raw", 1, receiveDepthFrame);
         depth_pub = it.advertise("/camera/depth/image_calibrated", 1);
         depth_frame.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
         
