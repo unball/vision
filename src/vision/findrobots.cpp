@@ -12,7 +12,7 @@ void FindRobots::run(){
 }
 
 void FindRobots::init(){
-    //cv::namedWindow(window_name_);
+    cv::namedWindow(window_name_);
     cv::createTrackbar("Canny Thresh 1", window_name_, &cannythresh1_, 100);
     cv::createTrackbar("Canny Thresh 2", window_name_, &cannythresh2_, 300);
 
@@ -20,13 +20,16 @@ void FindRobots::init(){
 
 cv::Mat FindRobots::preProcessor(cv::Mat input){
     cv::Mat cannyMat;
-    std::vector<cv::Mat> channels(3);
-
-    input.copyTo(cannyMat);
     
+    cvtColor(input, input,CV_GRAY2RGB);
+    cv::cvtColor(input, input, CV_BGR2HSV);
+    
+    std::vector<cv::Mat> channels(3);
     cv::split(cannyMat, channels);
-    cv::Canny(channels[2], cannyMat, cannythresh1_, cannythresh2_, 3);
-    // cv::imshow(window_name_, cannyMat);
+    
+    cv::Canny(input, cannyMat, cannythresh1_, cannythresh2_, 3);
+    cv::imshow(window_name_, cannyMat);
+    
     if(cv::waitKey(30) == 'r')
         cv::destroyWindow(window_name_);
     
