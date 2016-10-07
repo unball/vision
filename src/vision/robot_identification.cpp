@@ -93,28 +93,17 @@ void RobotIdentification::find(cv::Mat input){
 
 void RobotIdentification::identify(cv::Mat rgb_input){
     auto robots = robots_;
-    cv::Mat hsv_input;
-    cv::cvtColor(rgb_input, hsv_input, CV_BGR2HSV);
 
-    cv::namedWindow(window_name_);
-    cv::createTrackbar("HMIN", window_name_, &hsv_min_h_, 360);
-    cv::createTrackbar("HMAX", window_name_, &hsv_max_h_, 360);
-    cv::createTrackbar("SMIN", window_name_, &hsv_min_s_, 256);
-    cv::createTrackbar("SMAX", window_name_, &hsv_max_s_, 256);
-    cv::createTrackbar("VMIN", window_name_, &hsv_min_v_, 256);
-    cv::createTrackbar("VMAX", window_name_, &hsv_max_v_, 256);
-    cv::inRange(hsv_input, cv::Scalar(hsv_min_h_, hsv_min_s_, hsv_min_v_),
-                     cv::Scalar(hsv_max_h_, hsv_max_s_, hsv_max_v_), segmentedImage_);
-    cv::imshow(window_name_, segmentedImage_);
-    if (cv::waitKey(30) == 27)
+    
+    if (cv::waitKey(30) == 'b')
     {
-        cv::destroyWindow(window_name_);
+        
     }
 
     for (int i = 0; i < robots.size(); ++i)
     {
         int x = (robots[i].width/2) + robots[i].x; 
         int y = (robots[i].height/2) + robots[i].y;
-
+        
     }
 }

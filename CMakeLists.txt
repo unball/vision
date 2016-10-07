@@ -90,7 +90,8 @@ add_executable(calibration_node
   src/calibration/depth_fix.cpp
   src/calibration/file_manager.cpp
   src/calibration/matching.cpp
-  src/calibration/select_field.cpp)
+  src/calibration/select_field.cpp
+  src/calibration/color_calibration.cpp)
 add_dependencies(calibration_node unball_gencpp)
 target_link_libraries(calibration_node ${catkin_LIBRARIES})
 

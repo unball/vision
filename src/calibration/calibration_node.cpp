@@ -7,6 +7,7 @@
 #include <calibration/matching.hpp>
 #include <calibration/select_field.hpp>
 #include <calibration/depth_fix.hpp>
+#include <calibration/color_calibration.hpp>
 
 image_transport::Subscriber rgb_sub, depth_sub;
 image_transport::Publisher rgb_pub, depth_pub;
@@ -43,6 +44,7 @@ int main(int argc, char **argv)
 
     SelectField selecter(rgb_select_name, true);
     SelectField selecter_depth(depth_select_name, false);
+    ColorCalibration color_calib;
     DepthFix depth_fixer;
 
     bool selecterstarted = false;
@@ -97,9 +99,9 @@ int main(int argc, char **argv)
             {
                 cv::destroyWindow("Calibrated RGB frame");
                 cv::destroyWindow("Calibrated Depth frame");
-                showframes = false;
+                showframes = false;                
             }
-
+            color_calib.calibrate(rgb_fixed);
 
             publishFrames();
         }
