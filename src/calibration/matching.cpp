@@ -30,7 +30,11 @@ void Matching::run(){
 
     if (rgb_points_.size() != 6 or depth_points_.size() != 6)
     {
-        ROS_WARN("6 points are needed for calibration.");
+        int leftRGB = 6 - rgb_points_.size();
+        int leftDepth = 6 - depth_points_.size();
+        ROS_WARN("%d points are needed for RGB calibration.", leftRGB);
+        ROS_WARN("%d points are needed for Depth calibration.", leftDepth);
+
         return;
     }
 

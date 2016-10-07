@@ -4,7 +4,7 @@ DepthFix::DepthFix(){
 }
 
 cv::Mat DepthFix::fix(cv::Mat &depth_frame){
-      
+
     double min;
     double max;
     cv::minMaxIdx(depth_frame, &min, &max);
@@ -19,6 +19,7 @@ cv::Mat DepthFix::fix(cv::Mat &depth_frame){
     cv::Mat falseColorsMap;
     applyColorMap(adjMap, falseColorsMap, cv::COLORMAP_BONE);
     cv::normalize(falseColorsMap, falseColorsMap, 0, 256, cv::NORM_MINMAX, CV_8UC3);
+
     return falseColorsMap;
 }
 

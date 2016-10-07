@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find freenect_launch)/launch/freenect.launch" />
+  <node name="test_calibration_node" pkg="vision" type="test_calibration" output="screen"/>
+</launch>

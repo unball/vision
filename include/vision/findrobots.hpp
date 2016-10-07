@@ -18,15 +18,21 @@ public:
 private:
     REGISTER_ALGORITHM_DEC(FindRobots);
     cv::Mat preProcessor(cv::Mat);
+    void extractPoints(cv::Mat&);
+    void find(cv::Mat);
+
     std::string window_name_ = "Find Robots";
+    std::vector<std::vector<cv::Point>> contours_;
+    std::vector<cv::Vec4i> hierarchy_;
 
     cv::Mat input_;
-    std::vector<cv::Rect> robots;
-    int area_;
+    cv::Mat rgb_input_;
+    cv::Mat depth_to_pub_;
 
-    int cannythresh1_;
-    int cannythresh2_;
-    
-    
+    int cannythresh1_ = 60;
+    int cannythresh2_ = 39;
+    int erosion_size = 1;
+    int erosion_size2 = 1;    
+    bool hasclosed_;
 };
 #endif

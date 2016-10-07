@@ -56,6 +56,7 @@ add_executable(vision_node
   src/vision/dummy_identification_algorithm.cpp
   src/vision/dummy_segmentation_algorithm.cpp
   src/vision/findrobots.cpp
+  src/vision/robot_identification.cpp  
   src/vision/identification_algorithm.cpp
   src/vision/identifier.cpp
   src/vision/raw_image.cpp
@@ -67,6 +68,11 @@ add_executable(vision_node
   src/vision/vision_gui.cpp)
 add_dependencies(vision_node unball_gencpp)
 target_link_libraries(vision_node ${catkin_LIBRARIES})
+
+add_executable(test_calibration
+  src/test_calibration/test_calibration_node.cpp)
+add_dependencies(test_calibration unball_gencpp)
+target_link_libraries(test_calibration ${catkin_LIBRARIES})
 
 add_executable(dummy_camera
   src/dummy_camera/dummy_camera.cpp)
@@ -84,7 +90,8 @@ add_executable(calibration_node
   src/calibration/depth_fix.cpp
   src/calibration/file_manager.cpp
   src/calibration/matching.cpp
-  src/calibration/select_field.cpp)
+  src/calibration/select_field.cpp
+  src/calibration/color_calibration.cpp)
 add_dependencies(calibration_node unball_gencpp)
 target_link_libraries(calibration_node ${catkin_LIBRARIES})
 

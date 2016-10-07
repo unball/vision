@@ -7,13 +7,9 @@ FileManager::FileManager(std::string filename, std::string mode){
     auto sourceDir = ros::package::getPath("vision").append("/data/");
 
     if (mode == "write")
-    {
         matrixManager = cv::FileStorage(sourceDir+filename, cv::FileStorage::WRITE);
-    }
     else if (mode == "read")
-    {
         matrixManager = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
-    }
 }
 
 FileManager::~FileManager(){

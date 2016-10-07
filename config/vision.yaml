@@ -2,10 +2,11 @@ vision:
     calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
+        calibrate_team_color: false
 
     object_list:
-     - "ball"
-     # - "robots"
+    # - "ball"
+     - "robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
@@ -13,5 +14,5 @@ vision:
 
     robots:
       segmentation_algorithm: "FindRobots"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "RobotIdentification"
 
