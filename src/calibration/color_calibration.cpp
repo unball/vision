@@ -44,7 +44,7 @@ ColorCalibration::ColorCalibration(){
 ColorCalibration::~ColorCalibration(){
     if (calibrate_)
         colorManager_.release();
-    
+
 }
 
 void ColorCalibration::calibrate(cv::Mat rgb_input){
@@ -88,16 +88,12 @@ void ColorCalibration::save(std::string color){
     colorManager_ << "{" << "Min" << cv::Scalar(hsv_min_h_, hsv_min_s_, hsv_min_v_);
     colorManager_        << "Max" << cv::Scalar(hsv_max_h_, hsv_max_s_, hsv_max_v_);
     colorManager_ << "}";
-    switch(color){
-        case "Blue":
-            is_blue_saved_ = true;
-            break;
-        case "Yellow":
-            is_yellow_saved_ = true;
-            break;
-        case "Orange":
-            is_orange_saved_ = true;
-    }
+    if (color == "Blue")
+        is_blue_saved_ = true;
+    if (color == "Yellow")
+        is_yellow_saved_ = true;
+    if (color == "Orange")
+        is_orange_saved_ = true;
 }
 
 bool ColorCalibration::isCalibrated(){

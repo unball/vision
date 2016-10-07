@@ -14,8 +14,7 @@ class ColorCalibration
     void calibrate(cv::Mat rgb_input);
     bool isCalibrated();
  private:
-    void saveYellow();
-    void saveBlue();
+    void save(std::string);
 
     cv::FileStorage old_blue, old_yellow, old_orange;
 
