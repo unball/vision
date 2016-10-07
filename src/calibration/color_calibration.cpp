@@ -31,20 +31,52 @@ ColorCalibration::ColorCalibration(){
         cv::createTrackbar("VMAX", window_name_, &hsv_max_v_, 256);
 
         //save previous parameters
-        colorManager_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
-        old_blue = colorManager_["Blue"];
-        old_yellow = colorManager_["Yellow"];
-        old_orange = colorManager_["Orange"];
-
+        colorHandler_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
+        old_blue = colorHandler_["Blue"];
+        old_yellow = colorHandler_["Yellow"];
+        old_orange = colorHandler_["Orange"];
+        
         //set file calibration to save HSV values
         colorManager_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::WRITE);
     }
+    else
+        ROS_INFO("Color already calibrated, to recalibrate change config!");
+
 }
 
 ColorCalibration::~ColorCalibration(){
     if (calibrate_)
+        if (not is_blue_saved_)
+        {
+            cv::FileNodeIterator it = old_blue.begin();
+            cv::Scalar min = (cv::Scalar)(*it)["Min"];
+            cv::Scalar max = (cv::Scalar)(*it)["Max"];
+            colorManager_ << "Blue";
+            colorManager_ << "{" << "Min" << min;
+            colorManager_        << "Max" << max;
+            colorManager_ << "}";
+        }
+        if (not is_yellow_saved_)
+        {
+            cv::FileNodeIterator it = old_yellow.begin();
+            cv::Scalar min = (cv::Scalar)(*it)["Min"];
+            cv::Scalar max = (cv::Scalar)(*it)["Max"];
+            colorManager_ << "Yellow";
+            colorManager_ << "{" << "Min" << min;
+            colorManager_        << "Max" << max;
+            colorManager_ << "}";
+        }
+        if(not is_orange_saved_){
+            cv::FileNodeIterator it = old_orange.begin();
+            cv::Scalar min = (cv::Scalar)(*it)["Min"];
+            cv::Scalar max = (cv::Scalar)(*it)["Max"];
+            colorManager_ << "Orange";
+            colorManager_ << "{" << "Min" << min;
+            colorManager_        << "Max" << max;
+            colorManager_ << "}";
+        }
+        colorHandler_.release();
         colorManager_.release();
-
 }
 
 void ColorCalibration::calibrate(cv::Mat rgb_input){
@@ -79,15 +111,11 @@ void ColorCalibration::calibrate(cv::Mat rgb_input){
             save("Orange");
         }
     }
-    else
-        ROS_WARN("Color already calibrated, to recalibrate change config!");
 }
 
 void ColorCalibration::save(std::string color){
-    colorManager_ << color;
-    colorManager_ << "{" << "Min" << cv::Scalar(hsv_min_h_, hsv_min_s_, hsv_min_v_);
-    colorManager_        << "Max" << cv::Scalar(hsv_max_h_, hsv_max_s_, hsv_max_v_);
-    colorManager_ << "}";
+    cv::Mat colorMat = cv::Mat_<int>(1, 3, CV_8U) << hsv_min_h_, hsv_min_s_, hsv_min_v_;
+    colorManager_ << color << colorMat;
     if (color == "Blue")
         is_blue_saved_ = true;
     if (color == "Yellow")

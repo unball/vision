@@ -16,7 +16,7 @@ class ColorCalibration
  private:
     void save(std::string);
 
-    cv::FileStorage old_blue, old_yellow, old_orange;
+    cv::FileNode old_blue, old_yellow, old_orange;
 
     int hsv_min_h_, hsv_max_h_;
     int hsv_min_s_, hsv_max_s_;
@@ -26,6 +26,7 @@ class ColorCalibration
     std::string window_name_;
     cv::Mat segmented_image_;
     cv::FileStorage colorManager_;
+    cv::FileStorage colorHandler_;
 };
 
 
