@@ -10,7 +10,7 @@
 class SelectField
 {
   public:
-    SelectField(std::string rbg_window);
+    SelectField(std::string rbg_window, bool is_rgb);
     SelectField(){};
     void run();
     void start();
@@ -20,6 +20,7 @@ class SelectField
 
   private:
     void close();
+    bool is_rgb_;
     std::string rgb_window_;
     CapturePoints rgb_cap_;
     std::vector<cv::Point2f> dst_points_;

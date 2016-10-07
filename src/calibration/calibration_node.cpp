@@ -41,8 +41,8 @@ int main(int argc, char **argv)
     // Set loop rate
     ros::Rate loop_rate(30);
 
-    SelectField selecter(rgb_select_name);
-    SelectField selecter_depth(depth_select_name);
+    SelectField selecter(rgb_select_name, true);
+    SelectField selecter_depth(depth_select_name, false);
     DepthFix depth_fixer;
 
     bool selecterstarted = false;
@@ -86,7 +86,7 @@ int main(int argc, char **argv)
             depth_fixed = selecter_depth.warp(depth_fixed);
             rgb_fixed = selecter.warp(rgb_frame.image);
 
-            depth_fixed.convertTo(depth_frame_to_pub.image, CV_8UC1);
+            depth_fixed.convertTo(depth_frame_to_pub.image, CV_8UC3);
 
             rgb_frame_to_pub.image = rgb_fixed;
             
@@ -128,7 +128,7 @@ void depthSetup(image_transport::ImageTransport &it) {
         depth_pub = it.advertise("/camera/depth/image_calibrated", 1);
         depth_frame.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
         
-        depth_frame_to_pub.encoding = sensor_msgs::image_encodings::TYPE_8UC1;
+        depth_frame_to_pub.encoding = sensor_msgs::image_encodings::TYPE_8UC3;
     }
 }
 

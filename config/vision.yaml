@@ -1,10 +1,10 @@
 vision:
     calibration:
-        calibrate_match_matrix: true
-        calibrate_rectify_matrix: true
+        calibrate_match_matrix: false
+        calibrate_rectify_matrix: false
 
     object_list:
-     - "ball"
+    # - "ball"
      - "robots"
 
     ball:

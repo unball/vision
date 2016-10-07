@@ -29,8 +29,8 @@ private:
     cv::Mat rgb_input_;
     cv::Mat depth_to_pub_;
 
-    int cannythresh1_ = 40;
-    int cannythresh2_ = 20;
+    int cannythresh1_ = 60;
+    int cannythresh2_ = 39;
     int erosion_size = 1;
     int erosion_size2 = 1;    
     bool hasclosed_;

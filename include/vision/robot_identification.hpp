@@ -32,7 +32,7 @@ private:
     std::vector<std::vector<cv::Point>> contours_;
     std::vector<cv::Vec4i> hierarchy_;
 
-    int area_;
+    int area_ = 1155;
     bool hasclosed_; 
 
 };

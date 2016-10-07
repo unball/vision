@@ -21,17 +21,23 @@ void FindRobots::init(){
 cv::Mat FindRobots::preProcessor(cv::Mat input){
     cv::Mat cannyMat;
     
-    cvtColor(input, input,CV_GRAY2RGB);
     cv::cvtColor(input, input, CV_BGR2HSV);
     
     std::vector<cv::Mat> channels(3);
-    cv::split(cannyMat, channels);
+    cv::split(input, channels);
+
+    /*cv::Mat element2 = getStructuringElement( cv::MORPH_RECT,
+                                       cv::Size( 4*erosion_size2 + 1, 4*erosion_size2+1 ),
+                                       cv::Point( erosion_size2, erosion_size2 ) );
+
+    cv::blur(channels[2], channels[2], cv::Size(3, 3));
+    cv::erode(channels[2], channels[2], element2);*/
+
+    cv::Canny(channels[2], cannyMat, cannythresh1_, cannythresh2_, 3);
+    //cv::imshow(window_name_, cannyMat);
     
-    cv::Canny(input, cannyMat, cannythresh1_, cannythresh2_, 3);
-    cv::imshow(window_name_, cannyMat);
-    
-    if(cv::waitKey(30) == 'r')
-        cv::destroyWindow(window_name_);
+    //if(cv::waitKey(30) == 'r')
+    //    cv::destroyWindow(window_name_);
     
     return cannyMat;
 }

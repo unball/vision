@@ -82,6 +82,7 @@ void RobotIdentification::find(cv::Mat input){
         if (input.rows > 0 and input.cols > 0)
         {
             cv::imshow("white image", input);
+            cv::imshow("rgb white image", rgb_input);
             if (cv::waitKey(30) == 'w'){
                 cv::destroyWindow("white image");
                 hasclosed_ = true;  

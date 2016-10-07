@@ -1,11 +1,12 @@
 #include "calibration/select_field.hpp"
 
-SelectField::SelectField(std::string rgb_window){
+SelectField::SelectField(std::string rgb_window, bool is_rgb){
     /**
     * The values for the dst_points_ vector are fixed, and were calculated considering the dimensions of the RGB and
     * depth images given by the kinect.
     */
     rgb_window_ = rgb_window;
+    is_rgb_ = is_rgb;
 
     dst_points_.push_back(cv::Point2f(0.0,0.0));
     dst_points_.push_back(cv::Point2f(320.0,0.0));
@@ -24,8 +25,15 @@ SelectField::SelectField(std::string rgb_window){
     else //retrive field matrix
     {
         is_done_ = true;
-        FileManager file("field", "read");
-        field_matrix_ = file.read();
+        if (is_rgb_ == true)
+        {
+            FileManager file("field", "read");
+            field_matrix_ = file.read();
+        }
+        else{
+            FileManager file("depth_field", "read");
+            field_matrix_ = file.read();    
+        }
     }
 }
 
@@ -51,8 +59,15 @@ void SelectField::run(){
     is_done_ = true;
 
     //write field matrix to file
-    FileManager file("field", "write");
-    file.write(field_matrix_);
+    if (is_rgb_ == true)
+    {
+        FileManager file("field", "write");
+        file.write(field_matrix_);
+    }
+    else{
+        FileManager file("depth_field", "write");
+        file.write(field_matrix_);
+    }
 }
 
 void SelectField::start(){
