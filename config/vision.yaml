@@ -5,8 +5,8 @@ vision:
         calibrate_team_color: false
 
     object_list:
-    # - "ball"
-     - "robots"
+     - "ball"
+     #- "robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"

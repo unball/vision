@@ -46,7 +46,7 @@ void SelectField::run(){
 
     if (src_points.size() != 6)
     {
-        ROS_WARN("6 points are needed for homography.");
+        ROS_WARN_STREAM((6 - src_points.size()) << "points are needed for homography.");
         return;
     }
 
