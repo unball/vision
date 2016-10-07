@@ -11,28 +11,20 @@ void BallInRangeColorSegmentation::init()
     auto filename = "color_calibration.yaml";
     colorReader_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
     if (colorReader_.isOpened())
-    {
-        cv::Mat orangeMat;
         colorReader_["Orange"] >> orangeMat;
-        
-        //(*it)["Min"] >> testvector;
-    }
-
-    //hsv_max_ = (cv::Scalar)(*it)["Max"];
-    ROS_ERROR("VIU?");    
 }
 
 void BallInRangeColorSegmentation::run()
 {
-    // ROS_INFO("Running the ball segmentation algorithm using inrange method.");
+    // ROS_INFO("Running the ball segmentation algorithm usi    ng inrange method.");
     // RawImage::getInstance().getRawRGBImage().copyTo(output_rgb_image_);
-    /*auto rgb_image = RawImage::getInstance().getRawRGBImage();
+    rgb_image = RawImage::getInstance().getRawRGBImage();
     cv::cvtColor(rgb_image, rgb_image, CV_BGR2HSV);
 
     cv::Mat mask;
     cv::inRange(rgb_image,
-                cv::Scalar(hsv_min_[0], hsv_min_[1], hsv_min_[2]),
-                cv::Scalar(hsv_max_[0], hsv_max_[1], hsv_max_[2]),
+                cv::Scalar(orangeMat.at<int>(0,0), orangeMat.at<int>(0,1), orangeMat.at<int>(0,2)),
+                cv::Scalar(orangeMat.at<int>(1,0), orangeMat.at<int>(1,1), orangeMat.at<int>(1,2)),
                 mask);
 
     cv::Mat elem;
@@ -44,5 +36,5 @@ void BallInRangeColorSegmentation::run()
 
     cv::imshow(window_name_, mask);
     output_rgb_image_ = mask;
-    RawImage::getInstance().getRawDepthImage().copyTo(output_depth_image_);*/
+    RawImage::getInstance().getRawDepthImage().copyTo(output_depth_image_);
 }

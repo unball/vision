@@ -83,7 +83,7 @@ void ColorCalibration::calibrate(cv::Mat rgb_input){
     if (calibrate_)
     {
 
-        if (is_blue_saved_ && is_yellow_saved_)
+        if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_)
             cv::destroyWindow(window_name_);
         else{
             cv::Mat hsv_converted;
@@ -114,7 +114,8 @@ void ColorCalibration::calibrate(cv::Mat rgb_input){
 }
 
 void ColorCalibration::save(std::string color){
-    cv::Mat colorMat = cv::Mat_<int>(1, 3, CV_8U) << hsv_min_h_, hsv_min_s_, hsv_min_v_;
+    cv::Mat colorMat = cv::Mat_<int>(2, 3, CV_8U) << hsv_min_h_, hsv_min_s_, hsv_min_v_,
+                                                     hsv_max_h_, hsv_max_s_, hsv_max_v_;
     colorManager_ << color << colorMat;
     if (color == "Blue")
         is_blue_saved_ = true;
