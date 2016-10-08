@@ -90,7 +90,6 @@ int main(int argc, char **argv)
 
             depth_fixed.convertTo(depth_frame_to_pub.image, CV_8UC3);
 
-            rgb_frame_to_pub.image = rgb_fixed;
             
             if (showframes)
                 showFrames(rgb_fixed, depth_fixed);
@@ -102,6 +101,7 @@ int main(int argc, char **argv)
                 showframes = false;                
             }
             color_calib.calibrate(rgb_fixed);
+            rgb_frame_to_pub.image = color_calib.getRGBCalibrated();
 
             publishFrames();
         }

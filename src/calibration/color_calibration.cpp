@@ -8,10 +8,12 @@ ColorCalibration::ColorCalibration(){
     hsv_max_s_ = 0;
     hsv_min_v_ = 0;
     hsv_max_v_ = 0;
+    hdr_ = 1;
     is_blue_saved_ = false;
     is_yellow_saved_ = false;
     is_orange_saved_ = false;
     window_name_ = "Color Calibration";
+    window_name_HDR_ = "HDR Calibration";
 
     //decide if open or not file to save color calibration
     ros::param::get("/vision/calibration/calibrate_team_color", calibrate_);
@@ -29,7 +31,8 @@ ColorCalibration::ColorCalibration(){
         cv::createTrackbar("SMAX", window_name_, &hsv_max_s_, 256);
         cv::createTrackbar("VMIN", window_name_, &hsv_min_v_, 256);
         cv::createTrackbar("VMAX", window_name_, &hsv_max_v_, 256);
-
+        cv::namedWindow(window_name_HDR_);
+        cv::createTrackbar("HDR", window_name_HDR_, &hdr_, 300);
         //save previous parameters
         colorHandler_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
         old_blue = colorHandler_["Blue"];
@@ -82,7 +85,10 @@ ColorCalibration::~ColorCalibration(){
 void ColorCalibration::calibrate(cv::Mat rgb_input){
     if (calibrate_)
     {
-
+        equalizeIntensity(rgb_input);
+        gammaCorrection(rgb_input);
+        cv::imshow("Color changed", rgb_input);
+        cv::waitKey(1);
         if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_)
             cv::destroyWindow(window_name_);
         else{
@@ -111,6 +117,7 @@ void ColorCalibration::calibrate(cv::Mat rgb_input){
             save("Orange");
         }
     }
+    rgb_calibrated_ = rgb_input;
 }
 
 void ColorCalibration::save(std::string color){
@@ -127,4 +134,51 @@ void ColorCalibration::save(std::string color){
 
 bool ColorCalibration::isCalibrated(){
     return calibrate_;
+}
+
+cv::Mat ColorCalibration::getRGBCalibrated(){
+    return rgb_calibrated_;
+}
+
+void ColorCalibration::gammaCorrection(cv::Mat& rgb_input){
+    unsigned char lut[256];
+    float fGamma = hdr_/10;
+    for (int i = 0; i < 256; i++)
+        lut[i] = cv::saturate_cast<uchar>(pow((float)(i / 255.0), fGamma) * 255.0f);
+ 
+    cv::Mat new_image;
+    new_image = rgb_input.clone();
+ 
+ 
+    cv::MatIterator_<cv::Vec3b> it, end;
+ 
+    for (it = new_image.begin<cv::Vec3b>(), end = new_image.end<cv::Vec3b>(); it != end; it++){
+ 
+    (*it)[0] = lut[((*it)[0])];
+ 
+    (*it)[1] = lut[((*it)[1])];
+ 
+    (*it)[2] = lut[((*it)[2])];
+    }
+    rgb_input = new_image;
+}
+
+void ColorCalibration::equalizeIntensity(cv::Mat& rgb_input)
+{
+    if(rgb_input.channels() >= 3)
+    {
+        cv::Mat ycrcb;
+
+        cv::cvtColor(rgb_input,ycrcb,CV_BGR2YCrCb);
+        std::vector<cv::Mat> channels;
+        cv::split(ycrcb,channels);
+
+        cv::equalizeHist(channels[0], channels[0]);
+
+        cv::merge(channels,ycrcb);
+
+        cv::cvtColor(ycrcb,rgb_input,CV_YCrCb2BGR);
+
+    }else
+        ROS_ERROR("[COLOR CALIBRATION] 3 channels are needed to >>color<< calibration!");
 }
