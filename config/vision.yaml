@@ -3,6 +3,9 @@ vision:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
         calibrate_team_color: false
+    
+    team:
+      allies: "blue"
 
     object_list:
      - "ball"
