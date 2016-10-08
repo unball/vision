@@ -9,13 +9,20 @@ vision:
 
     object_list:
      # - "ball"
-     - "robots"
+     - "our_robots"
+     - "opponent_robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
       identification_algorithm: "DummyIdentificationAlgorithm"
 
-    robots:
+    our_robots:
       segmentation_algorithm: "FindRobotsColor"
+      segmentation_arguments: "Yellow"
+      identification_algorithm: "DummyIdentificationAlgorithm"
+
+    opponent_robots:
+      segmentation_algorithm: "FindRobotsColor"
+      segmentation_arguments: "Blue"
       identification_algorithm: "DummyIdentificationAlgorithm"
 

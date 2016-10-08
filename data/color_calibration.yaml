@@ -3,14 +3,14 @@ Orange: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 0, 0, 0, 0, 0, 0 ]
-Blue: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 90, 0, 0, 0, 0, 0 ]
+   data: [ 0, 99, 244, 17, 256, 256 ]
 Yellow: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 18, 0, 0, 0, 0, 0 ]
+   data: [ 26, 0, 254, 43, 256, 254 ]
+Blue: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 100, 119, 154, 114, 160, 256 ]

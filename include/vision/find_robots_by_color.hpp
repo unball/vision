@@ -18,6 +18,7 @@ public:
 private:
     REGISTER_ALGORITHM_DEC(FindRobotsColor);
     void preProcessor(cv::Mat);
+    void applyMorfology();
 
     std::string window_name_ = "Find Robots";
     std::vector<std::vector<cv::Point>> contours_;
@@ -28,8 +29,7 @@ private:
     cv::Mat blue_mat_, yellow_mat_;
     
     cv::Mat rgb_input_;
-    cv::Mat yellow_mask_;
-    cv::Mat blue_mask_;
+    cv::Mat mask_;
     
     int erosion_size = 1;
     int erosion_size2 = 1;    

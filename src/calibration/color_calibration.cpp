@@ -115,7 +115,6 @@ void ColorCalibration::calibrate(cv::Mat rgb_input){
 
 void ColorCalibration::save(std::string color){
     cv::Mat colorMat =  (cv::Mat_<int>(2, 3) << hsv_min_h_, hsv_min_s_, hsv_min_v_, hsv_max_h_, hsv_max_s_, hsv_max_v_);
-    std::cout << colorMat << "\n";
     colorManager_ << color << colorMat;
     if (color == "Blue")
         is_blue_saved_ = true;

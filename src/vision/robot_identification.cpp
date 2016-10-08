@@ -3,9 +3,8 @@
 REGISTER_ALGORITHM_DEF(RobotIdentification);
 
 void RobotIdentification::run(){
-    depth_input_ = segmentation_algorithm_->getSegmentationDepthOutput();
+    rgb_input = segmentation_algorithm_->getSegmentationRGBOutput();
     RawImage::getInstance().getRawRGBImage().copyTo(rgb_input_);
-    cv::Mat input = depth_input_;
     cv::Mat rgb_input = rgb_input_;
     
     find_depth(input);
