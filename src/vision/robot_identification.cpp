@@ -8,7 +8,7 @@ void RobotIdentification::run(){
     cv::Mat input = depth_input_;
     cv::Mat rgb_input = rgb_input_;
     
-    find_depth(rgb_input_);
+    find(rgb_input_);
 
     identify(rgb_input);
 }
