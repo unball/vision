@@ -81,7 +81,6 @@ int main(int argc, char **argv)
             rgb_fixed = selecter.warp(rgb_frame.image);
 
 
-            rgb_frame_to_pub.image = rgb_fixed;
             
             if (showframes)
                 showFrames(rgb_fixed);
@@ -92,6 +91,7 @@ int main(int argc, char **argv)
                 showframes = false;                
             }
             color_calib.calibrate(rgb_fixed);
+            rgb_frame_to_pub.image = color_calib.getRGBCalibrated();
 
             publishFrames();
         }
