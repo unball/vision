@@ -22,8 +22,6 @@
 
 #include <vision/vision.hpp>
 
-#include <vision/findrobots.hpp>
-
 image_transport::Subscriber rgb_sub, depth_sub;
 cv_bridge::CvImage rgb_frame, depth_frame;
 bool using_rgb, using_depth;
@@ -39,7 +37,6 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "vision_node");
     ros::NodeHandle node_handle;
     image_transport::ImageTransport img_transport(node_handle);
-
     loadConfig();
     subscriberSetup(img_transport);
 

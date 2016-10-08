@@ -8,14 +8,14 @@ vision:
       allies: "blue"
 
     object_list:
-     - "ball"
-     #- "robots"
+     # - "ball"
+     - "robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
       identification_algorithm: "DummyIdentificationAlgorithm"
 
     robots:
-      segmentation_algorithm: "FindRobots"
-      identification_algorithm: "RobotIdentification"
+      segmentation_algorithm: "FindRobotsColor"
+      identification_algorithm: "DummyIdentificationAlgorithm"
 

@@ -17,14 +17,14 @@ public:
 
 private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
-    void find(cv::Mat input);
+    void find_depth(cv::Mat input);
     void identify(cv::Mat rgb_input);
     std::vector<cv::Rect> robots_;
 
     cv::Mat segmentedImage_;
     cv::FileStorage colorReader_;
-    cv::Mat blueMat_;
-    cv::Mat yellowMat_;
+    cv::Mat blue_mat_;
+    cv::Mat yellow_mat_;
 
     cv::Mat blueMask_;
     cv::Mat yellowMask_;

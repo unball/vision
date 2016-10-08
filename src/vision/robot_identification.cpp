@@ -8,16 +8,7 @@ void RobotIdentification::run(){
     cv::Mat input = depth_input_;
     cv::Mat rgb_input = rgb_input_;
     
-    find(input);
-
-    cv::inRange(rgb_input,
-                cv::Scalar(blueMat_.at<int>(0,0), blueMat_.at<int>(0,1), blueMat_.at<int>(0,2)),
-                cv::Scalar(blueMat_.at<int>(1,0), blueMat_.at<int>(1,1), blueMat_.at<int>(1,2)),
-                blueMask_);
-    cv::inRange(rgb_input,
-                cv::Scalar(yellowMat_.at<int>(0,0), yellowMat_.at<int>(0,1), yellowMat_.at<int>(0,2)),
-                cv::Scalar(yellowMat_.at<int>(1,0), yellowMat_.at<int>(1,1), yellowMat_.at<int>(1,2)),
-                yellowMask_);
+    find_depth(input);
 
     identify(rgb_input);
 }
@@ -25,25 +16,17 @@ void RobotIdentification::run(){
 void RobotIdentification::init(){
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
-    ros::param::get("/vision/calibration/team", allies_);
-
-    if (allies_ == "blue")
-        enemies_ = "yellow";
-    else if (allies_ == "yellow")
-        enemies_ = "blue";
-    else
-        ROS_ERROR("[Color Team] Bad Definition");
 
     colorReader_ = cv::FileStorage(sourceDir+filename,cv::FileStorage::READ);
     if (colorReader_.isOpened())
     {
-        colorReader_["Blue"] >> blueMat_;
-        colorReader_["Yellow"] >> yellowMat_;
+        colorReader_["Blue"] >> blue_mat_;
+        colorReader_["Yellow"] >> yellow_mat_;
     }
 
 }
 
-void RobotIdentification::find(cv::Mat input){
+void RobotIdentification::find_depth(cv::Mat input){
     cv::Mat depth_input = input;
     cv::Mat rgb_input = rgb_input_;
 
@@ -125,20 +108,10 @@ void RobotIdentification::identify(cv::Mat rgb_input){
 
     for (int i = 0; i < robots.size(); ++i)
     {
-        int x = (robots[i].width/2) + robots[i].x; 
-        int y = (robots[i].height/2) + robots[i].y;
-        if (blueMask_.at<uchar>(x,y) == 255)
-        {
-            teams.push_back('b');
-        }
-        else if (yellowMask_.at<uchar>(x,y) == 255)
-        {
-            teams.push_back('y');
-        }
-        else
-        {
-            teams.push_back('i');
-        }
+        cv::Mat robotROI = rgb_input(robots[i]);
+        cv::imshow("window", robotROI);
+        cv::waitKey(1);
 
     }
+
 }

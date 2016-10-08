@@ -21,7 +21,7 @@ void depthSetup(image_transport::ImageTransport &it);
 void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
 void receiveDepthFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishFrames();
-void showFrames(cv::Mat rgb_frame_, cv::Mat depth_frame_);
+void showFrames(cv::Mat rgb_frame_);
 bool isImageValid(cv::Mat image);
 
 int main(int argc, char **argv)
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
         ros::spinOnce();
         loop_rate.sleep();
 
-        if (not isImageValid(rgb_frame.image) or not isImageValid(depth_frame.image))
+        if (not isImageValid(rgb_frame.image))
             continue;
 
         if (not selecterstarted){
@@ -74,31 +74,21 @@ int main(int argc, char **argv)
                 selecter.showFrame(rgb_frame.image);
                 selecter.run();
             }
-            if (not selecter_depth.isDone())
-            {
-                depth_fixed = depth_fixer.fix(depth_frame.image);
-                selecter_depth.showFrame(depth_fixed);
-                selecter_depth.run();
-            }            
         }
         else{
             /*At this point all clicks must be done*/
 
-            depth_fixed = depth_fixer.fix(depth_frame.image);
-            depth_fixed = selecter_depth.warp(depth_fixed);
             rgb_fixed = selecter.warp(rgb_frame.image);
 
-            depth_fixed.convertTo(depth_frame_to_pub.image, CV_8UC3);
 
             rgb_frame_to_pub.image = rgb_fixed;
             
             if (showframes)
-                showFrames(rgb_fixed, depth_fixed);
+                showFrames(rgb_fixed);
 
             if (cv::waitKey(30) == 'c')
             {
                 cv::destroyWindow("Calibrated RGB frame");
-                cv::destroyWindow("Calibrated Depth frame");
                 showframes = false;                
             }
             color_calib.calibrate(rgb_fixed);
@@ -177,12 +167,12 @@ void publishFrames() {
         depth_pub.publish(depth_frame_to_pub.toImageMsg());
 }
 
-void showFrames(cv::Mat rgb_frame_, cv::Mat depth_frame_) {
+void showFrames(cv::Mat rgb_frame_) {
     if (using_rgb and not (rgb_frame_.rows == 0 or rgb_frame_.cols == 0))
         cv::imshow("Calibrated RGB frame", rgb_frame_);
 
-    if (using_depth and not (depth_frame.image.rows == 0 or depth_frame.image.cols == 0))
-        cv::imshow("Calibrated Depth frame", depth_frame_);
+    //if (using_depth and not (depth_frame.image.rows == 0 or depth_frame.image.cols == 0))
+    //    cv::imshow("Calibrated Depth frame", depth_frame_);
 }
 
 bool isImageValid(cv::Mat image) {

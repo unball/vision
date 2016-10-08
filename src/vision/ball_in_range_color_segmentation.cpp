@@ -20,7 +20,6 @@ void BallInRangeColorSegmentation::run()
     // RawImage::getInstance().getRawRGBImage().copyTo(output_rgb_image_);
     rgb_image = RawImage::getInstance().getRawRGBImage();
     cv::cvtColor(rgb_image, rgb_image, CV_BGR2HSV);
-
     cv::Mat mask;
     cv::inRange(rgb_image,
                 cv::Scalar(orangeMat.at<int>(0,0), orangeMat.at<int>(0,1), orangeMat.at<int>(0,2)),
