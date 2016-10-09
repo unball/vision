@@ -19,6 +19,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vision/identification_algorithm.hpp>
+#include <vision/vision_gui.hpp>
 
 class TrackedObject
 {
@@ -33,7 +34,20 @@ class TrackedObject
 
     std::vector<cv::Point2f> getPositionVector();
 
+  private:
+    void predict();
+    void update(cv::Point2f measured_pose);
+    void resetFilter();
+    void resetLastPose();
+    cv::Point2f object_pose_;
+    cv::Point2f predicted_pose_;
+    cv::Point2f predicted_velocity_;
+    cv::Point2f previous_pose_;
+    int counter_;
+    float weight_;
+
   protected:
+
     std::string name_;
 
     std::shared_ptr<IdentificationAlgorithm> identification_algorithm_;

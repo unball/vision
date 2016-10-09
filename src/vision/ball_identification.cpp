@@ -12,8 +12,6 @@ void BallIdentification::init(){
 
 void BallIdentification::run(){
     rgb_segmented_ = segmentation_algorithm_->getSegmentationRGBOutput();
-    cv::Mat rgb_output = VisionGUI::getInstance().getOutputRGBImage();
-    
     
     rgb_segmented_ipl_ = rgb_segmented_;
     cvFindContours(&rgb_segmented_ipl_, mem, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
@@ -22,7 +20,6 @@ void BallIdentification::run(){
     auto ball_pose = calcBallPose(largestContour);
     output_info_->object_pose[0] = ball_pose;
     
-    cv::circle(rgb_output, ball_pose, 10, cv::Scalar(255,0,0));
 }
 
 CvSeq* BallIdentification::findLargerBlob(CvSeq* contours){
@@ -49,5 +46,5 @@ cv::Point2f BallIdentification::calcBallPose(CvSeq* contour){
         return ballPose;
 
     }
-    return cv::Point2f();
+    return cv::Point2f(-1.0, -1.0);
 }
