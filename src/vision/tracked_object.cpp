@@ -15,9 +15,14 @@ TrackedObject::TrackedObject(std::string name)
     name_ = name;
 }
 
+std::vector<cv::Point2f> TrackedObject::getPositionVector(){
+    return position_;
+}
+
 void TrackedObject::runTracking()
 {
-    // Do something (...)
+    auto id_output = identification_algorithm_->getIdentificationOutput();
+
 }
 
 bool TrackedObject::isName(std::string name)

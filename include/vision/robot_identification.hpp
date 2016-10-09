@@ -7,6 +7,7 @@
 #include <vision/algorithm_factory.hpp>
 #include <vision/identification_algorithm.hpp>
 #include <vision/raw_image.hpp>
+#include <vision/vision_gui.hpp>
 
 class RobotIdentification : public IdentificationAlgorithm
 {
@@ -20,6 +21,7 @@ private:
     void find(cv::Mat input);
     void identify(std::vector<cv::Point> contour, int index);
     void findOrientation(cv::Mat mask);
+    void draw(cv::Rect rect);
     
     std::vector<cv::Rect> robots_;
     std::vector<cv::Point2f> robots_coord_;

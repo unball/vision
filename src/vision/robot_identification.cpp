@@ -64,7 +64,8 @@ void RobotIdentification::find(cv::Mat input){
         if (newboundingRect.area() > area_)
         {
             identify(newcontours[i], robot_index);
-            cv::rectangle(mask, newboundingRect, cv::Scalar(133,133,133),3, 8,0); 
+            cv::rectangle(mask, newboundingRect, cv::Scalar(133, 133, 133), 3, 8, 0); 
+            draw(newboundingRect);
         }
     }
 
@@ -80,12 +81,25 @@ void RobotIdentification::find(cv::Mat input){
     }
 }
 
+void RobotIdentification::draw(cv::Rect rect){
+    auto rgb_output = VisionGUI::getInstance().getOutputRGBImage();
+   
+    if (arguments_ == "Yellow")
+        cv::rectangle(rgb_output, rect, cv::Scalar(0, 133, 133), 3, 8, 0); 
+    else if (arguments_ == "Blue")
+        cv::rectangle(rgb_output, rect, cv::Scalar(133, 0, 133), 3, 8, 0); 
+    else
+        ROS_ERROR("[ROBOT IDENTIFICATION] BAD COLOR CONFIGURATION");
+}
+
 void RobotIdentification::identify(std::vector<cv::Point> contour, int index){
     auto robots = robots_; 
     cv::Moments moments;
     moments = cv::moments(contour, true);
-    auto robot_pose_ = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
-    robots_coord_[index] = robot_pose_;
+    auto robot_pose = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
+    
+
+    robots_coord_[index] = robot_pose;
 }
 
 void RobotIdentification::findOrientation(cv::Mat input){
