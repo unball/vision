@@ -15,10 +15,13 @@
 
 #include <vector>
 #include <memory>
+#include <string>
+#include <unordered_map>
 
 #include <ros/ros.h>
 
 #include <vision/tracked_object.hpp>
+#include <vision/tracking_output.hpp>
 
 class Tracker
 {
@@ -28,6 +31,8 @@ class Tracker
     void runTracking();
 
     void addTrackedObject(std::shared_ptr<TrackedObject> obj);
+
+    std::unordered_map<std::string, TrackingOutput> getTrackerOutput();
 
   private:
     std::vector<std::shared_ptr<TrackedObject>> tracked_objects_;

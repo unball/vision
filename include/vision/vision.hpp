@@ -33,6 +33,8 @@ class Vision
     void setRawRGBImage(const cv::Mat &rgb_image);
     void setRawDepthImage(const cv::Mat &depth_image);
 
+    std::unordered_map<std::string, TrackingOutput> getVisionOutput();
+
   private:
     Vision();
 

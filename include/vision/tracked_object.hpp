@@ -28,6 +28,7 @@ class TrackedObject
     void runTracking();
 
     bool isName(std::string name);
+    std::string getName();
 
     void setIdentificationAlgorithm(std::shared_ptr<IdentificationAlgorithm> id_alg);
 

@@ -116,5 +116,30 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
 void publishVisionMessage(ros::Publisher &publisher)
 {
     vision::VisionMessage message;
+    auto vision_output = Vision::getInstance().getVisionOutput();
+    if (vision_output.find("ball") != vision_output.end())
+    {
+        message.ball_x = vision_output["ball"].positions[0].x;
+        message.ball_y = vision_output["ball"].positions[0].y;
+    }
+    int robot_counter = 0;
+    if (vision_output.find("our_robots") != vision_output.end())
+    {
+        for (int i = 0; i < vision_output["our_robots"].positions.size(); ++i)
+        {
+            message.x[robot_counter] = vision_output["our_robots"].positions[i].x;
+            message.y[robot_counter] = vision_output["our_robots"].positions[i].y;
+            robot_counter++;
+        }
+    }
+    if (vision_output.find("opponent_robots") != vision_output.end())
+    {
+        for (int i = 0; i < vision_output["opponent_robots"].positions.size(); ++i)
+        {
+            message.x[robot_counter] = vision_output["opponent_robots"].positions[i].x;
+            message.y[robot_counter] = vision_output["opponent_robots"].positions[i].y;
+            robot_counter++;
+        }
+    }
     publisher.publish(message);
 }

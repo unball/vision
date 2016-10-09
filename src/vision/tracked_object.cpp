@@ -30,6 +30,11 @@ bool TrackedObject::isName(std::string name)
     return name == name_;
 }
 
+std::string TrackedObject::getName()
+{
+    return name_;
+}
+
 void TrackedObject::setIdentificationAlgorithm(std::shared_ptr<IdentificationAlgorithm> id_alg)
 {
     identification_algorithm_ = id_alg;

@@ -84,3 +84,8 @@ bool Vision::isValidSize(const cv::Mat &img)
 {
     return not (img.rows == 0 or img.cols == 0);
 }
+
+std::unordered_map<std::string, TrackingOutput> Vision::getVisionOutput()
+{
+    return Tracker::getInstance().getTrackerOutput();
+}
