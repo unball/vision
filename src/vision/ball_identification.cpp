@@ -38,8 +38,12 @@ CvSeq* BallIdentification::findLargerBlob(CvSeq* contours){
 }
 
 cv::Point2f BallIdentification::calcBallPose(CvSeq* contour){
-    CvMoments moments;
-    cvMoments(contour, &moments);
-    cv::Point2f ballPose =  cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
-    return ballPose;
+    if (contour != NULL)
+    {
+        CvMoments moments;
+        cvMoments(contour, &moments);
+        cv::Point2f ballPose =  cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
+        return ballPose;
+    }
+    return cv::Point2f();
 }
