@@ -51,6 +51,7 @@ add_executable(vision_node
   src/vision/vision.cpp
   src/vision/algorithm.cpp
   src/vision/algorithm_factory.cpp
+  src/vision/ball_identification.cpp
   src/vision/ball_in_range_color_segmentation.cpp
   src/vision/config_parser.cpp
   src/vision/dummy_identification_algorithm.cpp

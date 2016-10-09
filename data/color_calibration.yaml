@@ -1,5 +1,4 @@
 %YAML:1.0
-<<<<<<< Updated upstream
 Orange: !!opencv-matrix
    rows: 2
    cols: 3

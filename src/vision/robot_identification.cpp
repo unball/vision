@@ -25,7 +25,7 @@ void RobotIdentification::init(){
 
 }
 
-void RobotIdentification::find_depth(cv::Mat input){
+void RobotIdentification::find(cv::Mat input){
     cv::Mat depth_input = input;
     cv::Mat rgb_input = rgb_input_;
 

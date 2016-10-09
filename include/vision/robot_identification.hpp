@@ -17,7 +17,7 @@ public:
 
 private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
-    void find_depth(cv::Mat input);
+    void find(cv::Mat input);
     void identify(cv::Mat rgb_input);
     std::vector<cv::Rect> robots_;
 

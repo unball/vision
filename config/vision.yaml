@@ -2,19 +2,19 @@ vision:
     calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
-        calibrate_team_color: true
+        calibrate_team_color: false
     
     team:
       allies: "blue"
 
     object_list:
-     # - "ball"
-     - "our_robots"
-     - "opponent_robots"
+     - "ball"
+     # - "our_robots"
+     # - "opponent_robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "BallIdentification"
 
     our_robots:
       segmentation_algorithm: "FindRobotsColor"
