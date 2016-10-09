@@ -15,7 +15,7 @@ class BallIdentification : public IdentificationAlgorithm
     void init();
   private:
     CvSeq* findLargerBlob(CvSeq* contours);
-    cv::Point2f ballPose(CvSeq* contours);
+    cv::Point2f calcBallPose(CvSeq* contours);
     REGISTER_ALGORITHM_DEC(BallIdentification);
     cv::Mat rgb_segmented_;
     IplImage rgb_segmented_ipl_;
