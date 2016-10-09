@@ -119,8 +119,11 @@ void publishVisionMessage(ros::Publisher &publisher)
     auto vision_output = Vision::getInstance().getVisionOutput();
     if (vision_output.find("ball") != vision_output.end())
     {
-        message.ball_x = vision_output["ball"].positions[0].x;
-        message.ball_y = vision_output["ball"].positions[0].y;
+        for (int i = 0; i < vision_output["ball"].positions.size(); ++i)
+        {
+            message.ball_x = vision_output["ball"].positions[i].x;
+            message.ball_y = vision_output["ball"].positions[i].y;
+        }
     }
     int robot_counter = 0;
     if (vision_output.find("our_robots") != vision_output.end())
