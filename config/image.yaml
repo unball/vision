@@ -1,3 +1,3 @@
 image:
     using_rgb: true
-    using_depth: true
+    using_depth: false

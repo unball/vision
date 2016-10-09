@@ -5,7 +5,6 @@ REGISTER_ALGORITHM_DEF(RobotIdentification);
 void RobotIdentification::run(){
     rgb_input_ = segmentation_algorithm_->getSegmentationRGBOutput();
     RawImage::getInstance().getRawRGBImage().copyTo(rgb_input_);
-    cv::Mat input = depth_input_;
     cv::Mat rgb_input = rgb_input_;
     
     find(rgb_input_);
@@ -14,6 +13,16 @@ void RobotIdentification::run(){
 }
 
 void RobotIdentification::init(){
+    auto sourceDir = ros::package::getPath("vision").append("/data/");
+    auto filename = "color_calibration.yaml";
+
+    colorReader_ = cv::FileStorage(sourceDir+filename,cv::FileStorage::READ);
+    if (colorReader_.isOpened())
+    {
+        colorReader_["Blue"] >> blue_mat_;
+        colorReader_["Yellow"] >> yellow_mat_;
+    }
+
 }
 
 void RobotIdentification::find(cv::Mat input){
@@ -75,7 +84,6 @@ void RobotIdentification::find(cv::Mat input){
                 {
                 robots_.push_back(newboundingRect);
                 cv::rectangle(input, newboundingRect, cv::Scalar(133,133,133),3, 8,0); 
-                cv::rectangle(rgb_input, newboundingRect, cv::Scalar(255,255,255),3, 8,0);      
                 }
             }
         }
@@ -84,7 +92,6 @@ void RobotIdentification::find(cv::Mat input){
         if (input.rows > 0 and input.cols > 0)
         {
             cv::imshow("white image", input);
-            cv::imshow("rgb white image", rgb_input);
             if (cv::waitKey(30) == 'w'){
                 cv::destroyWindow("white image");
                 hasclosed_ = true;  
@@ -95,17 +102,15 @@ void RobotIdentification::find(cv::Mat input){
 
 void RobotIdentification::identify(cv::Mat rgb_input){
     auto robots = robots_;
+    std::vector<char> teams;
 
-    
-    if (cv::waitKey(30) == 'b')
-    {
-        
-    }
 
     for (int i = 0; i < robots.size(); ++i)
     {
-        int x = (robots[i].width/2) + robots[i].x; 
-        int y = (robots[i].height/2) + robots[i].y;
-        
+        cv::Mat robotROI = rgb_input(robots[i]);
+        cv::imshow("window", robotROI);
+        cv::waitKey(1);
+
     }
+
 }

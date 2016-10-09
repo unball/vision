@@ -1,24 +1,24 @@
-#include <vision/findrobots.hpp>
+#include <vision/find_robots_by_depth.hpp>
 
-REGISTER_ALGORITHM_DEF(FindRobots);
+REGISTER_ALGORITHM_DEF(FindRobotsDepth);
 
-void FindRobots::run(){
+void FindRobotsDepth::run(){
     RawImage::getInstance().getRawDepthImage().copyTo(input_);
     RawImage::getInstance().getRawRGBImage().copyTo(rgb_input_);
     cv::Mat upperPoints = preProcessor(input_);
-    find(upperPoints);
+    find_depth(upperPoints);
     output_depth_image_ = depth_to_pub_;
     output_rgb_image_ = rgb_input_;
 }
 
-void FindRobots::init(){
+void FindRobotsDepth::init(){
     cv::namedWindow(window_name_);
     cv::createTrackbar("Canny Thresh 1", window_name_, &cannythresh1_, 100);
     cv::createTrackbar("Canny Thresh 2", window_name_, &cannythresh2_, 300);
 
 }
 
-cv::Mat FindRobots::preProcessor(cv::Mat input){
+cv::Mat FindRobotsDepth::preProcessor(cv::Mat input){
     cv::Mat cannyMat;
     
     cv::cvtColor(input, input, CV_BGR2HSV);
@@ -42,13 +42,13 @@ cv::Mat FindRobots::preProcessor(cv::Mat input){
     return cannyMat;
 }
 
-void FindRobots::find(cv::Mat input){
+void FindRobotsDepth::find_depth(cv::Mat input){
     cv::Mat upperPoints =  input;
     extractPoints(upperPoints);
 
 }
 
-void FindRobots::extractPoints(cv::Mat& upperPoints){
+void FindRobotsDepth::extractPoints(cv::Mat& upperPoints){
     auto color = cv::Scalar::all(0);
     cv::drawContours(upperPoints, contours_, -1, color, 6, 10, hierarchy_);
     int const max_kernel_size = 21;

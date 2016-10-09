@@ -1,28 +1,16 @@
 %YAML:1.0
-<<<<<<< Updated upstream
 Orange: !!opencv-matrix
-   rows: 1
+   rows: 2
    cols: 3
    dt: i
-   data: [ 74, 0, 0 ]
-Blue: !!opencv-matrix
-   rows: 1
-   cols: 3
-   dt: i
-   data: [ 74, 0, 0 ]
+   data: [ 0, 99, 244, 17, 256, 256 ]
 Yellow: !!opencv-matrix
-   rows: 1
+   rows: 2
    cols: 3
    dt: i
-   data: [ 74, 0, 0 ]
-=======
-Blue:
-   Min: [ 0., 0., 0., 0. ]
-   Max: [ 0., 0., 0., 0. ]
-Yellow:
-   Min: [ 0., 0., 0., 0. ]
-   Max: [ 0., 0., 0., 0. ]
-Orange:
-   Min: [ 0., 0., 0., 0. ]
-   Max: [ 0., 0., 0., 0. ]
->>>>>>> Stashed changes
+   data: [ 26, 0, 254, 43, 256, 254 ]
+Blue: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 100, 119, 154, 114, 160, 256 ]

@@ -12,7 +12,7 @@ VisionGUI& VisionGUI::getInstance()
 VisionGUI::VisionGUI()
 {
     cv::namedWindow(OUTPUT_RGB_IMAGE_NAME);
-    cv::namedWindow(OUTPUT_DEPTH_IMAGE_NAME);
+    //cv::namedWindow(OUTPUT_DEPTH_IMAGE_NAME);
     ros::param::get("/image/using_rgb", using_rgb_);
     ros::param::get("/image/using_depth", using_depth_);
 }
