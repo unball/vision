@@ -6,6 +6,7 @@ void BallIdentification::init(){
     storage = cvCreateMemStorage(0);
     mem = cvCreateMemStorage(0);
     contours = 0;
+    output_info_ = std::make_shared<IdentificationOutput>();
 }
 
 void BallIdentification::run(){
@@ -18,7 +19,7 @@ void BallIdentification::run(){
     cvFindContours(&rgb_segmented_ipl_, mem, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
     
     CvSeq* largestContour = findLargerBlob(contours);
-    auto ballPose_ = ballPose(largestContour);
+    output_info_->object_center =  calcBallPose(largestContour);
 }
 
 CvSeq* BallIdentification::findLargerBlob(CvSeq* contours){
@@ -36,9 +37,13 @@ CvSeq* BallIdentification::findLargerBlob(CvSeq* contours){
     return largest_contour;
 }
 
-cv::Point2f BallIdentification::ballPose(CvSeq* contour){
-    CvMoments moments;
-    cvMoments(contour, &moments);
-    cv::Point2f ballPose =  cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
-    return ballPose;
+cv::Point2f BallIdentification::calcBallPose(CvSeq* contour){
+    if (contour != NULL)
+    {
+        CvMoments moments;
+        cvMoments(contour, &moments);
+        cv::Point2f ballPose =  cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
+        return ballPose;
+    }
+    return cv::Point2f();
 }

@@ -19,7 +19,7 @@ vision:
     our_robots:
       segmentation_algorithm: "FindRobotsColor"
       segmentation_arguments: "Yellow"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "RobotIdentification"
 
     opponent_robots:
       segmentation_algorithm: "FindRobotsColor"

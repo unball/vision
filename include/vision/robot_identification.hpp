@@ -18,21 +18,19 @@ public:
 private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
     void find(cv::Mat input);
-    void identify(cv::Mat rgb_input);
+    void identify();
+    void findOrientation(cv::Mat mask);
+    
     std::vector<cv::Rect> robots_;
+    std::vector<cv::Point> coord_;
 
-    cv::Mat segmentedImage_;
-    cv::FileStorage colorReader_;
-    cv::Mat blue_mat_;
-    cv::Mat yellow_mat_;
+    cv::Mat mask_;
 
-    cv::Mat blueMask_;
-    cv::Mat yellowMask_;
-
-    cv::Mat rgb_input_;
-    cv::Mat depth_input_;
     std::vector<std::vector<cv::Point>> contours_;
     std::vector<cv::Vec4i> hierarchy_;
+
+    std::string window_name_;
+
     cv::string allies_;
     cv::string enemies_;
 

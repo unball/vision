@@ -7,7 +7,7 @@ struct IdentificationOutput
 {
     /* Put any information needed here. */
 
-    cv::Point object_center;
+    cv::Point2f object_center;
 };
 
 #endif // VISION_IDENTIFICATION_OUTPUT_H_

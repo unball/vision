@@ -33,7 +33,7 @@ void FindRobotsColor::preProcessor(cv::Mat input){
                     cv::Scalar(yellow_mat_.at<int>(1,0), yellow_mat_.at<int>(1,1), yellow_mat_.at<int>(1,2)),
                     mask_);
         applyMorfology();
-        cv::imshow("Blue", mask_);
+        cv::imshow("Yellow", mask_);
     }
     else if (arguments_ == "Blue")
     {
@@ -42,7 +42,7 @@ void FindRobotsColor::preProcessor(cv::Mat input){
                     cv::Scalar(blue_mat_.at<int>(1,0), blue_mat_.at<int>(1,1), blue_mat_.at<int>(1,2)),
                     mask_);
         applyMorfology();
-        cv::imshow("Yellow", mask_);
+        cv::imshow("Blue", mask_);
     }
     else{
         ROS_ERROR("[FIND ROBOTS] COLOR BAD DEFINITION");
@@ -56,11 +56,11 @@ void FindRobotsColor::preProcessor(cv::Mat input){
 
 void FindRobotsColor::applyMorfology(){
     cv::Mat element2 = getStructuringElement( cv::MORPH_RECT,
-                                       cv::Size( 2*erosion_size2 + 1, 2*erosion_size2+1 ),
+                                       cv::Size( erosion_size2 + 1, erosion_size2+1 ),
                                        cv::Point( erosion_size2, erosion_size2 ) );
     cv::erode(mask_, mask_, element2);
-    cv::dilate(mask_, mask_, element2);
-    cv::dilate(mask_, mask_, element2);
+    // cv::dilate(mask_, mask_, element2);
+    // cv::dilate(mask_, mask_, element2);
 
 }
 
