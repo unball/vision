@@ -34,7 +34,7 @@ Vision::Vision()
  */
 void Vision::run()
 {
-    if (has_received_all_images_)
+    if (has_received_first_rgb_image_)
     {
         Segmenter::getInstance().runSegmentationAlgorithms();
         Identifier::getInstance().runIdentificationAlgorithms();

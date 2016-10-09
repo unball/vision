@@ -7,6 +7,7 @@
 #include <calibration/matching.hpp>
 #include <calibration/select_field.hpp>
 #include <calibration/depth_fix.hpp>
+#include <calibration/color_calibration.hpp>
 
 image_transport::Subscriber rgb_sub, depth_sub;
 image_transport::Publisher rgb_pub, depth_pub;
@@ -20,7 +21,7 @@ void depthSetup(image_transport::ImageTransport &it);
 void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
 void receiveDepthFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishFrames();
-void showFrames(cv::Mat rgb_frame_, cv::Mat depth_frame_);
+void showFrames(cv::Mat rgb_frame_);
 bool isImageValid(cv::Mat image);
 
 int main(int argc, char **argv)
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
     std::string rgb_match_name = "RGB Calibration matching";
     std::string depth_match_name = "Depth Calibration matching";
     std::string rgb_select_name = "RGB Calibration";
+    std::string depth_select_name = "Depth Calibration";
 
     ros::init(argc, argv, "calibration_node");
     ros::NodeHandle node_handle;
@@ -40,8 +42,9 @@ int main(int argc, char **argv)
     // Set loop rate
     ros::Rate loop_rate(30);
 
-    Matching matcher(rgb_match_name, depth_match_name);
-    SelectField selecter(rgb_select_name);
+    SelectField selecter(rgb_select_name, true);
+    SelectField selecter_depth(depth_select_name, false);
+    ColorCalibration color_calib;
     DepthFix depth_fixer;
 
     bool selecterstarted = false;
@@ -50,39 +53,48 @@ int main(int argc, char **argv)
 
     cv::Mat rgb_fixed;
     cv::Mat depth_fixed;
+    bool showframes = true;
 
     while (ros::ok())
     {
         ros::spinOnce();
         loop_rate.sleep();
 
-        if (not isImageValid(rgb_frame.image) or not isImageValid(depth_frame.image))
+        if (not isImageValid(rgb_frame.image))
             continue;
 
-        if(not matcher.isDone()){
-            depth_fixed = depth_fixer.fix(depth_frame.image);
-            matcher.showFrames(rgb_frame.image, depth_fixed);
-            matcher.run();
-        }
-        else if (not selecterstarted){
+        if (not selecterstarted){
             selecter.start();
+            selecter_depth.start();
             selecterstarted = true;
         }
-        else if (not selecter.isDone()){
-           selecter.showFrame(rgb_frame.image);
-           selecter.run();
+        else if (not selecter.isDone() || not selecter_depth.isDone()){
+            if (not selecter.isDone())
+            {
+                selecter.showFrame(rgb_frame.image);
+                selecter.run();
+            }
         }
         else{
             /*At this point all clicks must be done*/
 
-            matcher.match(depth_frame.image);
             rgb_fixed = selecter.warp(rgb_frame.image);
-            depth_fixed = depth_fixer.fix(depth_frame.image);
 
-            rgb_frame_to_pub.image = rgb_fixed;
-            depth_frame_to_pub.image = depth_fixed;
 
-            showFrames(rgb_fixed, depth_fixed);
+            color_calib.calibrate(rgb_fixed);
+            rgb_frame_to_pub.image = color_calib.getRGBCalibrated();
+            
+            if (showframes)
+                showFrames(rgb_fixed);
+
+            if (cv::waitKey(30) == 'c')
+            {
+                cv::destroyWindow("Calibrated RGB frame");
+                showframes = false;                
+            }
+
+            if (showframes)
+                showFrames(rgb_fixed);
             publishFrames();
         }
     }
@@ -109,7 +121,8 @@ void depthSetup(image_transport::ImageTransport &it) {
         depth_sub = it.subscribe("/camera/depth/image", 1, receiveDepthFrame);
         depth_pub = it.advertise("/camera/depth/image_calibrated", 1);
         depth_frame.encoding = sensor_msgs::image_encodings::TYPE_32FC1;
-        depth_frame_to_pub.encoding = sensor_msgs::image_encodings::TYPE_8UC1;
+        
+        depth_frame_to_pub.encoding = sensor_msgs::image_encodings::TYPE_8UC3;
     }
 }
 
@@ -146,7 +159,6 @@ void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
     }
 
     depth_frame.image = cv_ptr->image;
-    depth_frame_to_pub.image = cv_ptr->image;
 }
 
 void publishFrames() {
@@ -157,14 +169,12 @@ void publishFrames() {
         depth_pub.publish(depth_frame_to_pub.toImageMsg());
 }
 
-void showFrames(cv::Mat rgb_frame_, cv::Mat depth_frame_) {
+void showFrames(cv::Mat rgb_frame_) {
     if (using_rgb and not (rgb_frame_.rows == 0 or rgb_frame_.cols == 0))
         cv::imshow("Calibrated RGB frame", rgb_frame_);
 
-    if (using_depth and not (depth_frame.image.rows == 0 or depth_frame.image.cols == 0))
-        cv::imshow("Calibrated Depth frame", depth_frame_);
-
-    cv::waitKey(1);
+    //if (using_depth and not (depth_frame.image.rows == 0 or depth_frame.image.cols == 0))
+    //    cv::imshow("Calibrated Depth frame", depth_frame_);
 }
 
 bool isImageValid(cv::Mat image) {
