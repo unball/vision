@@ -6,7 +6,6 @@
 struct IdentificationOutput
 {
     /* Put any information needed here. */
-;
     std::vector<cv::Point2f> object_pose;
 };
 

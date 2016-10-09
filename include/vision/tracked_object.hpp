@@ -31,13 +31,14 @@ class TrackedObject
 
     void setIdentificationAlgorithm(std::shared_ptr<IdentificationAlgorithm> id_alg);
 
+    std::vector<cv::Point2f> getPositionVector();
+
   protected:
     std::string name_;
 
     std::shared_ptr<IdentificationAlgorithm> identification_algorithm_;
 
-    cv::Point position_;
-    float orientation_;
+    std::vector<cv::Point2f> position_;
 };
 
 #endif // VISION_TRACKED_OBJECT_H_
