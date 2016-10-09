@@ -3,5 +3,5 @@
   <rosparam command="load" file="$(find vision)/config/image.yaml"/>
   <include file="$(find freenect_launch)/launch/freenect.launch" />
   <node name="calibration_node" pkg="vision" type="calibration_node" output="screen"/>
-  <!-- <node name="vision_system" pkg="vision" type="vision_node" output="screen"/> -->
+  <node name="vision_system" pkg="vision" type="vision_node" output="screen"/> 
 </launch>

@@ -1,17 +1,17 @@
 %YAML:1.0
-<<<<<<< Updated upstream
 Orange: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 0, 99, 244, 17, 256, 256 ]
+   data: [ 0, 254, 253, 5, 256, 256 ]
 Yellow: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 26, 0, 254, 43, 256, 254 ]
+   data: [ 3, 255, 253, 35, 256, 256 ]
 Blue: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 100, 119, 154, 114, 160, 256 ]
+   data: [ 100, 246, 255, 113, 256, 256 ]
+HDR: 160

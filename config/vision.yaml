@@ -2,7 +2,7 @@ vision:
     calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
-        calibrate_team_color: true
+        calibrate_team_color: false
     
     team:
       allies: "blue"
@@ -19,7 +19,7 @@ vision:
     our_robots:
       segmentation_algorithm: "FindRobotsColor"
       segmentation_arguments: "Yellow"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "RobotIdentification"
 
     opponent_robots:
       segmentation_algorithm: "FindRobotsColor"
