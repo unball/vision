@@ -19,6 +19,9 @@ ColorCalibration::ColorCalibration(){
     ros::param::get("/vision/calibration/calibrate_team_color", calibrate_);
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
+    colorHandler_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
+    hdr_ = (int)colorHandler_["HDR"];
+    ROS_INFO_STREAM(hdr_);
 
     if (calibrate_)
     {
@@ -34,11 +37,9 @@ ColorCalibration::ColorCalibration(){
         cv::namedWindow(window_name_HDR_);
         cv::createTrackbar("HDR", window_name_HDR_, &hdr_, 300);
         //save previous parameters
-        colorHandler_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
-        old_blue = colorHandler_["Blue"];
-        old_yellow = colorHandler_["Yellow"];
-        old_orange = colorHandler_["Orange"];
-        
+        colorHandler_["Blue"] >> old_blue;
+        colorHandler_["Yellow"] >> old_yellow;
+        colorHandler_["Orange"] >> old_orange;
         //set file calibration to save HSV values
         colorManager_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::WRITE);
     }
@@ -48,46 +49,25 @@ ColorCalibration::ColorCalibration(){
 }
 
 ColorCalibration::~ColorCalibration(){
-    if (calibrate_)
+    if (calibrate_){
         if (not is_blue_saved_)
-        {
-            cv::FileNodeIterator it = old_blue.begin();
-            cv::Scalar min = (cv::Scalar)(*it)["Min"];
-            cv::Scalar max = (cv::Scalar)(*it)["Max"];
-            colorManager_ << "Blue";
-            colorManager_ << "{" << "Min" << min;
-            colorManager_        << "Max" << max;
-            colorManager_ << "}";
-        }
+            colorManager_ << "Blue" << old_blue;
         if (not is_yellow_saved_)
-        {
-            cv::FileNodeIterator it = old_yellow.begin();
-            cv::Scalar min = (cv::Scalar)(*it)["Min"];
-            cv::Scalar max = (cv::Scalar)(*it)["Max"];
-            colorManager_ << "Yellow";
-            colorManager_ << "{" << "Min" << min;
-            colorManager_        << "Max" << max;
-            colorManager_ << "}";
-        }
-        if(not is_orange_saved_){
-            cv::FileNodeIterator it = old_orange.begin();
-            cv::Scalar min = (cv::Scalar)(*it)["Min"];
-            cv::Scalar max = (cv::Scalar)(*it)["Max"];
-            colorManager_ << "Orange";
-            colorManager_ << "{" << "Min" << min;
-            colorManager_        << "Max" << max;
-            colorManager_ << "}";
-        }
-        colorHandler_.release();
+            colorManager_ << "Yellow" << old_yellow;
+        if(not is_orange_saved_)
+            colorManager_ << "Orange" << old_orange;
+        colorManager_ << "HDR" << hdr_;
         colorManager_.release();
+    }
+    colorHandler_.release();
 }
 
 void ColorCalibration::calibrate(cv::Mat rgb_input){
+    equalizeIntensity(rgb_input);
+    gammaCorrection(rgb_input);
     if (calibrate_)
     {
-        equalizeIntensity(rgb_input);
-        gammaCorrection(rgb_input);
-        cv::imshow("Color changed", rgb_input);
+        cv::imshow(window_name_HDR_, rgb_input);
         cv::waitKey(1);
         if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_)
             cv::destroyWindow(window_name_);

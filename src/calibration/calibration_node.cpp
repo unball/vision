@@ -80,13 +80,18 @@ int main(int argc, char **argv)
 
             rgb_fixed = selecter.warp(rgb_frame.image);
 
+
+            color_calib.calibrate(rgb_fixed);
+            rgb_frame_to_pub.image = color_calib.getRGBCalibrated();
+            
+            if (showframes)
+                showFrames(rgb_fixed);
+
             if (cv::waitKey(30) == 'c')
             {
                 cv::destroyWindow("Calibrated RGB frame");
                 showframes = false;                
             }
-            color_calib.calibrate(rgb_fixed);
-            rgb_frame_to_pub.image = color_calib.getRGBCalibrated();
 
             if (showframes)
                 showFrames(rgb_fixed);

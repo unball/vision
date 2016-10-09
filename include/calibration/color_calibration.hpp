@@ -18,7 +18,7 @@ class ColorCalibration
     void save(std::string);
     void gammaCorrection(cv::Mat& rgb_input);
     void equalizeIntensity(cv::Mat& rgb_input);
-    cv::FileNode old_blue, old_yellow, old_orange;
+    cv::Mat old_blue, old_yellow, old_orange;
     cv::Mat rgb_calibrated_;
 
     int hsv_min_h_, hsv_max_h_;
