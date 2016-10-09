@@ -21,7 +21,6 @@ private:
     void find(cv::Mat input);
     void identify(std::vector<cv::Point> contour, int index);
     void findOrientation(cv::Mat mask);
-    void draw(cv::Rect rect);
     
     std::vector<cv::Rect> robots_;
     std::vector<cv::Point2f> robots_coord_;

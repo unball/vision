@@ -59,8 +59,11 @@ void FindRobotsColor::applyMorfology(){
                                        cv::Size( erosion_size2 + 1, erosion_size2+1 ),
                                        cv::Point( erosion_size2, erosion_size2 ) );
     cv::erode(mask_, mask_, element2);
-    // cv::dilate(mask_, mask_, element2);
-    // cv::dilate(mask_, mask_, element2);
+    cv::erode(mask_, mask_, element2);
+    cv::dilate(mask_, mask_, element2);
+    cv::dilate(mask_, mask_, element2);
+    cv::dilate(mask_, mask_, element2);
+
 
 }
 

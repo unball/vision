@@ -3,14 +3,13 @@ vision:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
         calibrate_team_color: false
-    
     team:
       allies: "blue"
 
     object_list:
      - "ball"
      - "our_robots"
-     # - "opponent_robots"
+     - "opponent_robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
@@ -25,6 +24,6 @@ vision:
     opponent_robots:
       segmentation_algorithm: "FindRobotsColor"
       segmentation_arguments: "Blue"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "RobotIdentification"
       identification_arguments: "Blue"
 
