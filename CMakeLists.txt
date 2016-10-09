@@ -71,6 +71,12 @@ add_executable(vision_node
 add_dependencies(vision_node unball_gencpp)
 target_link_libraries(vision_node ${catkin_LIBRARIES})
 
+add_executable(camera
+  src/camera/camera.cpp)
+add_dependencies(camera unball_gencpp)
+target_link_libraries(camera ${catkin_LIBRARIES})
+
+
 add_executable(test_calibration
   src/test_calibration/test_calibration_node.cpp)
 add_dependencies(test_calibration unball_gencpp)
