@@ -89,11 +89,3 @@ void RobotIdentification::identify(std::vector<cv::Point> contour, int index){
 
     robots_coord_[index] = robot_pose;
 }
-
-void RobotIdentification::findOrientation(cv::Mat input){
-    auto robots = robots_;
-    cv::Mat mask = input;
-    std::vector<cv::Rect> little_ball;
-    std::vector<cv::Point> orientation;
-
-}

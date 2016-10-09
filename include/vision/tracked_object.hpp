@@ -16,10 +16,18 @@
 
 #include <string>
 #include <memory>
+#include <cmath>
 
 #include <opencv2/opencv.hpp>
 #include <vision/identification_algorithm.hpp>
 #include <vision/vision_gui.hpp>
+
+struct trackParams
+{
+    cv::Point2f predicted_velocity_ = cv::Point2f(0, 0);
+    cv::Point2f predicted_pose_ = cv::Point2f(320, 240);
+    cv::Point2f previous_pose_;
+};
 
 class TrackedObject
 {
@@ -35,14 +43,14 @@ class TrackedObject
     std::vector<cv::Point2f> getPositionVector();
 
   private:
-    void predict();
-    void update(cv::Point2f measured_pose);
-    void resetFilter();
-    void resetLastPose();
-    cv::Point2f object_pose_;
-    cv::Point2f predicted_pose_;
-    cv::Point2f predicted_velocity_;
-    cv::Point2f previous_pose_;
+    bool isOutOfLimits(cv::Point2f);
+    
+    void predict(trackParams *param);
+    void update(trackParams *param, cv::Point2f measured_pose);
+    void resetFilter(trackParams *param);
+    void resetLastPose(trackParams *param);
+    
+    std::vector<cv::Point2f> last_pose_vector_;
     int counter_;
     float weight_;
 

@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
     image_transport::ImageTransport it(nh); // Used to publish and subscribe to images.
     image_transport::Publisher rgb_pub = it.advertise("/camera/rgb/image_raw", 1);
     cv_bridge::CvImage rgb_frame;
-    cv::VideoCapture rgb_cap(1);
+    ROS_INFO("Argv %s", argv[1]);
+    cv::VideoCapture rgb_cap(atoi(argv[1]));
 
     if (!rgb_cap.isOpened())
     {
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
         rgb_pub.publish(rgb_frame.toImageMsg());
         ros::spinOnce();
         loop_rate.sleep();
+        // cv::imshow("RGB camera", rgb_frame.image);
+        // cv::waitKey(1);
     }
 
     return 0;

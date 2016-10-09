@@ -56,6 +56,7 @@ ColorCalibration::~ColorCalibration(){
             colorManager_ << "Yellow" << old_yellow;
         if(not is_orange_saved_)
             colorManager_ << "Orange" << old_orange;
+        
         colorManager_ << "HDR" << hdr_;
         colorManager_.release();
     }
@@ -108,6 +109,7 @@ void ColorCalibration::save(std::string color){
         is_yellow_saved_ = true;
     if (color == "Orange")
         is_orange_saved_ = true;
+
 }
 
 bool ColorCalibration::isCalibrated(){
