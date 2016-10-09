@@ -18,15 +18,13 @@ public:
 private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
     void find(cv::Mat input);
-    void identify();
+    void identify(std::vector<cv::Point> contour, int index);
     void findOrientation(cv::Mat mask);
     
     std::vector<cv::Rect> robots_;
-    std::vector<cv::Point> coord_;
-
+    std::vector<cv::Point2f> robots_coord_;
     cv::Mat mask_;
 
-    std::vector<std::vector<cv::Point>> contours_;
     std::vector<cv::Vec4i> hierarchy_;
 
     std::string window_name_;

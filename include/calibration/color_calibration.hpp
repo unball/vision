@@ -11,7 +11,7 @@ class ColorCalibration
   public:
     ColorCalibration();
     ~ColorCalibration();
-    void calibrate(cv::Mat rgb_input);
+    void calibrate(cv::Mat& rgb_input);
     cv::Mat getRGBCalibrated();
     bool isCalibrated();
  private:

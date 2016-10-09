@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 
 
             color_calib.calibrate(rgb_fixed);
-            rgb_frame_to_pub.image = color_calib.getRGBCalibrated();
+            rgb_frame_to_pub.image = rgb_fixed;
             
             if (showframes)
                 showFrames(rgb_fixed);

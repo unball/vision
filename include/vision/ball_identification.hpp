@@ -6,6 +6,7 @@
 #include <vision/algorithm_factory.hpp>
 #include <vision/identification_algorithm.hpp>
 #include <vision/raw_image.hpp>
+#include <vision/vision_gui.hpp>
 
 class BallIdentification : public IdentificationAlgorithm
 {

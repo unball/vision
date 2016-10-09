@@ -6,8 +6,8 @@
 struct IdentificationOutput
 {
     /* Put any information needed here. */
-
-    cv::Point2f object_center;
+;
+    std::vector<cv::Point2f> object_pose;
 };
 
 #endif // VISION_IDENTIFICATION_OUTPUT_H_

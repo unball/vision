@@ -62,7 +62,7 @@ ColorCalibration::~ColorCalibration(){
     colorHandler_.release();
 }
 
-void ColorCalibration::calibrate(cv::Mat rgb_input){
+void ColorCalibration::calibrate(cv::Mat& rgb_input){
     equalizeIntensity(rgb_input);
     gammaCorrection(rgb_input);
     if (calibrate_)
@@ -97,7 +97,6 @@ void ColorCalibration::calibrate(cv::Mat rgb_input){
             save("Orange");
         }
     }
-    rgb_calibrated_ = rgb_input;
 }
 
 void ColorCalibration::save(std::string color){

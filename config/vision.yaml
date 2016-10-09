@@ -9,7 +9,7 @@ vision:
 
     object_list:
      - "ball"
-     # - "our_robots"
+     - "our_robots"
      # - "opponent_robots"
 
     ball:

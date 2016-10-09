@@ -35,5 +35,4 @@ void BallInRangeColorSegmentation::run()
 
     cv::imshow(window_name_, mask);
     output_rgb_image_ = mask;
-    RawImage::getInstance().getRawDepthImage().copyTo(output_depth_image_);
 }

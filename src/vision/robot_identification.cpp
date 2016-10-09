@@ -7,14 +7,16 @@ void RobotIdentification::run(){
     cv::Mat mask = mask_;
     
     find(mask);
-    identify();
-    findOrientation(mask);
+    output_info_->object_pose = robots_coord_;
 }
 
 void RobotIdentification::init(){
+    robots_coord_ = std::vector<cv::Point2f>(3);
     window_name_ = segmentation_algorithm_->getFullName();
     cv::namedWindow(window_name_);
     cv::createTrackbar("Area", window_name_, &area_, 2000);
+    output_info_ = std::make_shared<IdentificationOutput>();
+
 }
 
 void RobotIdentification::find(cv::Mat input){
@@ -55,22 +57,17 @@ void RobotIdentification::find(cv::Mat input){
     cv::findContours(mask, newcontours, newhierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     auto color = cv::Scalar::all(255);
-    for (uint i = 0; i < newcontours.size(); ++i)
+    for (uint i = 0, robot_index = 0; i < newcontours.size() && robot_index < 3; ++i, robot_index++)
     {
         auto newboundingRect = cv::boundingRect(newcontours[i]);
 
         if (newboundingRect.area() > area_)
         {
-            cv::drawContours(mask, newcontours, i, color, 3, 8, newhierarchy);
-            float height = float(newboundingRect.height);
-            float width = float(newboundingRect.width);
-            int x = (newboundingRect.width/2) + newboundingRect.x;
-            int y = (newboundingRect.height/2) + newboundingRect.y;
-            float ratio = height/width;
-            robots_.push_back(newboundingRect);
+            identify(newcontours[i], robot_index);
             cv::rectangle(mask, newboundingRect, cv::Scalar(133,133,133),3, 8,0); 
         }
     }
+
     if (not hasclosed_){
         if (mask.rows > 0 and mask.cols > 0)
         {
@@ -83,16 +80,12 @@ void RobotIdentification::find(cv::Mat input){
     }
 }
 
-void RobotIdentification::identify(){
+void RobotIdentification::identify(std::vector<cv::Point> contour, int index){
     auto robots = robots_; 
-
-    for (int i = 0; i < robots.size(); ++i)
-    {
-        int x = (robots[i].width/2) + robots[i].x; 
-        int y = (robots[i].height/2) + robots[i].y;
-        coord_.push_back(cv::Point(x,y));
-    }
-
+    cv::Moments moments;
+    moments = cv::moments(contour, true);
+    auto robot_pose_ = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
+    robots_coord_[index] = robot_pose_;
 }
 
 void RobotIdentification::findOrientation(cv::Mat input){
