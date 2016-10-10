@@ -26,6 +26,10 @@ std::vector<cv::Point2f> TrackedObject::getPositionVector(){
     return position_;
 }
 
+std::vector<float> TrackedObject::getOrientationVector(){
+    return orientation_;    
+}
+
 void TrackedObject::runTracking()   
 {
     auto id_output = identification_algorithm_->getIdentificationOutput();
@@ -103,6 +107,13 @@ void TrackedObject::runTracking()
         }
     }
     position_ = last_pose_vector_;
+
+    std::vector<float> theta(last_pose_vector_.size());
+    for (int i = 0; i < last_pose_vector_.size(); ++i)
+        {
+            theta[i] = atan2(last_pose_vector_[i].y, last_pose_vector_[i].x);
+            orientation_.push_back(theta[i]);
+        }    
 }
 
 bool TrackedObject::isName(std::string name)

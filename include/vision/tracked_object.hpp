@@ -42,6 +42,7 @@ class TrackedObject
     void setIdentificationAlgorithm(std::shared_ptr<IdentificationAlgorithm> id_alg);
 
     std::vector<cv::Point2f> getPositionVector();
+    std::vector<float> getOrientationVector();
 
   private:
     bool isOutOfLimits(cv::Point2f);
@@ -64,6 +65,8 @@ class TrackedObject
     std::shared_ptr<IdentificationAlgorithm> identification_algorithm_;
 
     std::vector<cv::Point2f> position_;
+
+    std::vector<float> orientation_;
 };
 
 #endif // VISION_TRACKED_OBJECT_H_

@@ -35,6 +35,7 @@ std::unordered_map<std::string, TrackingOutput> Tracker::getTrackerOutput()
     {
         TrackingOutput tracking_output;
         tracking_output.positions = object->getPositionVector();
+        tracking_output.orientations = object->getOrientationVector();
         result[object->getName()] = tracking_output;
     }
     return result;
