@@ -41,7 +41,8 @@ void FindRobotsColor::preProcessor(cv::Mat input){
                     cv::Scalar(blue_mat_.at<int>(0,0), blue_mat_.at<int>(0,1), blue_mat_.at<int>(0,2)),
                     cv::Scalar(blue_mat_.at<int>(1,0), blue_mat_.at<int>(1,1), blue_mat_.at<int>(1,2)),
                     mask_);
-        applyMorfology();
+        //applyMorfology();
+
         cv::imshow("Blue", mask_);
     }
     else{
@@ -51,19 +52,17 @@ void FindRobotsColor::preProcessor(cv::Mat input){
 
     output_rgb_image_ = mask_;
 
-    cv::waitKey(1);
+    // cv::waitKey(1);
 }
 
 void FindRobotsColor::applyMorfology(){
     cv::Mat element2 = getStructuringElement( cv::MORPH_RECT,
-                                       cv::Size( erosion_size2 + 1, erosion_size2+1 ),
+                                       cv::Size(erosion_size2 + 1, erosion_size2+1 ),
                                        cv::Point( erosion_size2, erosion_size2 ) );
+    // cv::erode(mask_, mask_, element2);
+    cv::dilate(mask_, mask_, element2);
+    cv::dilate(mask_, mask_, element2);
     cv::erode(mask_, mask_, element2);
-    cv::erode(mask_, mask_, element2);
     cv::dilate(mask_, mask_, element2);
-    cv::dilate(mask_, mask_, element2);
-    cv::dilate(mask_, mask_, element2);
-
-
 }
 

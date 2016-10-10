@@ -9,10 +9,12 @@ void RobotIdentification::run(){
     find(mask);
 
     output_info_->object_pose = robots_coord_;
+    output_info_->object_orientation = robots_orientation_;
 }
 
 void RobotIdentification::init(){
     robots_coord_ = std::vector<cv::Point2f>(3);
+    robots_orientation_ = std::vector<cv::Point2f>(3);
     window_name_ = segmentation_algorithm_->getFullName();
     cv::namedWindow(window_name_);
     cv::createTrackbar("Area", window_name_, &area_, 2000);
@@ -21,7 +23,8 @@ void RobotIdentification::init(){
 }
 
 void RobotIdentification::find(cv::Mat input){
-    cv::Mat mask = input;
+    cv::Mat mask;
+    input.copyTo(mask);
 
     std::vector<std::vector<cv::Point>> newcontours;
     std::vector<cv::Vec4i> newhierarchy;
@@ -62,9 +65,12 @@ void RobotIdentification::find(cv::Mat input){
     {
         auto newboundingRect = cv::boundingRect(newcontours[i]);
 
-        if (newboundingRect.area() > area_)
+        if (newboundingRect.area() > 442)
         {
             identify(newcontours[i], robot_index);
+            cv::Mat roi;
+            input(newboundingRect).copyTo(roi);
+            findOrientation(roi, robot_index);
         }
     }
 
@@ -82,10 +88,56 @@ void RobotIdentification::find(cv::Mat input){
 
 
 void RobotIdentification::identify(std::vector<cv::Point> contour, int index){
-    auto robots = robots_; 
     cv::Moments moments;
     moments = cv::moments(contour, true);
     auto robot_pose = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
 
     robots_coord_[index] = robot_pose;
+}
+
+void RobotIdentification::findOrientation(cv::Mat mask, int index){
+    cv::Mat original;
+    mask.copyTo(original);
+    std::vector<cv::Vec4i> hierarchy;
+    std::vector<std::vector<cv::Point>> contours;
+    cv::Mat mask_inverted = cv::Mat();
+    
+    cv::Moments moments;
+    cv::Point2f robot_center;
+    cv::Point2f robot_id;
+    
+    cv::bitwise_not(mask, mask_inverted);
+    
+    float area = 0;
+    cv::findContours(mask, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    for (uint i = 0, robot_index = 0; i < contours.size() && robot_index < 3; ++i, robot_index++)
+    {
+        auto newboundingRect = cv::boundingRect(contours[i]);
+
+        if (newboundingRect.area() > area)
+        {
+            moments = cv::moments(contours[i], true);
+            robot_center = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
+            area = newboundingRect.area();
+        }
+    }
+    
+    cv::findContours(mask_inverted, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    area = 10000.0;
+    for (uint i = 0, robot_index = 0; i < contours.size() && robot_index < 3; ++i, robot_index++)
+    {
+        auto newboundingRect = cv::boundingRect(contours[i]);
+
+        if (newboundingRect.area() < area)
+        {
+            moments = cv::moments(contours[i], true);
+            robot_id = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
+            area = newboundingRect.area();
+        }
+    }
+     
+    auto orientation_vector = robot_id - robot_center;
+    cv::line(original, robot_center, robot_id, cv::Scalar(133,133,133));
+    cv::imshow("roi", original);
+    robots_orientation_[index] = orientation_vector;
 }

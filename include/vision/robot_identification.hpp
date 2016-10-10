@@ -20,10 +20,11 @@ private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
     void find(cv::Mat input);
     void identify(std::vector<cv::Point> contour, int index);
-    void findOrientation(cv::Mat mask);
+    void findOrientation(cv::Mat mask, int index);
     
     std::vector<cv::Rect> robots_;
     std::vector<cv::Point2f> robots_coord_;
+    std::vector<cv::Point2f> robots_orientation_;
     cv::Mat mask_;
 
     std::vector<cv::Vec4i> hierarchy_;
