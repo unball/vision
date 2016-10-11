@@ -33,6 +33,6 @@ void BallInRangeColorSegmentation::run()
 
     cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, elem);
 
-    // cv::imshow(window_name_, mask);
+    cv::imshow(window_name_, mask);
     output_rgb_image_ = mask;
 }

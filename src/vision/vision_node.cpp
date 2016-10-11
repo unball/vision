@@ -17,7 +17,8 @@
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
 #include <cv_bridge/cv_bridge.h>
-
+#include <time.h>
+#include <stdio.h>
 #include <vision/VisionMessage.h>
 
 #include <vision/vision.hpp>
@@ -32,8 +33,10 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
 void receiveDepthFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishVisionMessage(ros::Publisher &publisher);
 
+
 int main(int argc, char **argv)
 {
+    srand(time(NULL));
     ros::init(argc, argv, "vision_node");
     ros::NodeHandle node_handle;
     image_transport::ImageTransport img_transport(node_handle);
@@ -117,14 +120,12 @@ void publishVisionMessage(ros::Publisher &publisher)
 {
     vision::VisionMessage message;
     auto vision_output = Vision::getInstance().getVisionOutput();
-    if (vision_output.find("ball") != vision_output.end())
-    {
-        for (int i = 0; i < vision_output["ball"].positions.size(); ++i)
-        {
-            message.ball_x = vision_output["ball"].positions[i].x;
-            message.ball_y = vision_output["ball"].positions[i].y;
-        }
-    }
+    
+        
+            message.ball_x = rand()%640;
+            message.ball_y = rand()%240;
+    
+
     int robot_counter = 0;
     if (vision_output.find("our_robots") != vision_output.end())
     {

@@ -18,7 +18,7 @@ TrackedObject::TrackedObject(std::string name)
     weight_ = 0.3;
     last_pose_vector_ = std::vector<cv::Point2f>();
     last_orientation_vector_ = std::vector<cv::Point2f>();
-    cv::Scalar opponent_color_ = cv::Scalar(133, 0, 133);
+    cv::Scalar opponent_color_ = cv::Scalar(255, 255, 255);
 
 }
 
@@ -36,7 +36,6 @@ void TrackedObject::runTracking()
     auto pose_vector = id_output->object_pose;
     auto orientation_vector = id_output->object_orientation;
     cv::Mat rgb_output = VisionGUI::getInstance().getOutputRGBImage();
-        
     if (last_pose_vector_.size() == 0)
         last_pose_vector_ = pose_vector;
     if (last_orientation_vector_.size() == 0)
@@ -45,69 +44,72 @@ void TrackedObject::runTracking()
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
     std::vector<trackParams> params(last_pose_vector_.size());
-    
 
-    for (int j = 0; j < last_pose_vector_.size(); j++)
+    if (name_ != "ball")
     {
-        for (int i = 0; i < pose_vector.size(); i++)
+
+        for (int j = 0; j < last_pose_vector_.size(); j++)
         {
-            if (pose_vector[i].x != -1 && pose_vector[i].y != -1)
+            for (int i = 0; i < pose_vector.size(); i++)
             {
-                auto vector_ = cv::Point2f(last_pose_vector_[j].x - pose_vector[i].x, last_pose_vector_[j].y - pose_vector[i].y);
-                module[i] = sqrt(pow(vector_.x, 2) + pow(vector_.y, 2));
-                module_aux[i] = module[i];
+                if (pose_vector[i].x != -1 && pose_vector[i].y != -1)
+                {
+                    auto vector_ = cv::Point2f(last_pose_vector_[j].x - pose_vector[i].x, last_pose_vector_[j].y - pose_vector[i].y);
+                    module[i] = sqrt(pow(vector_.x, 2) + pow(vector_.y, 2));
+                    module_aux[i] = module[i];
+                }
+            }
+            auto minDist = *std::min_element(module_aux.begin(), module_aux.end());
+            for (int i = 0; i < module.size(); i++){
+                if(module[i] == minDist){
+                    last_pose_vector_[j] = pose_vector[i];
+                    last_orientation_vector_[j] = orientation_vector[i];
+                    module_aux[i] = 1000000;
+                    pose_vector[i] = cv::Point2f(-1, -1);
+                }
+            }
+
+            // if (last_pose_vector_[j].x != -1 || last_pose_vector_[j].y != -1)
+            // {
+            //     update(&params[j], last_pose_vector_[j]);
+            // }else
+            // {
+            //     counter_++;
+            //     predict(&params[j]);
+            //     if (counter_ > 15)
+            //     {
+            //         resetLastPose(&params[j]);
+            //         ROS_INFO("HERE");
+            //         counter_ = 0;
+            //     }
+
+            // }
+            // predict(&params[j]);
+
+            
+            if (name_ == "our_robots")
+            {
+                cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
+                cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
+                cv::Point end_vector = cv::Point(last_pose_vector_[j].x + last_orientation_vector_[j].x, 
+                                                last_pose_vector_[j].y + last_orientation_vector_[j].y);
+                cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 133, 203), 3, 8, 0); 
+            }
+            else if (name_ == "opponent_robots")
+            {   
+                cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
+                cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
+                cv::Point end_vector = cv::Point(last_pose_vector_[j].x + last_orientation_vector_[j].x, 
+                                                last_pose_vector_[j].y + last_orientation_vector_[j].y);
+                cv::rectangle(rgb_output, point1, point2,cv::Scalar(255, 133, 203), 3, 8, 0);
             }
         }
-        auto minDist = *std::min_element(module_aux.begin(), module_aux.end());
-        for (int i = 0; i < module.size(); i++){
-            if(module[i] == minDist){
-                last_pose_vector_[j] = pose_vector[i];
-                last_orientation_vector_[j] = orientation_vector[i];
-                module_aux[i] = 1000000;
-                pose_vector[i] = cv::Point2f(-1, -1);
-            }
-        }
-
-        // if (last_pose_vector_[j].x != -1 || last_pose_vector_[j].y != -1)
-        // {
-        //     update(&params[j], last_pose_vector_[j]);
-        // }else
-        // {
-        //     counter_++;
-        //     predict(&params[j]);
-        //     if (counter_ > 15)
-        //     {
-        //         resetLastPose(&params[j]);
-        //         ROS_INFO("HERE");
-        //         counter_ = 0;
-        //     }
-
-        // }
-        // predict(&params[j]);
-
-        if(name_ == "ball"){
-            cv::circle(rgb_output, last_pose_vector_[j], 10, cv::Scalar(255,0,0));
-        }else if (name_ == "our_robots")
-        {
-            cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
-            cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-            cv::Point end_vector = cv::Point(last_pose_vector_[j].x + last_orientation_vector_[j].x, 
-                                            last_pose_vector_[j].y + last_orientation_vector_[j].y);
-            cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 133, 133), 3, 8, 0); 
-            cv::line(rgb_output, point1, end_vector, opponent_color_, 2);
-        }
-        else if (name_ == "opponent_robots")
-        {   
-            cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
-            cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-            cv::Point end_vector = cv::Point(last_pose_vector_[j].x + last_orientation_vector_[j].x, 
-                                            last_pose_vector_[j].y + last_orientation_vector_[j].y);
-            cv::rectangle(rgb_output, point1, point2, opponent_color_, 3, 8, 0);
-            cv::line(rgb_output, point1, end_vector, opponent_color_, 2);
-        }
+    }else if (name_ == "ball")
+    {
+        cv::circle(rgb_output, pose_vector[0], 10, cv::Scalar(255,0,0));
     }
     position_ = last_pose_vector_;
-
+    
     std::vector<float> theta(last_pose_vector_.size());
     for (int i = 0; i < last_pose_vector_.size(); ++i)
         {

@@ -1,17 +1,17 @@
 %YAML:1.0
-Blue: !!opencv-matrix
-   rows: 0
-   cols: 0
-   dt: u
-   data: []
 Yellow: !!opencv-matrix
-   rows: 0
-   cols: 0
-   dt: u
-   data: []
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 3, 205, 236, 44, 256, 256 ]
+Blue: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 3, 205, 236, 74, 256, 226 ]
 Orange: !!opencv-matrix
-   rows: 0
-   cols: 0
-   dt: u
-   data: []
-HDR: 0
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 3, 205, 236, 74, 256, 226 ]
+HDR: 300

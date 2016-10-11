@@ -65,7 +65,7 @@ void RobotIdentification::find(cv::Mat input){
     {
         auto newboundingRect = cv::boundingRect(newcontours[i]);
 
-        if (newboundingRect.area() > 442)
+        if (newboundingRect.area() > area_)
         {
             identify(newcontours[i], robot_index);
             cv::Mat roi;
@@ -73,11 +73,9 @@ void RobotIdentification::find(cv::Mat input){
             findOrientation(roi, robot_index);
         }
     }
-
     if (not hasclosed_){
-        if (mask.rows > 0 and mask.cols > 0)
         {
-            cv::imshow(window_name_, mask);
+            cv::imshow(window_name_, input);
             if (cv::waitKey(30) == 'w'){
                 cv::destroyWindow(window_name_);
                 hasclosed_ = true;  
@@ -137,7 +135,5 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
     }
      
     auto orientation_vector = robot_id - robot_center;
-    cv::line(original, robot_center, robot_id, cv::Scalar(133,133,133));
-    cv::imshow("roi", original);
     robots_orientation_[index] = orientation_vector;
 }

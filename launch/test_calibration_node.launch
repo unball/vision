@@ -1,4 +1,4 @@
 <launch>
-  <include file="$(find freenect_launch)/launch/freenect.launch" />
+  <node name="dummy_camera" pkg="vision" type="dummy_camera" output="screen" args="$(find vision)/data/rgb_video.avi"/>
   <node name="test_calibration_node" pkg="vision" type="test_calibration" output="screen"/>
 </launch>
