@@ -167,9 +167,3 @@ bool TrackedObject::isOutOfLimits(cv::Point2f position)
     else 
         return false;
 }
-
-
-std::string TrackedObject::getName()
-{
-    return name_;
-}

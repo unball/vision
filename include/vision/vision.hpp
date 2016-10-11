@@ -36,9 +36,6 @@ class Vision
     
     std::unordered_map<std::string, TrackingOutput> getVisionOutput();
 
-
-    std::unordered_map<std::string, TrackingOutput> getVisionOutput();
-
   private:
     Vision();
 
