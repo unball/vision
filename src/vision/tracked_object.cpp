@@ -107,10 +107,8 @@ void TrackedObject::runTracking()
         for (int i = 0; i < last_pose_vector_.size(); ++i)
         {
             theta[i] = atan2(last_pose_vector_[i].y, last_pose_vector_[i].x);
-            ROS_INFO_STREAM("X: " <<  last_pose_vector_[i].x << "Y: " << last_pose_vector_[i].y);
         }
         orientation_ = theta;
-        ROS_INFO_STREAM("THETA " << orientation_[0] << orientation_[1] << orientation_[2]);
     }
 }
 
