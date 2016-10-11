@@ -20,6 +20,7 @@
 #include <vision/segmenter.hpp>
 #include <vision/identifier.hpp>
 #include <vision/tracker.hpp>
+#include <vision/tracking_output.hpp>
 #include <vision/config_parser.hpp>
 #include <vision/vision_gui.hpp>
 #include <vision/raw_image.hpp>
@@ -32,6 +33,9 @@ class Vision
     void run();
     void setRawRGBImage(const cv::Mat &rgb_image);
     void setRawDepthImage(const cv::Mat &depth_image);
+    
+    std::unordered_map<std::string, TrackingOutput> getVisionOutput();
+
 
     std::unordered_map<std::string, TrackingOutput> getVisionOutput();
 

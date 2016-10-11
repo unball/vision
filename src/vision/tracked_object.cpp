@@ -44,10 +44,14 @@ void TrackedObject::runTracking()
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
     std::vector<trackParams> params(last_pose_vector_.size());
-
-    if (name_ != "ball")
+    
+    if (name_ == "ball")
     {
-
+        position_ = pose_vector;
+        orientation_ = std::vector<float>();
+        cv::circle(rgb_output, pose_vector[0], 10, cv::Scalar(255,0,0));
+    }
+    else{
         for (int j = 0; j < last_pose_vector_.size(); j++)
         {
             for (int i = 0; i < pose_vector.size(); i++)
@@ -63,7 +67,6 @@ void TrackedObject::runTracking()
             for (int i = 0; i < module.size(); i++){
                 if(module[i] == minDist){
                     last_pose_vector_[j] = pose_vector[i];
-                    last_orientation_vector_[j] = orientation_vector[i];
                     module_aux[i] = 1000000;
                     pose_vector[i] = cv::Point2f(-1, -1);
                 }
@@ -86,36 +89,29 @@ void TrackedObject::runTracking()
             // }
             // predict(&params[j]);
 
-            
             if (name_ == "our_robots")
             {
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-                cv::Point end_vector = cv::Point(last_pose_vector_[j].x + last_orientation_vector_[j].x, 
-                                                last_pose_vector_[j].y + last_orientation_vector_[j].y);
-                cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 133, 203), 3, 8, 0); 
+                cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 133, 133), 3, 8, 0); 
             }
             else if (name_ == "opponent_robots")
             {   
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-                cv::Point end_vector = cv::Point(last_pose_vector_[j].x + last_orientation_vector_[j].x, 
-                                                last_pose_vector_[j].y + last_orientation_vector_[j].y);
-                cv::rectangle(rgb_output, point1, point2,cv::Scalar(255, 133, 203), 3, 8, 0);
+                cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
             }
         }
-    }else if (name_ == "ball")
-    {
-        cv::circle(rgb_output, pose_vector[0], 10, cv::Scalar(255,0,0));
-    }
-    position_ = last_pose_vector_;
-    
-    std::vector<float> theta(last_pose_vector_.size());
-    for (int i = 0; i < last_pose_vector_.size(); ++i)
+        position_ = last_pose_vector_;
+        std::vector<float> theta(last_pose_vector_.size());
+        for (int i = 0; i < last_pose_vector_.size(); ++i)
         {
             theta[i] = atan2(last_pose_vector_[i].y, last_pose_vector_[i].x);
-            orientation_.push_back(theta[i]);
-        }    
+            ROS_INFO_STREAM("X: " <<  last_pose_vector_[i].x << "Y: " << last_pose_vector_[i].y);
+        }
+        orientation_ = theta;
+        ROS_INFO_STREAM("THETA " << orientation_[0] << orientation_[1] << orientation_[2]);
+    }
 }
 
 bool TrackedObject::isName(std::string name)
@@ -170,4 +166,10 @@ bool TrackedObject::isOutOfLimits(cv::Point2f position)
         return true;
     else 
         return false;
+}
+
+
+std::string TrackedObject::getName()
+{
+    return name_;
 }

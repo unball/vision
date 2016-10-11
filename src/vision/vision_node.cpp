@@ -121,11 +121,18 @@ void publishVisionMessage(ros::Publisher &publisher)
     vision::VisionMessage message;
     auto vision_output = Vision::getInstance().getVisionOutput();
     
-        
-            message.ball_x = rand()%640;
-            message.ball_y = rand()%240;
-    
-
+    if (vision_output.find("ball") != vision_output.end())
+    {
+        if (vision_output["ball"].positions.size() > 0)
+        {
+            message.ball_x = vision_output["ball"].positions[0].x;
+            message.ball_y = vision_output["ball"].positions[0].y;
+        }
+        else{
+            message.ball_x = 0;
+            message.ball_y = 0;
+        }
+    }
     int robot_counter = 0;
     if (vision_output.find("our_robots") != vision_output.end())
     {
@@ -133,6 +140,7 @@ void publishVisionMessage(ros::Publisher &publisher)
         {
             message.x[robot_counter] = vision_output["our_robots"].positions[i].x;
             message.y[robot_counter] = vision_output["our_robots"].positions[i].y;
+            message.th[robot_counter] = vision_output["our_robots"].orientations[i];
             robot_counter++;
         }
     }
@@ -147,3 +155,4 @@ void publishVisionMessage(ros::Publisher &publisher)
     }
     publisher.publish(message);
 }
+

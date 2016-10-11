@@ -135,5 +135,6 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
     }
      
     auto orientation_vector = robot_id - robot_center;
+    
     robots_orientation_[index] = orientation_vector;
 }

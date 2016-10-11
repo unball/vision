@@ -27,13 +27,13 @@ ColorCalibration::ColorCalibration(){
     {
 
         //create UI
-        cv::namedWindow(window_name_);
-        cv::createTrackbar("HMIN", window_name_, &hsv_min_h_, 360);
-        cv::createTrackbar("HMAX", window_name_, &hsv_max_h_, 360);
-        cv::createTrackbar("SMIN", window_name_, &hsv_min_s_, 256);
-        cv::createTrackbar("SMAX", window_name_, &hsv_max_s_, 256);
-        cv::createTrackbar("VMIN", window_name_, &hsv_min_v_, 256);
-        cv::createTrackbar("VMAX", window_name_, &hsv_max_v_, 256);
+        cv::namedWindow("HSV Trackbar");
+        cv::createTrackbar("HMIN", "HSV Trackbar", &hsv_min_h_, 360);
+        cv::createTrackbar("HMAX", "HSV Trackbar", &hsv_max_h_, 360);
+        cv::createTrackbar("SMIN", "HSV Trackbar", &hsv_min_s_, 256);
+        cv::createTrackbar("SMAX", "HSV Trackbar", &hsv_max_s_, 256);
+        cv::createTrackbar("VMIN", "HSV Trackbar", &hsv_min_v_, 256);
+        cv::createTrackbar("VMAX", "HSV Trackbar", &hsv_max_v_, 256);
         cv::namedWindow(window_name_HDR_);
         cv::createTrackbar("HDR", window_name_HDR_, &hdr_, 300);
         //save previous parameters
