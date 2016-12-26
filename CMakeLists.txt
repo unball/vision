@@ -10,17 +10,12 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   cv_bridge
   message_generation
-  freenect_camera
-  freenect_launch
 )
 
 add_definitions(-std=c++11)
 
 find_package(Boost REQUIRED COMPONENTS system)
 
-find_package(freenect_launch REQUIRED)
-
-find_package(freenect_camera REQUIRED)
 
 add_message_files(DIRECTORY msg FILES
   VisionMessage.msg)
