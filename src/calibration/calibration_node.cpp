@@ -6,7 +6,6 @@
 
 #include <calibration/matching.hpp>
 #include <calibration/select_field.hpp>
-#include <calibration/depth_fix.hpp>
 #include <calibration/color_calibration.hpp>
 
 image_transport::Subscriber rgb_sub, depth_sub;
@@ -45,7 +44,6 @@ int main(int argc, char **argv)
     SelectField selecter(rgb_select_name, true);
     SelectField selecter_depth(depth_select_name, false);
     ColorCalibration color_calib;
-    DepthFix depth_fixer;
 
     bool selecterstarted = false;
     ros::param::get("/vision/calibration/calibrate_rectify_matrix", selecterstarted);

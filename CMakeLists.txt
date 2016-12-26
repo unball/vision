@@ -90,7 +90,6 @@ target_link_libraries(dummy_image ${catkin_LIBRARIES})
 add_executable(calibration_node 
   src/calibration/calibration_node.cpp
   src/calibration/capture_points.cpp
-  src/calibration/depth_fix.cpp
   src/calibration/file_manager.cpp
   src/calibration/matching.cpp
   src/calibration/select_field.cpp
