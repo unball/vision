@@ -7,6 +7,8 @@ CONTRIB=opencv_contrib
 INSTALL_DIR=installdir
 OPENCV_VERSION=3.1.0
 NORMALCOLOR="\e[0m\n"
+ROS_FOLDER=/opt/ros/kinetic/
+VISION_ROOT=""
 
 isprograminstalled() {
   # set to 1 initially
@@ -45,10 +47,18 @@ installopencv(){
     cd $OPENCV-$OPENCV_VERSION
     mkdir $BUILD_DIR
     cd $BUILD_DIR
-    cmake -D -DOPENCV_EXTRA_MODULES_PATH=../../$CONTRIB-$OPENCV_VERSION/modules CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/opt/ros/kinetic/$OPENCV-$OPENCV_VERSION/ ..
+    cmake -D -DOPENCV_EXTRA_MODULES_PATH=../../$CONTRIB-$OPENCV_VERSION/modules CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=$ROS_FOLDER/$OPENCV-$OPENCV_VERSION/ ..
     sudo make -j$(nproc); sudo make install
 }
 
+configld(){
+    sudo echo "$ROS_FOLDER"/lib > /etc/ld.so.conf.d/$OPENCV.conf
+    sudo ldconfig -v
+}
+
+[ `whoami` = root ] || { sudo "$0" "$@"; exit $?; }
+
+VISION_ROOT=$(pwd)
 
 if ! isprograminstalled roscore; then
     printf "\e[91m\e[1m[ERROR]ROS not installed yet, exiting\n"
@@ -67,7 +77,8 @@ mkdir -p $INSTALL_DIR
 cd $INSTALL_DIR
 downloadandextract
 installopencv
-cd ..
+configld
+cd $VISION_ROOT
 rm -R $INSTALL_DIR
 
 echo "Finished"
