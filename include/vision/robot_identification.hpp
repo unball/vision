@@ -31,8 +31,8 @@ private:
 
     std::string window_name_;
 
-    cv::string allies_;
-    cv::string enemies_;
+    std::string allies_;
+    std::string enemies_;
 
     int area_ = 1155;
     bool hasclosed_; 
