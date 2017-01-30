@@ -17,7 +17,8 @@ void BallIdentification::run(){
     cvFindContours(&rgb_segmented_ipl_, mem, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
     
     CvSeq* largestContour = findLargerBlob(contours);
-    auto ball_pose = calcBallPose(largestContour);
+    //auto ball_pose = calcBallPose(largestContour);
+    auto ball_pose = cv::Point2f(0,0);
     output_info_->object_pose[0] = ball_pose;
     
 }

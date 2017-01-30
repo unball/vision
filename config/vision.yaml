@@ -29,7 +29,7 @@ vision:
       identification_algorithm: "RobotIdentification"
       identification_arguments: "Yellow"
     
-    ball:
+    dummy_object:
       segmentation_algorithm: "DummySegmentationAlgorithm"
       identification_algorithm: "DummyIdentificationAlgorithm"
 
