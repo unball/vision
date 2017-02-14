@@ -34,12 +34,10 @@ void TrackedObject::runTracking()
 {
     auto id_output = identification_algorithm_->getIdentificationOutput();
     auto pose_vector = id_output->object_pose;
-    auto orientation_vector = id_output->object_orientation;
+    last_orientation_vector_ = id_output->object_orientation;
     cv::Mat rgb_output = VisionGUI::getInstance().getOutputRGBImage();
     if (last_pose_vector_.size() == 0)
         last_pose_vector_ = pose_vector;
-    if (last_orientation_vector_.size() == 0)
-        last_orientation_vector_ = orientation_vector;
     
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
@@ -72,23 +70,6 @@ void TrackedObject::runTracking()
                 }
             }
 
-            // if (last_pose_vector_[j].x != -1 || last_pose_vector_[j].y != -1)
-            // {
-            //     update(&params[j], last_pose_vector_[j]);
-            // }else
-            // {
-            //     counter_++;
-            //     predict(&params[j]);
-            //     if (counter_ > 15)
-            //     {
-            //         resetLastPose(&params[j]);
-            //         ROS_INFO("HERE");
-            //         counter_ = 0;
-            //     }
-
-            // }
-            // predict(&params[j]);
-
             if (name_ == "our_robots")
             {
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
@@ -102,6 +83,8 @@ void TrackedObject::runTracking()
                 cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
             }
         }
+        for(auto i : last_orientation_vector_)
+            ROS_INFO("%f %f", i.x, i.y);
         position_ = last_pose_vector_;
         std::vector<float> theta(last_pose_vector_.size());
         for (int i = 0; i < last_pose_vector_.size(); ++i)
