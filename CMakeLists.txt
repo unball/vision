@@ -10,17 +10,12 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   cv_bridge
   message_generation
-  freenect_camera
-  freenect_launch
 )
 
 add_definitions(-std=c++11)
 
 find_package(Boost REQUIRED COMPONENTS system)
 
-find_package(freenect_launch REQUIRED)
-
-find_package(freenect_camera REQUIRED)
 
 add_message_files(DIRECTORY msg FILES
   VisionMessage.msg)
@@ -95,7 +90,6 @@ target_link_libraries(dummy_image ${catkin_LIBRARIES})
 add_executable(calibration_node 
   src/calibration/calibration_node.cpp
   src/calibration/capture_points.cpp
-  src/calibration/depth_fix.cpp
   src/calibration/file_manager.cpp
   src/calibration/matching.cpp
   src/calibration/select_field.cpp

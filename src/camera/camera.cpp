@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         return -1;
     }
     double rgb_video_fps = rgb_cap.get(CV_CAP_PROP_FPS);
-    ros::Rate loop_rate(isnan(rgb_video_fps) ? 25 : rgb_video_fps);
+    ros::Rate loop_rate(std::isnan(rgb_video_fps) ? 25 : rgb_video_fps);
     ROS_INFO("Loop rate: %lf", rgb_video_fps);
 
     // Set rgb and depth frame encoding
