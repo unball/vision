@@ -83,8 +83,6 @@ void TrackedObject::runTracking()
                 cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
             }
         }
-        for(auto i : last_orientation_vector_)
-            ROS_INFO("%f %f", i.x, i.y);
         position_ = last_pose_vector_;
         std::vector<float> theta(last_pose_vector_.size());
         for (int i = 0; i < last_pose_vector_.size(); ++i)

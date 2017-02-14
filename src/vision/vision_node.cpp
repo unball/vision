@@ -123,7 +123,6 @@ void publishVisionMessage(ros::Publisher &publisher)
     
     if (vision_output.find("ball") != vision_output.end())
     {
-        ROS_ERROR("Here");
         if (vision_output["ball"].positions.size() > 0)
         {
             message.ball_x = vision_output["ball"].positions[0].x;
