@@ -70,6 +70,7 @@ void RobotIdentification::find(cv::Mat input){
             identify(newcontours[i], robot_index);
             cv::Mat roi;
             input(newboundingRect).copyTo(roi);
+            cv::imshow("roi mask", roi);
             findOrientation(roi, robot_index);
         }
     }
@@ -106,6 +107,7 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
     
     cv::bitwise_not(mask, mask_inverted);
     
+    
     float area = 0;
     cv::findContours(mask, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     for (uint i = 0, robot_index = 0; i < contours.size() && robot_index < 3; ++i, robot_index++)
@@ -119,9 +121,9 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
             area = newboundingRect.area();
         }
     }
-    
     cv::findContours(mask_inverted, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     area = 10000.0;
+    int minor;
     for (uint i = 0, robot_index = 0; i < contours.size() && robot_index < 3; ++i, robot_index++)
     {
         auto newboundingRect = cv::boundingRect(contours[i]);
@@ -133,7 +135,11 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
             area = newboundingRect.area();
         }
     }
-     
+    
+    cv::RNG rng(12345);
+    cv::Mat drawing = cv::Mat::zeros(mask.size(), CV_8UC3);
+    cv::circle(drawing, robot_id, 3, cv::Scalar(255,0,0));
+    cv::imshow("mask", drawing);
     auto orientation_vector = robot_id - robot_center;
     robots_orientation_[index] = orientation_vector;
 }
