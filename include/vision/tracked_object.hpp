@@ -53,7 +53,7 @@ class TrackedObject
     void resetLastPose(trackParams *param);
     
     std::vector<cv::Point2f> last_pose_vector_;
-    std::vector<cv::Point2f> last_orientation_vector_;
+    std::vector<float> last_orientation_vector_;
 
     int counter_;
     float weight_;

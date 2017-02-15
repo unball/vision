@@ -3,15 +3,15 @@ Yellow: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 13, 247, 253, 54, 255, 256 ]
+   data: [ 2, 239, 255, 48, 256, 256 ]
 Blue: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 103, 245, 248, 150, 256, 256 ]
+   data: [ 105, 174, 250, 137, 256, 256 ]
 Orange: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 0, 246, 255, 3, 256, 256 ]
+   data: [ 0, 255, 250, 9, 256, 256 ]
 HDR: 300

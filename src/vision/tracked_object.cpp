@@ -17,7 +17,7 @@ TrackedObject::TrackedObject(std::string name)
     counter_ = 0;
     weight_ = 0.3;
     last_pose_vector_ = std::vector<cv::Point2f>();
-    last_orientation_vector_ = std::vector<cv::Point2f>();
+    last_orientation_vector_ = std::vector<float>();
     cv::Scalar opponent_color_ = cv::Scalar(255, 255, 255);
 
 }
@@ -78,18 +78,23 @@ void TrackedObject::runTracking()
             }
             else if (name_ == "opponent_robots")
             {   
+                ROS_INFO("Orientation of %d: %f", j, last_orientation_vector_[j]*180/3.1415962);
+                ROS_INFO("\n");
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
+                cv::Point2f orient = cv::Point2f(last_pose_vector_[j].x + cos(last_orientation_vector_[j]), last_pose_vector_[j].y + sin(last_orientation_vector_[j]));
+                orient.x += 20;
+                orient.y += 20;
+                ROS_INFO("center = %f, %f", last_pose_vector_[j].x, last_pose_vector_[j].y);
+                ROS_INFO("p2 = %f %f", orient.x, orient.y);
+                ROS_INFO("\n");
+                cv::line(rgb_output, last_pose_vector_[j], orient, cv::Scalar(133,255,20));
                 cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
             }
         }
         position_ = last_pose_vector_;
-        std::vector<float> theta(last_pose_vector_.size());
-        for (int i = 0; i < last_pose_vector_.size(); ++i)
-        {
-            theta[i] = atan2(last_pose_vector_[i].y, last_pose_vector_[i].x);
-        }
-        orientation_ = theta;
+        
+        orientation_ = last_orientation_vector_;
     }
 }
 
