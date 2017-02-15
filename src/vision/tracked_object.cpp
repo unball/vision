@@ -87,7 +87,15 @@ void TrackedObject::runTracking()
         std::vector<float> theta(last_pose_vector_.size());
         for (int i = 0; i < last_pose_vector_.size(); ++i)
         {
-            theta[i] = atan2(last_pose_vector_[i].y, last_pose_vector_[i].x);
+            theta[i] = atan2(last_orientation_vector_[i].y, last_orientation_vector_[i].x);
+            theta[i] = atan2(last_orientation_vector_[i].y, last_orientation_vector_[i].x); 
+            if (name_ ==  "our_robots")
+            {   
+                ROS_ERROR("%f %f", last_orientation_vector_[i].x, last_orientation_vector_[i].y);
+                cv::Point p1 = cv::Point(last_pose_vector_[i].x, last_pose_vector_[i].y);
+                cv::Point p2 = cv::Point(last_pose_vector_[i].x + 10 * cos(theta[i]), last_pose_vector_[i].y + 10 * sin(theta[i]));
+                cv::line(rgb_output, p1, p2, cv::Scalar(255, 255, 255), 2, 8, 0);
+            }
         }
         orientation_ = theta;
     }
