@@ -94,19 +94,20 @@ void RobotIdentification::identify(std::vector<cv::Point> contour, int index){
 }
 
 void RobotIdentification::findOrientation(cv::Mat mask, int index){
-    cv::Mat original;
-    mask.copyTo(original);
     std::vector<cv::Vec4i> hierarchy;
     std::vector<std::vector<cv::Point>> contours;
-    cv::Mat mask_inverted = cv::Mat();
+    cv::Mat mask_inverted = cv::Mat::zeros(mask.size(), CV_8UC1);
     
     cv::Moments moments;
     cv::Point2f robot_center;
     cv::Point2f robot_id;
     
-    cv::bitwise_not(mask, mask_inverted);
-    
+    cv::Mat element = getStructuringElement(cv::MORPH_RECT,
+                                       cv::Size(2, 2),
+                                       cv::Point(1, 1));
+    dilate(mask, mask, element);
     float area = 0;
+    cv::bitwise_not(mask, mask_inverted);
     cv::findContours(mask, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     for (uint i = 0, robot_index = 0; i < contours.size() && robot_index < 3; ++i, robot_index++)
     {
@@ -133,16 +134,9 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
             area = newboundingRect.area();
         }
     }
-    
+
     auto orientation_vector = robot_id - robot_center;
     auto theta = atan2(orientation_vector.y, orientation_vector.x);
-    cv::RNG rng(12345);
-    cv::Mat drawing = cv::Mat::zeros(mask.size(), CV_8UC3);
-    cv::Point2f lala = cv::Point2f(robot_center.x + 6*cos(theta), robot_center.y + 6*sin(theta));
-    cv::line(drawing, robot_center, robot_id, cv::Scalar(0,255,0));
-    cv::circle(drawing, robot_id, 3, cv::Scalar(255,0,0));
-    cv::imshow("mask", drawing);
-    cv::imshow("roi mask", original);
-    cv::waitKey(0);
+
     robots_orientation_[index] = theta;
 }
