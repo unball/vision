@@ -8,6 +8,7 @@
 #include <vision/identification_algorithm.hpp>
 #include <vision/raw_image.hpp>
 #include <vision/vision_gui.hpp>
+#include <cmath>
 
 class RobotIdentification : public IdentificationAlgorithm
 {
@@ -24,7 +25,7 @@ private:
     
     std::vector<cv::Rect> robots_;
     std::vector<cv::Point2f> robots_coord_;
-    std::vector<cv::Point2f> robots_orientation_;
+    std::vector<float> robots_orientation_;
     cv::Mat mask_;
 
     std::vector<cv::Vec4i> hierarchy_;
