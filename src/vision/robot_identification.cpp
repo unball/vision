@@ -139,9 +139,10 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
     cv::RNG rng(12345);
     cv::Mat drawing = cv::Mat::zeros(mask.size(), CV_8UC3);
     cv::Point2f lala = cv::Point2f(robot_center.x + 6*cos(theta), robot_center.y + 6*sin(theta));
-    cv::line(drawing, robot_center, lala, cv::Scalar(0,255,0));
+    cv::line(drawing, robot_center, robot_id, cv::Scalar(0,255,0));
     cv::circle(drawing, robot_id, 3, cv::Scalar(255,0,0));
     cv::imshow("mask", drawing);
+    cv::imshow("roi mask", original);
     cv::waitKey(0);
     robots_orientation_[index] = theta;
 }

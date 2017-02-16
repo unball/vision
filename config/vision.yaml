@@ -19,15 +19,15 @@ vision:
 
     our_robots:
       segmentation_algorithm: "FindRobotsColor"
-      segmentation_arguments: "Blue"
-      identification_algorithm: "RobotIdentification"
-      identification_arguments: "Blue"
-
-    opponent_robots:
-      segmentation_algorithm: "FindRobotsColor"
       segmentation_arguments: "Yellow"
       identification_algorithm: "RobotIdentification"
       identification_arguments: "Yellow"
+
+    opponent_robots:
+      segmentation_algorithm: "FindRobotsColor"
+      segmentation_arguments: "Blue"
+      identification_algorithm: "RobotIdentification"
+      identification_arguments: "Blue"
     
     dummy_object:
       segmentation_algorithm: "DummySegmentationAlgorithm"
