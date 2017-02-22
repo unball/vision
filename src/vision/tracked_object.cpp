@@ -84,12 +84,24 @@ void TrackedObject::runTracking()
                 // ROS_INFO("p2 = %f %f", orient.x, orient.y);
                 // ROS_INFO("\n");
 
+                switch (j){
+                    case 0:
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 0, 0), 3, 8, 0); 
+                        break;
+                    case 1:
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 255, 0), 3, 8, 0); 
+                        break;
+                    case 2:
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 0, 255), 3, 8, 0); 
+                        break;
+                    default:
+                        break;
+                }
                 cv::line(rgb_output, last_pose_vector_[j], orient, cv::Scalar(133,255,20));
-                cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 133, 133), 3, 8, 0); 
             }
             else if (name_ == "opponent_robots")
             {   
-
+                last_orientation_vector_[j] = 0;
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
                 cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
