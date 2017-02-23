@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     image_transport::ImageTransport it(nh); // Used to publish and subscribe to images.
     image_transport::Publisher rgb_pub = it.advertise("/camera/rgb/image_raw", 1);
     cv_bridge::CvImage rgb_frame;
-    cv::VideoCapture rgb_cap(1);
+    cv::VideoCapture rgb_cap(0);
     bool show_image;
     ros::param::get("/vision/camera/show_image", show_image);
 
