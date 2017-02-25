@@ -64,6 +64,8 @@ ColorCalibration::~ColorCalibration(){
 }
 
 void ColorCalibration::calibrate(cv::Mat& rgb_input){
+    blur(rgb_input, rgb_input, cv::Size(3,3));
+    blur(rgb_input, rgb_input, cv::Size(3,3));
     equalizeIntensity(rgb_input);
     gammaCorrection(rgb_input);
     if (calibrate_)
