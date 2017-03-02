@@ -8,7 +8,6 @@
 #include <vision/identification_algorithm.hpp>
 #include <vision/raw_image.hpp>
 #include <vision/vision_gui.hpp>
-#include <cmath>
 
 class RobotIdentification : public IdentificationAlgorithm
 {
@@ -19,14 +18,19 @@ public:
 
 private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
-    void find(cv::Mat input);
-    void identify(std::vector<cv::Point> contour, int index);
+    void find(cv::Mat input, cv::Mat rgb_input);
+    int identify(std::vector<cv::Point> contour, int index, cv::Mat roi);
     void findOrientation(cv::Mat mask, int index);
+    bool robotColor(cv::Mat mask);
+
+    cv::FileStorage color_reader_;
+    cv::Mat red_mat_, pink_mat_, green_mat_;
     
     std::vector<cv::Rect> robots_;
     std::vector<cv::Point2f> robots_coord_;
     std::vector<float> robots_orientation_;
     cv::Mat mask_;
+    cv::Mat rgb_img_;
 
     std::vector<cv::Vec4i> hierarchy_;
 
