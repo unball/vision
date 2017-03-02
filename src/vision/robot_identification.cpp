@@ -107,7 +107,7 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
     
     if (arguments_ == "Yellow")
     {   
-        ROS_ERROR("our robots");
+        //ROS_ERROR("our robots");
         cv::cvtColor(roi, roi, CV_BGR2HSV);
     
         std::vector<cv::Mat> channels(3);
@@ -151,7 +151,7 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
         }
     }
     else if (arguments_ == "Blue"){
-        ROS_ERROR("oppnent robots");
+        //ROS_ERROR("oppnent robots");
         robots_coord_[index] = robot_pose;
         return index;
     }
