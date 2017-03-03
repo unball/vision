@@ -3,7 +3,7 @@ Yellow: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 11, 253, 235, 45, 256, 256 ]
+   data: [ 15, 248, 230, 124, 256, 256 ]
 Blue: !!opencv-matrix
    rows: 2
    cols: 3
