@@ -12,6 +12,9 @@ ColorCalibration::ColorCalibration(){
     is_blue_saved_ = false;
     is_yellow_saved_ = false;
     is_orange_saved_ = false;
+    is_red_saved_ = false;
+    is_pink_saved_ = false;
+    is_green_saved_ = false;
     window_name_ = "Color Calibration";
     window_name_HDR_ = "HDR Calibration";
 
@@ -40,6 +43,9 @@ ColorCalibration::ColorCalibration(){
         colorHandler_["Blue"] >> old_blue;
         colorHandler_["Yellow"] >> old_yellow;
         colorHandler_["Orange"] >> old_orange;
+        colorHandler_["Red"] >> old_red;
+        colorHandler_["Pink"] >> old_pink;
+        colorHandler_["Green"] >> old_green;
         //set file calibration to save HSV values
         colorManager_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::WRITE);
     }
@@ -56,7 +62,12 @@ ColorCalibration::~ColorCalibration(){
             colorManager_ << "Yellow" << old_yellow;
         if(not is_orange_saved_)
             colorManager_ << "Orange" << old_orange;
-        
+        if(not is_red_saved_)
+            colorManager_ << "Red" << old_red;
+        if(not is_pink_saved_)
+            colorManager_ << "Pink" << old_pink;
+        if(not is_green_saved_)
+            colorManager_ << "Green" << old_green;                  
         colorManager_ << "HDR" << hdr_;
         colorManager_.release();
     }
@@ -72,7 +83,7 @@ void ColorCalibration::calibrate(cv::Mat& rgb_input){
     {
         cv::imshow(window_name_HDR_, rgb_input);
         cv::waitKey(1);
-        if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_)
+        if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_ && is_red_saved_ && is_pink_saved_ && is_green_saved_)
             cv::destroyWindow(window_name_);
         else{
             cv::Mat hsv_converted;
@@ -99,6 +110,21 @@ void ColorCalibration::calibrate(cv::Mat& rgb_input){
             ROS_INFO("Orange Calibrated!");
             save("Orange");
         }
+        if (cv::waitKey(10) == 'r' && not is_red_saved_)
+        {
+            ROS_INFO("Red Calibrated!");
+            save("Red");
+        }
+        if (cv::waitKey(10) == 'p' && not is_pink_saved_)
+        {
+            ROS_INFO("Pink Calibrated!");
+            save("Pink");
+        }
+        if (cv::waitKey(10) == 'g' && not is_green_saved_)
+        {
+            ROS_INFO("Green Calibrated!");
+            save("Green");
+        }
     }
 }
 
@@ -111,6 +137,12 @@ void ColorCalibration::save(std::string color){
         is_yellow_saved_ = true;
     if (color == "Orange")
         is_orange_saved_ = true;
+    if (color == "Red")
+        is_red_saved_ = true;
+    if (color == "Pink")
+        is_pink_saved_ = true;
+    if (color == "Green")
+        is_green_saved_ = true;
 
 }
 

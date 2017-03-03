@@ -39,7 +39,7 @@ void TrackedObject::runTracking()
     if (last_pose_vector_.size() == 0)
         last_pose_vector_ = pose_vector;
     if (last_orientation_vector_.size() == 0)
-        last_orientation_vector_ = orientation_vector;
+       last_orientation_vector_ = orientation_vector;
     
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
@@ -66,8 +66,8 @@ void TrackedObject::runTracking()
             auto minDist = *std::min_element(module_aux.begin(), module_aux.end());
             for (int i = 0; i < module.size(); i++){
                 if(module[i] == minDist){
-                    last_pose_vector_[j] = pose_vector[i];
-                    last_orientation_vector_[j] = orientation_vector[i];
+                    last_pose_vector_[i] = pose_vector[i];
+                    last_orientation_vector_[i] = orientation_vector[i];
                     module_aux[i] = 1000000;
                     pose_vector[i] = cv::Point2f(-1, -1);
                 }
