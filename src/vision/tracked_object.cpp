@@ -79,7 +79,7 @@ void TrackedObject::runTracking()
                 //ROS_INFO("\n");
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-                cv::Point2f orient = cv::Point2f(last_pose_vector_[j].x + 10*cos(last_orientation_vector_[j]), last_pose_vector_[j].y + 10*sin(last_orientation_vector_[j]));
+                cv::Point2f orient = cv::Point2f(last_pose_vector_[j].x - 10*cos(last_orientation_vector_[j]), last_pose_vector_[j].y - 10*sin(last_orientation_vector_[j]));
                 //ROS_INFO("center = %f, %f", last_pose_vector_[j].x, last_pose_vector_[j].y);
                 // ROS_INFO("p2 = %f %f", orient.x, orient.y);
                 // ROS_INFO("\n");
