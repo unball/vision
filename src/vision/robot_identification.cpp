@@ -232,6 +232,7 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
      
     auto orientation_vector = robot_id - robot_center;
     auto theta = atan2(orientation_vector.y, orientation_vector.x);
+    theta = theta * -1;
 
     robots_orientation_[index] = theta;
 }

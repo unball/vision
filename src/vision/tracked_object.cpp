@@ -106,6 +106,10 @@ void TrackedObject::runTracking()
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
                 cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
             }
+            if (last_pose_vector_[j].x > 20 or last_pose_vector_[j].y > 20)
+            {
+                last_pose_vector_[j] = cv::Point2f(-1,-1);
+            }
         }
         position_ = last_pose_vector_;
         
