@@ -105,7 +105,7 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
     moments = cv::moments(contour, true);
     auto robot_pose = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
     
-    if (arguments_ == "Yellow")
+    if (arguments_ == "ours")
     {   
         //ROS_ERROR("our robots");
         cv::cvtColor(roi, roi, CV_BGR2HSV);
@@ -140,6 +140,7 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
         }
         else if(isPink){
             robots_coord_[1] = robot_pose;
+            isGreen = false;
             return 1;
         }
         else if(isGreen){
@@ -150,7 +151,7 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
             return index;
         }
     }
-    else if (arguments_ == "Blue"){
+    else if (arguments_ == "theirs"){
         //ROS_ERROR("oppnent robots");
         robots_coord_[index] = robot_pose;
         return index;
@@ -164,16 +165,18 @@ bool RobotIdentification::robotColor(cv::Mat mask){
 
     uchar *p;
     int maxVal = 0;
+    int k = 0;
     for (int i = 0; i < mask.rows; ++i)
     {   
         p = mask.ptr<uchar>(i);
         for (int j = 0; j < mask.cols; ++j)
         {
-            if ((int)p[j] == 255)
+            if ((int)p[j] == 255 and k > 4)
             {
                 maxVal = 255;
             }        
         }
+        k++;
     }
     if (maxVal == 255)
     {
