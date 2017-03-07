@@ -1,32 +1,32 @@
 %YAML:1.0
-Red: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 0, 250, 251, 2, 256, 256 ]
-Blue: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 81, 233, 227, 129, 256, 256 ]
 Yellow: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 6, 233, 170, 54, 256, 256 ]
-Orange: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 0, 233, 218, 0, 256, 256 ]
-Pink: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 132, 78, 196, 283, 256, 256 ]
+   data: [ 5, 231, 227, 38, 256, 256 ]
 Green: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 44, 233, 227, 71, 256, 256 ]
+   data: [ 46, 251, 227, 77, 256, 256 ]
+Pink: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 61, 205, 227, 77, 256, 256 ]
+Red: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 0, 250, 247, 5, 256, 256 ]
+Orange: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 0, 251, 255, 5, 256, 256 ]
+Blue: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 98, 230, 248, 170, 256, 256 ]
 HDR: 300
