@@ -8,7 +8,7 @@ ColorCalibration::ColorCalibration(){
     hsv_max_s_ = 0;
     hsv_min_v_ = 0;
     hsv_max_v_ = 0;
-    hdr_ = 1;
+
     is_blue_saved_ = false;
     is_yellow_saved_ = false;
     is_orange_saved_ = false;
@@ -16,15 +16,15 @@ ColorCalibration::ColorCalibration(){
     is_pink_saved_ = false;
     is_green_saved_ = false;
     window_name_ = "Color Calibration";
-    window_name_HDR_ = "HDR Calibration";
+    
 
     //decide if open or not file to save color calibration
     ros::param::get("/vision/calibration/calibrate_team_color", calibrate_);
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
     colorHandler_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
-    hdr_ = (int)colorHandler_["HDR"];
-    ROS_INFO_STREAM(hdr_);
+
+    
 
     if (calibrate_)
     {
@@ -37,8 +37,8 @@ ColorCalibration::ColorCalibration(){
         cv::createTrackbar("SMAX", "HSV Trackbar", &hsv_max_s_, 256);
         cv::createTrackbar("VMIN", "HSV Trackbar", &hsv_min_v_, 256);
         cv::createTrackbar("VMAX", "HSV Trackbar", &hsv_max_v_, 256);
-        cv::namedWindow(window_name_HDR_);
-        cv::createTrackbar("HDR", window_name_HDR_, &hdr_, 300);
+        
+        
         //save previous parameters
         colorHandler_["Blue"] >> old_blue;
         colorHandler_["Yellow"] >> old_yellow;
@@ -68,20 +68,18 @@ ColorCalibration::~ColorCalibration(){
             colorManager_ << "Pink" << old_pink;
         if(not is_green_saved_)
             colorManager_ << "Green" << old_green;                  
-        colorManager_ << "HDR" << hdr_;
+        
         colorManager_.release();
     }
     colorHandler_.release();
 }
 
 void ColorCalibration::calibrate(cv::Mat& rgb_input){
-    blur(rgb_input, rgb_input, cv::Size(3,3));
-    blur(rgb_input, rgb_input, cv::Size(3,3));
-    equalizeIntensity(rgb_input);
-    gammaCorrection(rgb_input);
+    //equalizeIntensity(rgb_input);
+
     if (calibrate_)
     {
-        cv::imshow(window_name_HDR_, rgb_input);
+        
         cv::waitKey(1);
         if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_ && is_red_saved_ && is_pink_saved_ && is_green_saved_)
             cv::destroyWindow(window_name_);
@@ -152,29 +150,6 @@ bool ColorCalibration::isCalibrated(){
 
 cv::Mat ColorCalibration::getRGBCalibrated(){
     return rgb_calibrated_;
-}
-
-void ColorCalibration::gammaCorrection(cv::Mat& rgb_input){
-    unsigned char lut[256];
-    float fGamma = hdr_/10;
-    for (int i = 0; i < 256; i++)
-        lut[i] = cv::saturate_cast<uchar>(pow((float)(i / 255.0), fGamma) * 255.0f);
- 
-    cv::Mat new_image;
-    new_image = rgb_input.clone();
- 
- 
-    cv::MatIterator_<cv::Vec3b> it, end;
- 
-    for (it = new_image.begin<cv::Vec3b>(), end = new_image.end<cv::Vec3b>(); it != end; it++){
- 
-    (*it)[0] = lut[((*it)[0])];
- 
-    (*it)[1] = lut[((*it)[1])];
- 
-    (*it)[2] = lut[((*it)[2])];
-    }
-    rgb_input = new_image;
 }
 
 void ColorCalibration::equalizeIntensity(cv::Mat& rgb_input)

@@ -16,7 +16,6 @@ class ColorCalibration
     bool isCalibrated();
  private:
     void save(std::string);
-    void gammaCorrection(cv::Mat& rgb_input);
     void equalizeIntensity(cv::Mat& rgb_input);
     cv::Mat old_blue, old_yellow, old_orange, old_green, old_red, old_pink;
     cv::Mat rgb_calibrated_;
