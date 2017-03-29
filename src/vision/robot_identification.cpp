@@ -109,9 +109,6 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
     {   
         //ROS_ERROR("our robots");
         cv::cvtColor(roi, roi, CV_BGR2HSV);
-    
-        std::vector<cv::Mat> channels(3);
-        cv::split(roi, channels);
 
         cv::Mat red_mask, pink_mask, green_mask;
 
@@ -163,29 +160,20 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
 
 bool RobotIdentification::robotColor(cv::Mat mask){
 
-    uchar *p;
-    int maxVal = 0;
-    int k = 0;
-    for (int i = 0; i < mask.rows; ++i)
-    {   
-        p = mask.ptr<uchar>(i);
-        for (int j = 0; j < mask.cols; ++j)
-        {
-            if ((int)p[j] == 255 and k > 4)
-            {
-                maxVal = 255;
-            }        
-        }
-        k++;
-    }
-    if (maxVal == 255)
-    {
-        return true;
-    }
-    else{
-        return false;
-    }
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
 
+    cv::findContours(mask, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    
+
+    for(int i = 0, sum_ = 0; i < contours.size(); i++){
+        auto bounding_rect = cv::boundingRect(contours[i]);
+        sum_ += bounding_rect.area();
+        if (sum_ > 20)
+            return true;
+    }
+    
+    return false;
 }
 
 
