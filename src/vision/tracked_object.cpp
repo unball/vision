@@ -54,35 +54,37 @@ void TrackedObject::runTracking()
     else{
         for (int j = 0; j < last_pose_vector_.size(); j++)
         {
-            for (int i = 0; i < pose_vector.size(); i++)
-            {
-                if (pose_vector[i].x != -1 && pose_vector[i].y != -1)
-                {
-                    auto vector_ = cv::Point2f(last_pose_vector_[j].x - pose_vector[i].x, last_pose_vector_[j].y - pose_vector[i].y);
-                    module[i] = sqrt(pow(vector_.x, 2) + pow(vector_.y, 2));
-                    module_aux[i] = module[i];
-                }
-            }
-            auto minDist = *std::min_element(module_aux.begin(), module_aux.end());
-            for (int i = 0; i < module.size(); i++){
-                if(module[i] == minDist){
-                    last_pose_vector_[i] = pose_vector[i];
-                    last_orientation_vector_[i] = orientation_vector[i];
-                    module_aux[i] = 1000000;
-                    pose_vector[i] = cv::Point2f(-1, -1);
-                }
-            }
+            // for (int i = 0; i < pose_vector.size(); i++)
+            // {
+            //     if (pose_vector[i].x != -1 && pose_vector[i].y != -1)
+            //     {
+            //         auto vector_ = cv::Point2f(last_pose_vector_[j].x - pose_vector[i].x, last_pose_vector_[j].y - pose_vector[i].y);
+            //         module[i] = sqrt(pow(vector_.x, 2) + pow(vector_.y, 2));
+            //         module_aux[i] = module[i];
+            //     }
+            // }
+            // auto minDist = *std::min_element(module_aux.begin(), module_aux.end());
+            // for (int i = 0; i < module.size(); i++){
+            //     if(module[i] == minDist){
+            //         last_pose_vector_[i] = pose_vector[i];
+            //         last_orientation_vector_[i] = orientation_vector[i];
+            //         module_aux[i] = 1000000;
+            //         pose_vector[i] = cv::Point2f(-1, -1);
+            //     }
+            // }
+            last_pose_vector_[j] = pose_vector[j];
+            last_orientation_vector_[j] = orientation_vector[j];
 
             if (name_ == "our_robots")
             {   
-                //ROS_INFO("Orientation of %d: %f", j, last_orientation_vector_[j]*180/3.1415962);
-                //ROS_INFO("\n");
+                ROS_INFO("Orientation of %d: %f", j, last_orientation_vector_[j]);
+                ROS_INFO("\n");
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-                cv::Point2f orient = cv::Point2f(last_pose_vector_[j].x + 10*cos(-last_orientation_vector_[j]), last_pose_vector_[j].y + 10*sin(-last_orientation_vector_[j]));
-                //ROS_INFO("center = %f, %f", last_pose_vector_[j].x, last_pose_vector_[j].y);
-                // ROS_INFO("p2 = %f %f", orient.x, orient.y);
-                // ROS_INFO("\n");
+                cv::Point2f orient = cv::Point2f(last_pose_vector_[j].x + 10*cos(last_orientation_vector_[j]), last_pose_vector_[j].y + 10*sin(last_orientation_vector_[j]));
+                ROS_INFO("center = %f, %f", last_pose_vector_[j].x, last_pose_vector_[j].y);
+                ROS_INFO("p2 = %f %f", orient.x, orient.y);
+                ROS_INFO("\n");
 
                 switch (j){
                     case 0:

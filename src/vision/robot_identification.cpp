@@ -137,14 +137,12 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
         }
         else if(isPink){
             robots_coord_[1] = robot_pose;
-            isGreen = false;
             return 1;
         }
         else if(isGreen){
             robots_coord_[2] = robot_pose;
             return 2;
         }else{
-            ROS_ERROR("COUDN'T FIND ROBOT COLOR");
             return index;
         }
     }
@@ -169,7 +167,7 @@ bool RobotIdentification::robotColor(cv::Mat mask){
     for(int i = 0, sum_ = 0; i < contours.size(); i++){
         auto bounding_rect = cv::boundingRect(contours[i]);
         sum_ += bounding_rect.area();
-        if (sum_ > 20)
+        if (sum_ > 10)
             return true;
     }
     
@@ -220,7 +218,6 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
      
     auto orientation_vector = robot_id - robot_center;
     auto theta = atan2(orientation_vector.y, orientation_vector.x);
-    theta = theta * -1;
 
     robots_orientation_[index] = theta;
 }
