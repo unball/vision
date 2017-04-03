@@ -36,10 +36,6 @@ void TrackedObject::runTracking()
     auto pose_vector = id_output->object_pose;
     auto orientation_vector = id_output->object_orientation;
     cv::Mat rgb_output = VisionGUI::getInstance().getOutputRGBImage();
-    if (last_pose_vector_.size() == 0)
-        last_pose_vector_ = pose_vector;
-    if (last_orientation_vector_.size() == 0)
-       last_orientation_vector_ = orientation_vector;
     
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
@@ -52,7 +48,7 @@ void TrackedObject::runTracking()
         cv::circle(rgb_output, pose_vector[0], 10, cv::Scalar(255,0,0));
     }
     else{
-        for (int j = 0; j < last_pose_vector_.size(); j++)
+        for (int j = 0; j < pose_vector.size(); j++)
         {
             // for (int i = 0; i < pose_vector.size(); i++)
             // {
@@ -72,20 +68,13 @@ void TrackedObject::runTracking()
             //         pose_vector[i] = cv::Point2f(-1, -1);
             //     }
             // }
-            last_pose_vector_[j] = pose_vector[j];
-            last_orientation_vector_[j] = orientation_vector[j];
+            // last_pose_vector_[j] = pose_vector[j];
+            // last_orientation_vector_[j] = orientation_vector[j];
 
             if (name_ == "our_robots")
             {   
-                ROS_INFO("Orientation of %d: %f", j, last_orientation_vector_[j]);
-                ROS_INFO("\n");
-                cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
-                cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-                cv::Point2f orient = cv::Point2f(last_pose_vector_[j].x + 10*cos(last_orientation_vector_[j]), last_pose_vector_[j].y + 10*sin(last_orientation_vector_[j]));
-                ROS_INFO("center = %f, %f", last_pose_vector_[j].x, last_pose_vector_[j].y);
-                ROS_INFO("p2 = %f %f", orient.x, orient.y);
-                ROS_INFO("\n");
-
+                cv::Point point1 = cv::Point(pose_vector[j].x-10, pose_vector[j].y-10);
+                cv::Point point2 = cv::Point(pose_vector[j].x+10, pose_vector[j].y+10);
                 switch (j){
                     case 0:
                         cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 0, 0), 3, 8, 0); 
@@ -99,20 +88,33 @@ void TrackedObject::runTracking()
                     default:
                         break;
                 }
-                cv::line(rgb_output, last_pose_vector_[j], orient, cv::Scalar(133,255,20));
+                if (orientation_vector[j] != orientation_vector[j])
+                {   
+                    orientation_vector[j] = last_orientation_vector_[j];
+                }
+                
+                // ROS_INFO("Orientation of %d: %f", j, orientation_vector[j]);
+                // ROS_INFO("\n");
+                cv::Point2f orient = cv::Point2f(pose_vector[j].x + 10*cos(orientation_vector[j]), pose_vector[j].y + 10*sin(orientation_vector[j]));
+                // ROS_INFO("center = %f, %f", pose_vector[j].x, pose_vector[j].y);
+                // ROS_INFO("p2 = %f %f", orient.x, orient.y);
+                // ROS_INFO("\n");
+                cv::line(rgb_output, pose_vector[j], orient, cv::Scalar(133,255,20));
             }
             else if (name_ == "opponent_robots")
             {   
-                last_orientation_vector_[j] = 0;
-                cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
-                cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
+                orientation_vector[j] = 0;
+                cv::Point point1 = cv::Point(pose_vector[j].x-10, pose_vector[j].y-10);
+                cv::Point point2 = cv::Point(pose_vector[j].x+10, pose_vector[j].y+10);
                 cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
             }
         }
-        position_ = last_pose_vector_;
+        position_ = pose_vector;
         
-        orientation_ = last_orientation_vector_;
+        orientation_ = orientation_vector;
     }
+    last_pose_vector_ = pose_vector;
+    last_orientation_vector_ = orientation_vector;
 }
 
 bool TrackedObject::isName(std::string name)
