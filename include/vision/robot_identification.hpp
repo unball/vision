@@ -24,7 +24,7 @@ public:
 private:
     REGISTER_ALGORITHM_DEC(RobotIdentification);
     void find(cv::Mat input, cv::Mat rgb_input);
-    cv::Mat identify(std::vector<cv::Point> contour, int &orientation_index, int index, cv::Mat roi, cv::Mat input, cv::Rect boundingRect);
+    cv::Mat identify(std::vector<cv::Point> contour, int *orientation_index, int index, cv::Mat roi, cv::Mat input, cv::Rect boundingRect);
     void findOrientation(cv::Mat mask, int index, cv::Mat orient_circle);
     bool robotColor(cv::Mat mask);
 
