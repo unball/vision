@@ -18,7 +18,8 @@ find_package(Boost REQUIRED COMPONENTS system)
 
 
 add_message_files(DIRECTORY msg FILES
-  VisionMessage.msg)
+  VisionMessage.msg
+  PixelToMetricConversionMessage.msg)
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
@@ -41,7 +42,7 @@ link_directories(
 )
 
 
-add_executable(vision_node 
+add_executable(vision_node
   src/vision/vision_node.cpp
   src/vision/vision.cpp
   src/vision/algorithm.cpp
@@ -53,7 +54,7 @@ add_executable(vision_node
   src/vision/dummy_segmentation_algorithm.cpp
   src/vision/find_robots_by_depth.cpp
   src/vision/find_robots_by_color.cpp
-  src/vision/robot_identification.cpp  
+  src/vision/robot_identification.cpp
   src/vision/identification_algorithm.cpp
   src/vision/identifier.cpp
   src/vision/raw_image.cpp
@@ -87,7 +88,7 @@ add_executable(dummy_image
 add_dependencies(dummy_image unball_gencpp)
 target_link_libraries(dummy_image ${catkin_LIBRARIES})
 
-add_executable(calibration_node 
+add_executable(calibration_node
   src/calibration/calibration_node.cpp
   src/calibration/capture_points.cpp
   src/calibration/file_manager.cpp
@@ -111,3 +112,8 @@ add_executable(show_kinect_camera
   src/camera/show_kinect_camera.cpp)
 add_dependencies(show_kinect_camera unball_gencpp)
 target_link_libraries(show_kinect_camera ${catkin_LIBRARIES})
+
+add_executable(pixel_to_metric_conversion
+  src/pixel_to_metric_conversion/pixel_to_metric_conversion_node.cpp)
+add_dependencies(pixel_to_metric_conversion unball_gencpp)
+target_link_libraries(pixel_to_metric_conversion ${catkin_LIBRARIES})
