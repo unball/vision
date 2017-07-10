@@ -9,18 +9,15 @@ class RawImage
     static RawImage& getInstance();
 
     void setRawRGBImage(const cv::Mat &raw_image);
-    void setRawDepthImage(const cv::Mat &raw_image);
 
     /**
      * The getter methods for the raw images will always return
      * clones of the original images, so as to prevent unintended alterations.
      */
     cv::Mat getRawRGBImage();
-    cv::Mat getRawDepthImage();
 
   private:
     cv::Mat raw_rgb_image_;
-    cv::Mat raw_depth_image_;
 };
 
 #endif // VISION_RAW_IMAGE_H_

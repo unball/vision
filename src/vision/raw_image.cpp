@@ -15,13 +15,3 @@ cv::Mat RawImage::getRawRGBImage()
 {
     return raw_rgb_image_.clone();
 }
-
-void RawImage::setRawDepthImage(const cv::Mat &raw_image)
-{
-    raw_image.copyTo(raw_depth_image_);
-}
-
-cv::Mat RawImage::getRawDepthImage()
-{
-    return raw_depth_image_.clone();
-}

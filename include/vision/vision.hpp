@@ -32,8 +32,7 @@ class Vision
 
     void run();
     void setRawRGBImage(const cv::Mat &rgb_image);
-    void setRawDepthImage(const cv::Mat &depth_image);
-    
+
     std::unordered_map<std::string, TrackingOutput> getVisionOutput();
 
   private:
@@ -43,7 +42,6 @@ class Vision
 
     bool has_received_all_images_;
     bool has_received_first_rgb_image_;
-    bool has_received_first_depth_image_;
 };
 
 #endif // VISION_VISION_H_

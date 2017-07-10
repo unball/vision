@@ -21,8 +21,7 @@ Vision& Vision::getInstance()
  */
 Vision::Vision()
 {
-    has_received_all_images_ = has_received_first_rgb_image_ =
-        has_received_first_depth_image_ = false;
+    has_received_all_images_ = has_received_first_rgb_image_;
     ConfigParser::getInstance().parseConfigFile();
     Segmenter::getInstance().init();
     Identifier::getInstance().init();
@@ -56,23 +55,7 @@ void Vision::setRawRGBImage(const cv::Mat &rgb_image)
         VisionGUI::getInstance().setInitialRGBImage(rgb_image);
     }
 
-    if (has_received_first_rgb_image_ and has_received_first_depth_image_)
-        has_received_all_images_ = true;
-}
-
-/**
- * Receives the raw depth image, and passes it on to the RawImage class and the VisionGUI.
- */
-void Vision::setRawDepthImage(const cv::Mat &depth_image)
-{
-    if (isValidSize(depth_image))
-    {
-        has_received_first_depth_image_ = true;
-        RawImage::getInstance().setRawDepthImage(depth_image);
-        VisionGUI::getInstance().setInitialDepthImage(depth_image);
-    }
-
-    if (has_received_first_rgb_image_ and has_received_first_depth_image_)
+    if (has_received_first_rgb_image_)
         has_received_all_images_ = true;
 }
 

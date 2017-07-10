@@ -23,14 +23,13 @@
 
 #include <vision/vision.hpp>
 
-image_transport::Subscriber rgb_sub, depth_sub;
-cv_bridge::CvImage rgb_frame, depth_frame;
-bool using_rgb, using_depth;
+image_transport::Subscriber rgb_sub;
+cv_bridge::CvImage rgb_frame;
+bool using_rgb;
 
 void loadConfig();
 void subscriberSetup(image_transport::ImageTransport &img_transport);
 void receiveRGBFrame(const sensor_msgs::ImageConstPtr& msg);
-void receiveDepthFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishVisionMessage(ros::Publisher &publisher);
 
 
@@ -59,15 +58,11 @@ int main(int argc, char **argv)
 
 void loadConfig() {
     ros::param::get("/image/using_rgb", using_rgb);
-    ros::param::get("/image/using_depth", using_depth);
 }
 
 void subscriberSetup(image_transport::ImageTransport &img_transport) {
     if (using_rgb)
         rgb_sub = img_transport.subscribe("/camera/rgb/image_calibrated", 1, receiveRGBFrame);
-
-    if (using_depth)
-        depth_sub = img_transport.subscribe("/camera/depth/image_calibrated", 1, receiveDepthFrame);
 }
 
 /**
@@ -92,27 +87,6 @@ void receiveRGBFrame(const sensor_msgs::ImageConstPtr &msg)
 }
 
 /**
- * Receives the depth frame and passes it to the RawImage instance, on the vision system.
- * @param msg a ROS image message pointer.
- */
-void receiveDepthFrame(const sensor_msgs::ImageConstPtr &msg)
-{
-    cv_bridge::CvImagePtr cv_ptr;
-
-    try
-    {
-        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_8UC3);
-    }
-    catch (cv_bridge::Exception &e)
-    {
-        ROS_WARN("cv_bridge exception: %s", e.what());
-        return;
-    }
-
-    Vision::getInstance().setRawDepthImage(cv_ptr->image);
-}
-
-/**
  * Publishes the vision message to the vision topic.
  * @param publisher a ROS node publisher.
  */
@@ -120,7 +94,7 @@ void publishVisionMessage(ros::Publisher &publisher)
 {
     vision::VisionMessage message;
     auto vision_output = Vision::getInstance().getVisionOutput();
-    
+
     if (vision_output.find("ball") != vision_output.end())
     {
         if (vision_output["ball"].positions.size() > 0)
@@ -155,4 +129,3 @@ void publishVisionMessage(ros::Publisher &publisher)
     }
     publisher.publish(message);
 }
-
