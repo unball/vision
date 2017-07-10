@@ -31,7 +31,7 @@ class Vision
     static Vision& getInstance();
 
     void run();
-    void setRawRGBImage(const cv::Mat &rgb_image);
+    void setRawImage(const cv::Mat &image);
 
     std::unordered_map<std::string, TrackingOutput> getVisionOutput();
 
@@ -40,8 +40,7 @@ class Vision
 
     bool isValidSize(const cv::Mat &img);
 
-    bool has_received_all_images_;
-    bool has_received_first_rgb_image_;
+    bool has_received_first_image_;
 };
 
 #endif // VISION_VISION_H_

@@ -23,12 +23,12 @@ class SegmentationAlgorithm : public Algorithm
   public:
     virtual ~SegmentationAlgorithm() {}
 
-    cv::Mat getSegmentationRGBOutput();
+    cv::Mat getSegmentationOutput();
     std::string getFullName();
     bool isName(std::string name);
 
   protected:
-    cv::Mat output_rgb_image_;
+    cv::Mat output_image_;
 };
 
 #endif // VISION_SEGMENTATION_ALGORITHM_H_

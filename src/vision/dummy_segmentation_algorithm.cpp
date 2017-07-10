@@ -4,5 +4,5 @@ REGISTER_ALGORITHM_DEF(DummySegmentationAlgorithm);
 
 void DummySegmentationAlgorithm::run()
 {
-    RawImage::getInstance().getRawRGBImage().copyTo(output_rgb_image_);
+    output_image_ = RawImage::getInstance().getRawImage();
 }

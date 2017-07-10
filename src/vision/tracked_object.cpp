@@ -27,24 +27,24 @@ std::vector<cv::Point2f> TrackedObject::getPositionVector(){
 }
 
 std::vector<float> TrackedObject::getOrientationVector(){
-    return orientation_;    
+    return orientation_;
 }
 
-void TrackedObject::runTracking()   
+void TrackedObject::runTracking()
 {
     auto id_output = identification_algorithm_->getIdentificationOutput();
     auto pose_vector = id_output->object_pose;
     auto orientation_vector = id_output->object_orientation;
-    cv::Mat rgb_output = VisionGUI::getInstance().getOutputRGBImage();
+    cv::Mat rgb_output = VisionGUI::getInstance().getOutputImage();
     if (last_pose_vector_.size() == 0)
         last_pose_vector_ = pose_vector;
     if (last_orientation_vector_.size() == 0)
        last_orientation_vector_ = orientation_vector;
-    
+
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
     std::vector<trackParams> params(last_pose_vector_.size());
-    
+
     if (name_ == "ball")
     {
         position_ = pose_vector;
@@ -76,7 +76,7 @@ void TrackedObject::runTracking()
             last_orientation_vector_[j] = orientation_vector[j];
 
             if (name_ == "our_robots")
-            {   
+            {
                 ROS_INFO("Orientation of %d: %f", j, last_orientation_vector_[j]);
                 ROS_INFO("\n");
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
@@ -88,13 +88,13 @@ void TrackedObject::runTracking()
 
                 switch (j){
                     case 0:
-                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 0, 0), 3, 8, 0); 
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 0, 0), 3, 8, 0);
                         break;
                     case 1:
-                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 255, 0), 3, 8, 0); 
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 255, 0), 3, 8, 0);
                         break;
                     case 2:
-                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 0, 255), 3, 8, 0); 
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 0, 255), 3, 8, 0);
                         break;
                     default:
                         break;
@@ -102,15 +102,15 @@ void TrackedObject::runTracking()
                 cv::line(rgb_output, last_pose_vector_[j], orient, cv::Scalar(133,255,20));
             }
             else if (name_ == "opponent_robots")
-            {   
+            {
                 last_orientation_vector_[j] = 0;
                 cv::Point point1 = cv::Point(last_pose_vector_[j].x-10, last_pose_vector_[j].y-10);
                 cv::Point point2 = cv::Point(last_pose_vector_[j].x+10, last_pose_vector_[j].y+10);
-                cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
+                cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0);
             }
         }
         position_ = last_pose_vector_;
-        
+
         orientation_ = last_orientation_vector_;
     }
 }
@@ -146,7 +146,7 @@ void TrackedObject::update(trackParams *param, cv::Point2f measured_pose)
     param->predicted_pose_ = weight_ * param->predicted_pose_ +  (1 - weight_) * measured_pose;
     param->predicted_velocity_ = (param->predicted_pose_ - param->previous_pose_);
 
-}  
+}
 
 void TrackedObject::resetFilter(trackParams *param)
 {
@@ -165,6 +165,6 @@ bool TrackedObject::isOutOfLimits(cv::Point2f position)
     if(position.x < 0 or position.y < 0 or
        position.x > 640 or position.y > 480)
         return true;
-    else 
+    else
         return false;
 }

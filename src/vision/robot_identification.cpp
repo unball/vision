@@ -3,9 +3,9 @@
 REGISTER_ALGORITHM_DEF(RobotIdentification);
 
 void RobotIdentification::run(){
-    mask_ = segmentation_algorithm_->getSegmentationRGBOutput();
+    mask_ = segmentation_algorithm_->getSegmentationOutput();
     cv::Mat mask = mask_;
-    rgb_img_ = VisionGUI::getInstance().getOutputRGBImage();
+    rgb_img_ = VisionGUI::getInstance().getOutputImage();
     cv::Mat rgb_img = rgb_img_;
 
     find(mask, rgb_img);
@@ -45,7 +45,7 @@ void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
     cv::dilate(mask, mask, cv::Mat());
 
     for (int i = 0; i < mask.rows; ++i)
-    {   
+    {
 
         p = mask.ptr<uchar>(i);
         for (int j = 0; j < mask.cols; ++j)
@@ -54,7 +54,7 @@ void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
             {
                 int area = 10;
                 bool islost = true;
-                
+
                 for (int k = 0; k < 20 and j+k < mask.cols; ++k)
                     if(p[j+k] == 255)
                         islost = false;
@@ -70,7 +70,7 @@ void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
             }
         }
     }
-    
+
     cv::findContours(mask, newcontours, newhierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     int orientation_index;
@@ -80,7 +80,7 @@ void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
         auto newboundingRect = cv::boundingRect(newcontours[i]);
 
         if (newboundingRect.area() > area_)
-        {   
+        {
             cv::Mat roi;
             rgb_input(newboundingRect).copyTo(roi);
             orientation_index = identify(newcontours[i], robot_index, roi);
@@ -93,9 +93,9 @@ void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
             cv::imshow(window_name_, input);
             if (cv::waitKey(30) == 'w'){
                 cv::destroyWindow(window_name_);
-                hasclosed_ = true;  
+                hasclosed_ = true;
             }
-        } 
+        }
     }
 }
 
@@ -104,9 +104,9 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
     cv::Moments moments;
     moments = cv::moments(contour, true);
     auto robot_pose = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
-    
+
     if (arguments_ == "ours")
-    {   
+    {
         //ROS_ERROR("our robots");
         cv::cvtColor(roi, roi, CV_BGR2HSV);
 
@@ -151,9 +151,9 @@ int RobotIdentification::identify(std::vector<cv::Point> contour, int index, cv:
         robots_coord_[index] = robot_pose;
         return index;
     }
-    
 
-    
+
+
 }
 
 bool RobotIdentification::robotColor(cv::Mat mask){
@@ -162,7 +162,7 @@ bool RobotIdentification::robotColor(cv::Mat mask){
     std::vector<cv::Vec4i> hierarchy;
 
     cv::findContours(mask, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-    
+
 
     for(int i = 0, sum_ = 0; i < contours.size(); i++){
         auto bounding_rect = cv::boundingRect(contours[i]);
@@ -170,7 +170,7 @@ bool RobotIdentification::robotColor(cv::Mat mask){
         if (sum_ > 10)
             return true;
     }
-    
+
     return false;
 }
 
@@ -181,13 +181,13 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
     std::vector<cv::Vec4i> hierarchy;
     std::vector<std::vector<cv::Point>> contours;
     cv::Mat mask_inverted = cv::Mat();
-    
+
     cv::Moments moments;
     cv::Point2f robot_center;
     cv::Point2f robot_id;
-    
+
     cv::bitwise_not(mask, mask_inverted);
-    
+
     float area = 0;
     cv::findContours(mask, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     for (uint i = 0, robot_index = 0; i < contours.size() && robot_index < 3; ++i, robot_index++)
@@ -201,7 +201,7 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
             area = newboundingRect.area();
         }
     }
-    
+
     cv::findContours(mask_inverted, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     area = 10000.0;
     for (uint i = 0, robot_index = 0; i < contours.size() && robot_index < 3; ++i, robot_index++)
@@ -215,7 +215,7 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index){
             area = newboundingRect.area();
         }
     }
-     
+
     auto orientation_vector = robot_id - robot_center;
     auto theta = atan2(orientation_vector.y, orientation_vector.x);
 

@@ -3,7 +3,7 @@
 REGISTER_ALGORITHM_DEF(FindRobotsColor);
 
 void FindRobotsColor::run(){
-    RawImage::getInstance().getRawRGBImage().copyTo(rgb_input_);
+    RawImage::getInstance().getRawImage().copyTo(rgb_input_);
     preProcessor(rgb_input_);
 }
 
@@ -20,13 +20,13 @@ void FindRobotsColor::init(){
 }
 
 void FindRobotsColor::preProcessor(cv::Mat input){
-    
+
     cv::cvtColor(input, input, CV_BGR2HSV);
-    
+
     std::vector<cv::Mat> channels(3);
     cv::split(input, channels);
 
-    
+
     if(arguments_ == "Yellow"){
         cv::inRange(input,
                     cv::Scalar(yellow_mat_.at<int>(0,0), yellow_mat_.at<int>(0,1), yellow_mat_.at<int>(0,2)),
@@ -49,7 +49,7 @@ void FindRobotsColor::preProcessor(cv::Mat input){
         return;
     }
 
-    output_rgb_image_ = mask_;
+    output_image_ = mask_;
 
     // cv::waitKey(1);
 }
@@ -64,4 +64,3 @@ void FindRobotsColor::applyMorfology(){
     cv::erode(mask_, mask_, element2);
     cv::dilate(mask_, mask_, element2);
 }
-

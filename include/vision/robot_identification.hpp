@@ -25,7 +25,7 @@ private:
 
     cv::FileStorage color_reader_;
     cv::Mat red_mat_, pink_mat_, green_mat_;
-    
+
     std::vector<cv::Rect> robots_;
     std::vector<cv::Point2f> robots_coord_;
     std::vector<float> robots_orientation_;
@@ -40,7 +40,7 @@ private:
     std::string enemies_;
 
     int area_ = 1155;
-    bool hasclosed_; 
+    bool hasclosed_;
 
 };
 #endif
