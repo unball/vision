@@ -3,6 +3,8 @@
 REGISTER_ALGORITHM_DEF(RobotIdentification);
 
 void RobotIdentification::run(){
+
+
     mask_ = segmentation_algorithm_->getSegmentationRGBOutput();
     cv::Mat mask = mask_;
     rgb_img_ = VisionGUI::getInstance().getOutputRGBImage();
@@ -28,9 +30,9 @@ void RobotIdentification::init(){
     color_reader_ = cv::FileStorage(sourceDir+filename,cv::FileStorage::READ);
     if (color_reader_.isOpened())
     {
-        color_reader_["Red"] >> red_mat_;
-        color_reader_["Pink"] >> pink_mat_;
-        color_reader_["Green"] >> green_mat_;
+        color_reader_["Robot0"] >> robot0_mat_;
+        color_reader_["Robot1"] >> robot1_mat_;
+        color_reader_["Robot2"] >> robot2_mat_;
     }
 
 }
@@ -113,27 +115,27 @@ cv::Mat RobotIdentification::identify(std::vector<cv::Point> contour, int *orien
     {   
         cv::cvtColor(roi, roi, CV_BGR2HSV);
 
-        cv::Mat red_mask, pink_mask, green_mask;
+        cv::Mat robot0_mask, robot1_mask, robot2_mask;
 
         cv::inRange(roi,
-                    cv::Scalar(red_mat_.at<int>(0,0), red_mat_.at<int>(0,1), red_mat_.at<int>(0,2)),
-                    cv::Scalar(red_mat_.at<int>(1,0), red_mat_.at<int>(1,1), red_mat_.at<int>(1,2)),
-                    red_mask);
+                    cv::Scalar(robot0_mat_.at<int>(0,0), robot0_mat_.at<int>(0,1), robot0_mat_.at<int>(0,2)),
+                    cv::Scalar(robot0_mat_.at<int>(1,0), robot0_mat_.at<int>(1,1), robot0_mat_.at<int>(1,2)),
+                    robot0_mask);
         cv::inRange(roi,
-                    cv::Scalar(pink_mat_.at<int>(0,0), pink_mat_.at<int>(0,1), pink_mat_.at<int>(0,2)),
-                    cv::Scalar(pink_mat_.at<int>(1,0), pink_mat_.at<int>(1,1), pink_mat_.at<int>(1,2)),
-                    pink_mask);
+                    cv::Scalar(robot1_mat_.at<int>(0,0), robot1_mat_.at<int>(0,1), robot1_mat_.at<int>(0,2)),
+                    cv::Scalar(robot1_mat_.at<int>(1,0), robot1_mat_.at<int>(1,1), robot1_mat_.at<int>(1,2)),
+                    robot1_mask);
         cv::inRange(roi,
-                    cv::Scalar(green_mat_.at<int>(0,0), green_mat_.at<int>(0,1), green_mat_.at<int>(0,2)),
-                    cv::Scalar(green_mat_.at<int>(1,0), green_mat_.at<int>(1,1), green_mat_.at<int>(1,2)),
-                    green_mask);
+                    cv::Scalar(robot2_mat_.at<int>(0,0), robot2_mat_.at<int>(0,1), robot2_mat_.at<int>(0,2)),
+                    cv::Scalar(robot2_mat_.at<int>(1,0), robot2_mat_.at<int>(1,1), robot2_mat_.at<int>(1,2)),
+                    robot2_mask);
 
-        bool isRed = false, isPink = false, isGreen = false;
+        bool isRobot0 = false, isRobot1 = false, isRobot2 = false;
 
 
-        isRed = robotColor(red_mask);
-        isPink = robotColor(pink_mask);
-        isGreen = robotColor(green_mask);
+        isRobot0 = robotColor(robot0_mask);
+        isRobot1 = robotColor(robot1_mask);
+        isRobot2 = robotColor(robot2_mask);
 
 
         cv::Mat mask;
@@ -141,21 +143,21 @@ cv::Mat RobotIdentification::identify(std::vector<cv::Point> contour, int *orien
         input(boundingRect).copyTo(mask);
         cv::bitwise_not(mask, mask_inverted);
         
-        if(isRed){
+        if(isRobot0){
             robots_coord_[0] = robot_pose;
-            cv::bitwise_and(red_mask, mask_inverted, roi);
+            cv::bitwise_and(robot0_mask, mask_inverted, roi);
             *orientation_index = 0;
             return roi;
         }
-        else if(isPink){
+        else if(isRobot1){
             robots_coord_[1] = robot_pose;
-            cv::bitwise_and(pink_mask, mask_inverted, roi);
+            cv::bitwise_and(robot1_mask, mask_inverted, roi);
             *orientation_index = 1;
             return roi;
         }
-        else if(isGreen){
+        else if(isRobot2){
             robots_coord_[2] = robot_pose;
-            cv::bitwise_and(green_mask, mask_inverted, roi);
+            cv::bitwise_and(robot2_mask, mask_inverted, roi);
             *orientation_index = 2;
             return roi;
         }else{

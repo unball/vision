@@ -11,6 +11,8 @@ void BallIdentification::init(){
 }
 
 void BallIdentification::run(){
+
+
     rgb_segmented_ = segmentation_algorithm_->getSegmentationRGBOutput();
     
     rgb_segmented_ipl_ = rgb_segmented_;

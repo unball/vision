@@ -25,6 +25,7 @@ bool isImageValid(cv::Mat image);
 
 int main(int argc, char **argv)
 {
+    
     std::string rgb_match_name = "RGB Calibration matching";
     std::string depth_match_name = "Depth Calibration matching";
     std::string rgb_select_name = "RGB Calibration";

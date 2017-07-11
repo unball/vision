@@ -32,6 +32,8 @@ std::vector<float> TrackedObject::getOrientationVector(){
 
 void TrackedObject::runTracking()   
 {
+
+
     auto id_output = identification_algorithm_->getIdentificationOutput();
     auto pose_vector = id_output->object_pose;
     auto orientation_vector = id_output->object_orientation;

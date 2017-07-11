@@ -68,6 +68,7 @@ int main(int argc, char **argv)
     while (ros::ok())
     {
         // Publish the rgb frame
+
         rgb_cap >> rgb_frame.image; // Get a new frame from the rgb video capture
         if (rgb_frame.image.empty())
             break;

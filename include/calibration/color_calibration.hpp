@@ -17,14 +17,14 @@ class ColorCalibration
  private:
     void save(std::string);
     void equalizeIntensity(cv::Mat& rgb_input);
-    cv::Mat old_blue, old_yellow, old_orange, old_green, old_red, old_pink;
+    cv::Mat old_blue, old_yellow, old_orange, old_robot0, old_robot1, old_robot2;
     cv::Mat rgb_calibrated_;
 
     int hsv_min_h_, hsv_max_h_;
     int hsv_min_s_, hsv_max_s_;
     int hsv_min_v_, hsv_max_v_;
     int hdr_;
-    bool is_blue_saved_, is_yellow_saved_, is_orange_saved_, is_green_saved_, is_red_saved_, is_pink_saved_;
+    bool is_blue_saved_, is_yellow_saved_, is_orange_saved_, is_robot0_saved_, is_robot1_saved_, is_robot2_saved_;
     bool calibrate_;
 
     std::string window_name_;

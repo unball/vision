@@ -29,7 +29,7 @@ private:
     bool robotColor(cv::Mat mask);
 
     cv::FileStorage color_reader_;
-    cv::Mat red_mat_, pink_mat_, green_mat_;
+    cv::Mat robot0_mat_, robot1_mat_, robot2_mat_;
     
     std::vector<cv::Rect> robots_;
     std::vector<cv::Point2f> robots_coord_;

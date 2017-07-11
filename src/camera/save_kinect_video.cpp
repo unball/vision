@@ -121,14 +121,12 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "save_kinect_video");
     ros::NodeHandle nh;
     image_transport::ImageTransport it(nh);
-    image_transport::Subscriber sub_rgb, sub_depth;
+    image_transport::Subscriber sub_rgb;
     is_open_rgb = false;
     is_open_depth = false;
     depth_counter = 0;
-    depth_file = ros::package::getPath("vision") + "/data/depth/depth";
 
     sub_rgb = it.subscribe("/camera/rgb/image_raw", 1, rgbCallback);
-    sub_depth = it.subscribe("/camera/depth/image", 1, depthCallback);
 
     ROS_INFO("Saving videos");
     ros::spin();

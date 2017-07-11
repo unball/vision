@@ -1,6 +1,6 @@
 vision:
     camera:
-      show_image: false
+      show_image: true
 
     calibration: 
         calibrate_match_matrix: false

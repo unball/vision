@@ -20,23 +20,26 @@ void FindRobotsColor::init(){
 }
 
 void FindRobotsColor::preProcessor(cv::Mat input){
-    
     cv::cvtColor(input, input, CV_BGR2HSV);
     
     std::vector<cv::Mat> channels(3);
     cv::split(input, channels);
 
+
     
     if(arguments_ == "Yellow"){
+
         cv::inRange(input,
                     cv::Scalar(yellow_mat_.at<int>(0,0), yellow_mat_.at<int>(0,1), yellow_mat_.at<int>(0,2)),
                     cv::Scalar(yellow_mat_.at<int>(1,0), yellow_mat_.at<int>(1,1), yellow_mat_.at<int>(1,2)),
                     mask_);
         //applyMorfology();
+
         cv::imshow("Yellow", mask_);
     }
     else if (arguments_ == "Blue")
-    {
+    {   
+
         cv::inRange(input,
                     cv::Scalar(blue_mat_.at<int>(0,0), blue_mat_.at<int>(0,1), blue_mat_.at<int>(0,2)),
                     cv::Scalar(blue_mat_.at<int>(1,0), blue_mat_.at<int>(1,1), blue_mat_.at<int>(1,2)),
@@ -51,10 +54,13 @@ void FindRobotsColor::preProcessor(cv::Mat input){
 
     output_rgb_image_ = mask_;
 
+
     // cv::waitKey(1);
 }
 
 void FindRobotsColor::applyMorfology(){
+
+
     cv::Mat element2 = getStructuringElement( cv::MORPH_RECT,
                                        cv::Size(erosion_size2 + 1, erosion_size2+1 ),
                                        cv::Point( erosion_size2, erosion_size2 ) );
