@@ -1,6 +1,6 @@
 %YAML:1.0
 ---
-Yellow: !!opencv-matrix
+Blue: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
