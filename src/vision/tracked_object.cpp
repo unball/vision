@@ -37,8 +37,8 @@ void TrackedObject::runTracking()
     auto id_output = identification_algorithm_->getIdentificationOutput();
     auto pose_vector = id_output->object_pose;
     auto orientation_vector = id_output->object_orientation;
-    cv::Mat rgb_output = VisionGUI::getInstance().getOutputRGBImage();
-    
+    cv::Mat rgb_output = VisionGUI::getInstance().getOutputImage();
+
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
     std::vector<trackParams> params(last_pose_vector_.size());
@@ -74,7 +74,7 @@ void TrackedObject::runTracking()
             // last_orientation_vector_[j] = orientation_vector[j];
 
             if (name_ == "our_robots")
-            {   
+            {
                 cv::Point point1 = cv::Point(pose_vector[j].x-10, pose_vector[j].y-10);
                 cv::Point point2 = cv::Point(pose_vector[j].x+10, pose_vector[j].y+10);
                 switch (j){
@@ -91,10 +91,10 @@ void TrackedObject::runTracking()
                         break;
                 }
                 if (orientation_vector[j] != orientation_vector[j])
-                {   
+                {
                     orientation_vector[j] = last_orientation_vector_[j];
                 }
-                
+
                 // ROS_INFO("Orientation of %d: %f", j, orientation_vector[j]);
                 // ROS_INFO("\n");
                 cv::Point2f orient = cv::Point2f(pose_vector[j].x + 10*cos(orientation_vector[j]), pose_vector[j].y + 10*sin(orientation_vector[j]));
@@ -104,15 +104,15 @@ void TrackedObject::runTracking()
                 cv::line(rgb_output, pose_vector[j], orient, cv::Scalar(133,255,20));
             }
             else if (name_ == "opponent_robots")
-            {   
+            {
                 orientation_vector[j] = 0;
                 cv::Point point1 = cv::Point(pose_vector[j].x-10, pose_vector[j].y-10);
                 cv::Point point2 = cv::Point(pose_vector[j].x+10, pose_vector[j].y+10);
-                cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0); 
+                cv::rectangle(rgb_output, point1, point2, cv::Scalar(133, 0, 133), 3, 8, 0);
             }
         }
         position_ = pose_vector;
-        
+
         orientation_ = orientation_vector;
     }
     last_pose_vector_ = pose_vector;
