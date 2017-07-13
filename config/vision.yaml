@@ -7,6 +7,7 @@ vision:
         calibrate_rectify_matrix: false
         calibrate_team_color: false
 
+
     object_list:
      # - "dummy_object" 
      - "ball"
