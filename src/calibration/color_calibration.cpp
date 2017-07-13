@@ -12,9 +12,9 @@ ColorCalibration::ColorCalibration(){
     is_blue_saved_ = false;
     is_yellow_saved_ = false;
     is_orange_saved_ = false;
-    is_red_saved_ = false;
-    is_pink_saved_ = false;
-    is_green_saved_ = false;
+    is_robot0_saved_ = false;
+    is_robot1_saved_ = false;
+    is_robot2_saved_ = false;
     window_name_ = "Color Calibration";
     
 
@@ -43,9 +43,9 @@ ColorCalibration::ColorCalibration(){
         colorHandler_["Blue"] >> old_blue;
         colorHandler_["Yellow"] >> old_yellow;
         colorHandler_["Orange"] >> old_orange;
-        colorHandler_["Red"] >> old_red;
-        colorHandler_["Pink"] >> old_pink;
-        colorHandler_["Green"] >> old_green;
+        colorHandler_["Robot0"] >> old_robot0;
+        colorHandler_["Robot1"] >> old_robot1;
+        colorHandler_["Robot2"] >> old_robot2;
         //set file calibration to save HSV values
         colorManager_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::WRITE);
     }
@@ -62,12 +62,12 @@ ColorCalibration::~ColorCalibration(){
             colorManager_ << "Yellow" << old_yellow;
         if(not is_orange_saved_)
             colorManager_ << "Orange" << old_orange;
-        if(not is_red_saved_)
-            colorManager_ << "Red" << old_red;
-        if(not is_pink_saved_)
-            colorManager_ << "Pink" << old_pink;
-        if(not is_green_saved_)
-            colorManager_ << "Green" << old_green;                  
+        if(not is_robot0_saved_)
+            colorManager_ << "Robot0" << old_robot0;
+        if(not is_robot1_saved_)
+            colorManager_ << "Robot1" << old_robot1;
+        if(not is_robot2_saved_)
+            colorManager_ << "Robot2" << old_robot2;                  
         
         colorManager_.release();
     }
@@ -81,7 +81,7 @@ void ColorCalibration::calibrate(cv::Mat& rgb_input){
     {
         
         cv::waitKey(1);
-        if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_ && is_red_saved_ && is_pink_saved_ && is_green_saved_)
+        if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_ && is_robot0_saved_ && is_robot1_saved_ && is_robot2_saved_)
             cv::destroyWindow(window_name_);
         else{
             cv::Mat hsv_converted;
@@ -108,20 +108,20 @@ void ColorCalibration::calibrate(cv::Mat& rgb_input){
             ROS_INFO("Orange Calibrated!");
             save("Orange");
         }
-        if (cv::waitKey(10) == 'r' && not is_red_saved_)
+        if (cv::waitKey(10) == '0' && not is_robot0_saved_)
         {
-            ROS_INFO("Red Calibrated!");
-            save("Red");
+            ROS_INFO("Robot0 Calibrated!");
+            save("Robot0");
         }
-        if (cv::waitKey(10) == 'p' && not is_pink_saved_)
+        if (cv::waitKey(10) == '1' && not is_robot1_saved_)
         {
-            ROS_INFO("Pink Calibrated!");
-            save("Pink");
+            ROS_INFO("Robot1 Calibrated!");
+            save("Robot1");
         }
-        if (cv::waitKey(10) == 'g' && not is_green_saved_)
+        if (cv::waitKey(10) == '2' && not is_robot2_saved_)
         {
-            ROS_INFO("Green Calibrated!");
-            save("Green");
+            ROS_INFO("Robot2 Calibrated!");
+            save("Robot2");
         }
     }
 }
@@ -135,12 +135,12 @@ void ColorCalibration::save(std::string color){
         is_yellow_saved_ = true;
     if (color == "Orange")
         is_orange_saved_ = true;
-    if (color == "Red")
-        is_red_saved_ = true;
-    if (color == "Pink")
-        is_pink_saved_ = true;
-    if (color == "Green")
-        is_green_saved_ = true;
+    if (color == "Robot0")
+        is_robot0_saved_ = true;
+    if (color == "Robot1")
+        is_robot1_saved_ = true;
+    if (color == "Robot2")
+        is_robot2_saved_ = true;
 
 }
 
