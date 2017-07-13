@@ -27,10 +27,10 @@ std::vector<cv::Point2f> TrackedObject::getPositionVector(){
 }
 
 std::vector<float> TrackedObject::getOrientationVector(){
-    return orientation_;    
+    return orientation_;
 }
 
-void TrackedObject::runTracking()   
+void TrackedObject::runTracking()
 {
 
 
@@ -42,7 +42,7 @@ void TrackedObject::runTracking()
     std::vector<float> module(last_pose_vector_.size());
     std::vector<float> module_aux(last_pose_vector_.size());
     std::vector<trackParams> params(last_pose_vector_.size());
-    
+
     if (name_ == "ball")
     {
         position_ = pose_vector;
@@ -79,13 +79,13 @@ void TrackedObject::runTracking()
                 cv::Point point2 = cv::Point(pose_vector[j].x+10, pose_vector[j].y+10);
                 switch (j){
                     case 0:
-                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 0, 0), 3, 8, 0); 
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(255, 0, 0), 3, 8, 0);
                         break;
                     case 1:
-                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 255, 0), 3, 8, 0); 
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 255, 0), 3, 8, 0);
                         break;
                     case 2:
-                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 0, 255), 3, 8, 0); 
+                        cv::rectangle(rgb_output, point1, point2, cv::Scalar(0, 0, 255), 3, 8, 0);
                         break;
                     default:
                         break;
@@ -150,7 +150,7 @@ void TrackedObject::update(trackParams *param, cv::Point2f measured_pose)
     param->predicted_pose_ = weight_ * param->predicted_pose_ +  (1 - weight_) * measured_pose;
     param->predicted_velocity_ = (param->predicted_pose_ - param->previous_pose_);
 
-}  
+}
 
 void TrackedObject::resetFilter(trackParams *param)
 {
@@ -169,6 +169,6 @@ bool TrackedObject::isOutOfLimits(cv::Point2f position)
     if(position.x < 0 or position.y < 0 or
        position.x > 640 or position.y > 480)
         return true;
-    else 
+    else
         return false;
 }

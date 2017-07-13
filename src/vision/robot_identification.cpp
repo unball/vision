@@ -5,9 +5,9 @@ REGISTER_ALGORITHM_DEF(RobotIdentification);
 void RobotIdentification::run(){
 
 
-    mask_ = segmentation_algorithm_->getSegmentationRGBOutput();
+    mask_ = segmentation_algorithm_->getSegmentationOutput();
     cv::Mat mask = mask_;
-    rgb_img_ = VisionGUI::getInstance().getOutputRGBImage();
+    rgb_img_ = VisionGUI::getInstance().getOutputImage();
     cv::Mat rgb_img = rgb_img_;
 
     find(mask, rgb_img);
@@ -82,7 +82,7 @@ void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
         auto newboundingRect = cv::boundingRect(newcontours[i]);
 
         if (newboundingRect.area() > area_)
-        {   
+        {
             cv::Mat roi;
             cv::Mat mask;
             rgb_input(newboundingRect).copyTo(roi);
@@ -99,9 +99,9 @@ void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
             cv::imshow(window_name_, input);
             if (cv::waitKey(30) == 'w'){
                 cv::destroyWindow(window_name_);
-                hasclosed_ = true;  
+                hasclosed_ = true;
             }
-        } 
+        }
     }
 }
 
@@ -185,7 +185,7 @@ bool RobotIdentification::robotColor(cv::Mat mask){
         if (sum_ > 10)
             return true;
     }
-    
+
     return false;
 }
 

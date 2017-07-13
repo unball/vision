@@ -45,7 +45,7 @@ private:
     std::string enemies_;
 
     int area_ = 1155;
-    bool hasclosed_; 
+    bool hasclosed_;
 
 };
 #endif

@@ -18,7 +18,7 @@ void BallInRangeColorSegmentation::run()
 {
     // ROS_INFO("Running the ball segmentation algorithm usi    ng inrange method.");
     // RawImage::getInstance().getRawRGBImage().copyTo(output_rgb_image_);
-    rgb_image = RawImage::getInstance().getRawRGBImage();
+    rgb_image = RawImage::getInstance().getRawImage();
     cv::cvtColor(rgb_image, rgb_image, CV_BGR2HSV);
     cv::Mat mask;
     cv::inRange(rgb_image,
@@ -34,5 +34,5 @@ void BallInRangeColorSegmentation::run()
     cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, elem);
 
     cv::imshow(window_name_, mask);
-    output_rgb_image_ = mask;
+    output_image_ = mask;
 }

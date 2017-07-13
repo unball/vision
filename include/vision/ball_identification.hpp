@@ -1,5 +1,5 @@
 #ifndef BALL_IDENTIFICATION_H
-#define BALL_IDENTIFICATION_H 
+#define BALL_IDENTIFICATION_H
 
 #include <opencv2/opencv.hpp>
 #include <ros/ros.h>
@@ -23,7 +23,7 @@ class BallIdentification : public IdentificationAlgorithm
     CvMemStorage* storage;
     CvMemStorage *mem;
     CvSeq *contours;
-    
+
 };
 
 

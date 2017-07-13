@@ -1,7 +1,6 @@
 #include <vision/vision_gui.hpp>
 
-const std::string OUTPUT_RGB_IMAGE_NAME = "output rgb image";
-const std::string OUTPUT_DEPTH_IMAGE_NAME = "output depth image";
+const std::string OUTPUT_IMAGE_NAME = "output image";
 
 VisionGUI& VisionGUI::getInstance()
 {
@@ -11,37 +10,23 @@ VisionGUI& VisionGUI::getInstance()
 
 VisionGUI::VisionGUI()
 {
-    cv::namedWindow(OUTPUT_RGB_IMAGE_NAME);
-    //cv::namedWindow(OUTPUT_DEPTH_IMAGE_NAME);
+    cv::namedWindow(OUTPUT_IMAGE_NAME);
     ros::param::get("/image/using_rgb", using_rgb_);
-    ros::param::get("/image/using_depth", using_depth_);
 }
 
-void VisionGUI::setInitialRGBImage(const cv::Mat &raw_image)
+void VisionGUI::setInitialImage(const cv::Mat &raw_image)
 {
-    raw_image.copyTo(output_rgb_image_);
+    raw_image.copyTo(output_image_);
 }
 
-cv::Mat VisionGUI::getOutputRGBImage()
+cv::Mat VisionGUI::getOutputImage()
 {
-    return output_rgb_image_;
-}
-
-void VisionGUI::setInitialDepthImage(const cv::Mat &raw_image)
-{
-    raw_image.copyTo(output_depth_image_);
-}
-
-cv::Mat VisionGUI::getOutputDepthImage()
-{
-    return output_depth_image_;
+    return output_image_;
 }
 
 void VisionGUI::showOutputImages()
 {
     if (using_rgb_)
-        cv::imshow(OUTPUT_RGB_IMAGE_NAME, output_rgb_image_);
-    if (using_depth_)
-        cv::imshow(OUTPUT_DEPTH_IMAGE_NAME, output_depth_image_);
+        cv::imshow(OUTPUT_IMAGE_NAME, output_image_);
     cv::waitKey(1);
 }
