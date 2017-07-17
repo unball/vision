@@ -1,32 +1,32 @@
 %YAML:1.0
 ---
+Yellow: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 16, 16, 150, 40, 248, 233 ]
+Robot0: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 107, 65, 122, 148, 185, 156 ]
+Robot1: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 53, 65, 122, 93, 185, 156 ]
+Robot2: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 150, 92, 131, 188, 256, 256 ]
 Blue: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
    data: [ 107, 220, 120, 133, 256, 206 ]
-Yellow: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 20, 216, 150, 64, 256, 256 ]
 Orange: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
    data: [ 0, 243, 143, 15, 256, 186 ]
-Robot0: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 107, 220, 120, 133, 256, 206 ]
-Robot1: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 59, 75, 104, 86, 233, 172 ]
-Robot2: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 150, 203, 120, 206, 256, 256 ]
