@@ -4,29 +4,29 @@ Yellow: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 21, 61, 194, 60, 256, 256 ]
-Blue: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 97, 203, 177, 124, 256, 239 ]
-Robot2: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 119, 202, 178, 254, 256, 256 ]
-Robot1: !!opencv-matrix
-   rows: 2
-   cols: 3
-   dt: i
-   data: [ 48, 87, 151, 99, 241, 213 ]
+   data: [ 16, 16, 150, 40, 248, 233 ]
 Robot0: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 96, 117, 120, 133, 256, 256 ]
+   data: [ 107, 65, 122, 148, 185, 156 ]
+Robot1: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 53, 65, 122, 93, 185, 156 ]
+Robot2: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 150, 92, 131, 188, 256, 256 ]
+Blue: !!opencv-matrix
+   rows: 2
+   cols: 3
+   dt: i
+   data: [ 107, 220, 120, 133, 256, 206 ]
 Orange: !!opencv-matrix
    rows: 2
    cols: 3
    dt: i
-   data: [ 0, 238, 208, 22, 256, 256 ]
+   data: [ 0, 243, 143, 15, 256, 186 ]

@@ -182,7 +182,7 @@ bool RobotIdentification::robotColor(cv::Mat mask){
     for(int i = 0, sum_ = 0; i < contours.size(); i++){
         auto bounding_rect = cv::boundingRect(contours[i]);
         sum_ += bounding_rect.area();
-        if (sum_ > 10)
+        if (sum_ > 0)
             return true;
     }
 
@@ -214,28 +214,31 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index, cv::Mat orien
             }
         }
         cv::findContours(orient_circle, contours, hierarchy, CV_RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-        area = 100000.0;
+        
         for (uint i = 0; i < contours.size(); ++i)
         {
+            cv::Mat roi;
             auto newboundingRect = cv::boundingRect(contours[i]);
-
-            if (newboundingRect.area() < area)
-            {
-                moments = cv::moments(contours[i], true);
-                robot_id = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
-                area = newboundingRect.area();
-            }
+            moments = cv::moments(contours[i], true);
+            robot_id = cv::Point2f(moments.m10/moments.m00, moments.m01/moments.m00);
+            //area = newboundingRect.area();
+            
         }
          
+
         auto orientation_vector = robot_id - robot_center;
         auto theta = atan2(orientation_vector.y, orientation_vector.x);
+           
 
         // cv::Point2f orient = cv::Point2f(robot_center.x + 10*cos(theta), robot_center.y + 10*sin(theta));
         // cv::circle(mask, robot_center, 2, cv::Scalar(150,0,0));
         // cv::circle(mask, robot_id, 2, cv::Scalar(150,0,0));
         // cv::line(mask, robot_center, orient, cv::Scalar(133,255,20));
         // cv::imshow("mask", mask);
+        
+            
 
         robots_orientation_[index] = theta;
+    
     }
 }
