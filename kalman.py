@@ -4,6 +4,14 @@ import rospy
 
 from vision.msg import VisionMessage
 
+def main():
+    rospy.init_node('kalman_topic', anonymous=True)
+
+    while not rospy.is_shutdown():
+        rospy.Subscriber('vision_topic', VisionMessage, subscriber, queue_size=1)
+        # rospy.spin()
+    pass
+
 
 def subscriber(msg):
     
@@ -14,14 +22,15 @@ def subscriber(msg):
     x_curr = msg.x
     y_curr = msg.y
     th_curr = msg.th
-    print ('asdasd {0}'.format(type(th_curr)))
+    ballx_curr = msg.ball_x
+    bally_curr = msg.ball_y
+
+    print x_curr
+    print y_curr
+    print bally_curr
+
 
     rate.sleep()
 
 if __name__ == '__main__':
-    try:
-        rospy.init_node('kalman_topic', anonymous=True)
-        while not rospy.is_shutdown():
-            pub = rospy.Subscriber('vision_topic', VisionMessage, subscriber)
-    except rospy.ROSInterruptException:
-        pass
+    main()
