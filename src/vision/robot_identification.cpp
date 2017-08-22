@@ -227,15 +227,21 @@ void RobotIdentification::findOrientation(cv::Mat mask, int index, cv::Mat orien
          
 
         auto orientation_vector = robot_id - robot_center;
-        auto theta = atan2(orientation_vector.y, orientation_vector.x);
+        auto theta = atan2(-1*orientation_vector.y, orientation_vector.x);
+        
+
+        // auto c = cos(theta);
+        // auto s = sin(theta);
            
 
-        // cv::Point2f orient = cv::Point2f(robot_center.x + 10*cos(theta), robot_center.y + 10*sin(theta));
+        // cv::Point2f orient = cv::Point2f(robot_center.x + 10*cos(theta), (robot_center.y - 10*sin(theta)));
         // cv::circle(mask, robot_center, 2, cv::Scalar(150,0,0));
         // cv::circle(mask, robot_id, 2, cv::Scalar(150,0,0));
         // cv::line(mask, robot_center, orient, cv::Scalar(133,255,20));
         // cv::imshow("mask", mask);
+        // std::printf("%f %f %f\n", theta, c, s);
         
+
             
 
         robots_orientation_[index] = theta;
