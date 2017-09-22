@@ -97,7 +97,7 @@ void TrackedObject::runTracking()
 
                 // ROS_INFO("Orientation of %d: %f", j, orientation_vector[j]);
                 // ROS_INFO("\n");
-                cv::Point2f orient = cv::Point2f(pose_vector[j].x + 10*cos(orientation_vector[j]), pose_vector[j].y + 10*sin(orientation_vector[j]));
+                cv::Point2f orient = cv::Point2f(pose_vector[j].x + 10*cos(orientation_vector[j]), pose_vector[j].y - 10*sin(orientation_vector[j]));
                 // ROS_INFO("center = %f, %f", pose_vector[j].x, pose_vector[j].y);
                 // ROS_INFO("p2 = %f %f", orient.x, orient.y);
                 // ROS_INFO("\n");

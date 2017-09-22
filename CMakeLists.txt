@@ -112,7 +112,6 @@ add_executable(show_kinect_camera
 add_dependencies(show_kinect_camera unball_gencpp)
 target_link_libraries(show_kinect_camera ${catkin_LIBRARIES})
 
-add_executable(pixel_to_metric_conversion
-  src/pixel_to_metric_conversion/pixel_to_metric_conversion_node.cpp)
-add_dependencies(pixel_to_metric_conversion unball_gencpp)
-target_link_libraries(pixel_to_metric_conversion ${catkin_LIBRARIES})
+
+catkin_install_python(PROGRAMS kalman.py
+                      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
