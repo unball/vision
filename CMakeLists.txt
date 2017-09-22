@@ -113,5 +113,4 @@ add_dependencies(show_kinect_camera unball_gencpp)
 target_link_libraries(show_kinect_camera ${catkin_LIBRARIES})
 
 
-catkin_install_python(PROGRAMS kalman.py
-                      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
