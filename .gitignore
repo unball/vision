@@ -7,3 +7,5 @@
 #ignore sublime project
 *.sublime-project
 *.sublime-workspace
+
+\.vscode/
