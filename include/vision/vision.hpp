@@ -1,15 +1,3 @@
-/**
- * @file   vision.hpp
- * @author Gabriel Naves da Silva
- * @date   27/02/2016
- *
- * @attention Copyright (C) 2014 UnBall Robot Soccer Team
- *
- * @brief  Vision class
- *
- * Defines computer vision class
- */
-
 #ifndef VISION_VISION_H_
 #define VISION_VISION_H_
 

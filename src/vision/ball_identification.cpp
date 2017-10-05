@@ -11,7 +11,7 @@ void BallIdentification::init(){
 }
 
 void BallIdentification::run(){
-    rgb_segmented_ = segmentation_algorithm_->getSegmentationOutput();
+    rgb_segmented_ = segmentation_algorithms_[0]->getSegmentationOutput();
 
     rgb_segmented_ipl_ = rgb_segmented_;
     cvFindContours(&rgb_segmented_ipl_, mem, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));

@@ -15,12 +15,12 @@ class IdentificationAlgorithm : public Algorithm
 
     bool isName(std::string name);
 
-    void setSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> seg_alg);
+    void setSegmentationAlgorithms(std::vector<std::shared_ptr<SegmentationAlgorithm>> seg_alg);
 
     std::shared_ptr<IdentificationOutput> getIdentificationOutput();
 
   protected:
-    std::shared_ptr<SegmentationAlgorithm> segmentation_algorithm_;
+    std::vector<std::shared_ptr<SegmentationAlgorithm>> segmentation_algorithms_;
 
     std::shared_ptr<IdentificationOutput> output_info_;
 };

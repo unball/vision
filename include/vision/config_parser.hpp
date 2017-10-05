@@ -21,7 +21,8 @@ class ConfigParser
     void loadSegmentationAlgorithmInfo(std::string obj_name);
     void loadIdentificationAlgorithmInfo(std::string obj_name);
 
-    void createNewSegmentationAlgorithm(std::string algorithm_name, std::string algorithm_arguments);
+    std::shared_ptr<SegmentationAlgorithm>
+    createNewSegmentationAlgorithm(std::string algorithm_name, std::string algorithm_arguments);
     void createNewIdentificationAlgorithm(std::string algorithm_name, std::string algorithm_arguments);
 
     void createObject(std::string obj_name);
@@ -29,7 +30,7 @@ class ConfigParser
     std::vector<std::string> object_list_;
 
     // Temporary pointers
-    std::shared_ptr<SegmentationAlgorithm> current_seg_alg_;
+    std::vector<std::shared_ptr<SegmentationAlgorithm>> current_seg_algs_;
     std::shared_ptr<IdentificationAlgorithm> current_id_alg_;
     std::shared_ptr<TrackedObject> current_tracked_obj_;
 };

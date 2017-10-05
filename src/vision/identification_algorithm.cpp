@@ -2,12 +2,15 @@
 
 bool IdentificationAlgorithm::isName(std::string name)
 {
-    return name == name_ + arguments_ + segmentation_algorithm_->getFullName();
+    std::string full_name = name_ + arguments_;
+    for (auto seg_alg : segmentation_algorithms_)
+        full_name += seg_alg->getFullName();
+    return name == full_name;
 }
 
-void IdentificationAlgorithm::setSegmentationAlgorithm(std::shared_ptr<SegmentationAlgorithm> seg_alg)
+void IdentificationAlgorithm::setSegmentationAlgorithms(std::vector<std::shared_ptr<SegmentationAlgorithm>> seg_alg)
 {
-    segmentation_algorithm_ = seg_alg;
+    segmentation_algorithms_ = seg_alg;
 }
 
 std::shared_ptr<IdentificationOutput> IdentificationAlgorithm::getIdentificationOutput()
