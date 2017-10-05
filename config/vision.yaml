@@ -2,35 +2,62 @@ vision:
     camera:
       show_image: true
 
-    calibration: 
+    calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
         calibrate_team_color: false
 
-
     object_list:
-     # - "dummy_object" 
      - "ball"
-     - "our_robots"
-     - "opponent_robots"
+     - "robot_0"
+     - "robot_1"
+     - "robot_2"
+    #  - "our_robots"
+    #  - "opponent_robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
       identification_algorithm: "BallIdentification"
 
-    our_robots:
-      segmentation_algorithm: "FindRobotsColor"
-      segmentation_arguments: "Yellow"
-      identification_algorithm: "RobotIdentification"
-      identification_arguments: "ours"
-
-    opponent_robots:
-      segmentation_algorithm: "FindRobotsColor"
-      segmentation_arguments: "Blue"
-      identification_algorithm: "RobotIdentification"
-      identification_arguments: "theirs"
-    
-    dummy_object:
-      segmentation_algorithm: "DummySegmentationAlgorithm"
+    robot_0:
+      segmentation_algorithm:
+       - "HSVInRangeColorSegmentation"
+       - "HSVInRangeColorSegmentation"
+      segmentation_arguments:
+       - "Yellow"
+       - "Robot0"
       identification_algorithm: "DummyIdentificationAlgorithm"
 
+    robot_1:
+      segmentation_algorithm:
+       - "HSVInRangeColorSegmentation"
+       - "HSVInRangeColorSegmentation"
+      segmentation_arguments:
+       - "Yellow"
+       - "Robot1"
+      identification_algorithm: "DummyIdentificationAlgorithm"
+
+    robot_2:
+      segmentation_algorithm:
+       - "HSVInRangeColorSegmentation"
+       - "HSVInRangeColorSegmentation"
+      segmentation_arguments:
+       - "Yellow"
+       - "Robot2"
+      identification_algorithm: "DummyIdentificationAlgorithm"
+
+    # our_robots:
+    #   segmentation_algorithm: "FindRobotsColor"
+    #   segmentation_arguments: "Yellow"
+    #   identification_algorithm: "RobotIdentification"
+    #   identification_arguments: "ours"
+
+    # opponent_robots:
+    #   segmentation_algorithm: "FindRobotsColor"
+    #   segmentation_arguments: "Blue"
+    #   identification_algorithm: "RobotIdentification"
+    #   identification_arguments: "theirs"
+
+    # dummy_object:
+    #   segmentation_algorithm: "DummySegmentationAlgorithm"
+    #   identification_algorithm: "DummyIdentificationAlgorithm"
