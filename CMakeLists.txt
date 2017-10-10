@@ -55,6 +55,7 @@ add_executable(vision_node
   src/vision/find_robots_by_color.cpp
   src/vision/hsv_in_range_color_segmentation.cpp
   src/vision/robot_identification.cpp
+  src/vision/new_robot_identification.cpp
   src/vision/identification_algorithm.cpp
   src/vision/identifier.cpp
   src/vision/raw_image.cpp

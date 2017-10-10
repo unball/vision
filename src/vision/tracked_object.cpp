@@ -9,7 +9,6 @@
  */
 
 #include <vision/tracked_object.hpp>
-#include <cstdio>
 
 TrackedObject::TrackedObject(std::string name)
 {

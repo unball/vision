@@ -17,6 +17,7 @@
 #include <string>
 #include <memory>
 #include <cmath>
+#include <cstdio>
 
 #include <opencv2/opencv.hpp>
 #include <vision/identification_algorithm.hpp>
@@ -46,12 +47,12 @@ class TrackedObject
 
   private:
     bool isOutOfLimits(cv::Point2f);
-    
+
     void predict(trackParams *param);
     void update(trackParams *param, cv::Point2f measured_pose);
     void resetFilter(trackParams *param);
     void resetLastPose(trackParams *param);
-    
+
     std::vector<cv::Point2f> last_pose_vector_;
     std::vector<float> last_orientation_vector_;
 

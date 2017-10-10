@@ -2,10 +2,14 @@
 
 REGISTER_ALGORITHM_DEF(HSVInRangeColorSegmentation);
 
+static bool show_image = true;
+
 void HSVInRangeColorSegmentation::init()
 {
-    window_name_ = "HSV InRange color segmentation: " + arguments_;
-    cv::namedWindow(window_name_);
+    if (show_image) {
+        window_name_ = "HSV InRange color segmentation: " + arguments_;
+        cv::namedWindow(window_name_);
+    }
 
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
@@ -31,6 +35,7 @@ void HSVInRangeColorSegmentation::run()
 
     cv::morphologyEx(mask, mask, cv::MORPH_OPEN, elem);
 
-    cv::imshow(window_name_, mask);
+    if (show_image)
+        cv::imshow(window_name_, mask);
     output_image_ = mask;
 }
