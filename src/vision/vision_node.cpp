@@ -99,24 +99,31 @@ void publishVisionMessage(ros::Publisher &publisher)
             message.ball_y = 0;
         }
     }
-    int robot_counter = 0;
-    if (vision_output.find("our_robots") != vision_output.end())
+    if (vision_output.find("robot_0") != vision_output.end())
     {
-        for (int i = 0; i < vision_output["our_robots"].positions.size(); ++i)
+        if (vision_output["robot_0"].positions.size() == 1)
         {
-            message.x[robot_counter] = vision_output["our_robots"].positions[i].x;
-            message.y[robot_counter] = vision_output["our_robots"].positions[i].y;
-            message.th[robot_counter] = vision_output["our_robots"].orientations[i];
-            robot_counter++;
+            message.x[0] = vision_output["robot_0"].positions[0].x;
+            message.y[0] = vision_output["robot_0"].positions[0].y;
+            message.th[0] = vision_output["robot_0"].orientations[0];
         }
     }
-    if (vision_output.find("opponent_robots") != vision_output.end())
+    if (vision_output.find("robot_1") != vision_output.end())
     {
-        for (int i = 0; i < vision_output["opponent_robots"].positions.size(); ++i)
+        if (vision_output["robot_1"].positions.size() == 1)
         {
-            message.x[robot_counter] = vision_output["opponent_robots"].positions[i].x;
-            message.y[robot_counter] = vision_output["opponent_robots"].positions[i].y;
-            robot_counter++;
+            message.x[1] = vision_output["robot_1"].positions[0].x;
+            message.y[1] = vision_output["robot_1"].positions[0].y;
+            message.th[1] = vision_output["robot_1"].orientations[0];
+        }
+    }
+    if (vision_output.find("robot_2") != vision_output.end())
+    {
+        if (vision_output["robot_2"].positions.size() == 1)
+        {
+            message.x[2] = vision_output["robot_2"].positions[0].x;
+            message.y[2] = vision_output["robot_2"].positions[0].y;
+            message.th[2] = vision_output["robot_2"].orientations[0];
         }
     }
     publisher.publish(message);

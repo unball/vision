@@ -53,7 +53,7 @@ void NewRobotIdentification::run()
     output_info_ = std::make_shared<IdentificationOutput>();
     if (min_distance > 15)
     {
-        ROS_ERROR("[Robot Identification]Window %s: Robot not found", window_name_.c_str());
+        ROS_DEBUG("[Robot Identification]Window %s: Robot not found", window_name_.c_str());
         output_info_->found_object.push_back(false);
     }
     else
@@ -120,5 +120,5 @@ cv::Point2f NewRobotIdentification::centerPoint(cv::Point2f a, cv::Point2f b)
 
 float NewRobotIdentification::calculateOrientation(cv::Point2f a, cv::Point2f b)
 {
-    return atan2(a.y - b.y, a.x - b.x);
+    return atan2(b.y - a.y, b.x - a.x) * (-1);
 }

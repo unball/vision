@@ -12,8 +12,6 @@ vision:
      - "robot_0"
      - "robot_1"
      - "robot_2"
-    #  - "our_robots"
-    #  - "opponent_robots"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
@@ -26,7 +24,8 @@ vision:
       segmentation_arguments:
        - "Yellow"
        - "Robot0"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "NewRobotIdentification"
+      identification_arguments: "robot_0"
 
     robot_1:
       segmentation_algorithm:
@@ -35,7 +34,8 @@ vision:
       segmentation_arguments:
        - "Yellow"
        - "Robot1"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "NewRobotIdentification"
+      identification_arguments: "robot_1"
 
     robot_2:
       segmentation_algorithm:
@@ -44,20 +44,5 @@ vision:
       segmentation_arguments:
        - "Yellow"
        - "Robot2"
-      identification_algorithm: "DummyIdentificationAlgorithm"
-
-    # our_robots:
-    #   segmentation_algorithm: "FindRobotsColor"
-    #   segmentation_arguments: "Yellow"
-    #   identification_algorithm: "RobotIdentification"
-    #   identification_arguments: "ours"
-
-    # opponent_robots:
-    #   segmentation_algorithm: "FindRobotsColor"
-    #   segmentation_arguments: "Blue"
-    #   identification_algorithm: "RobotIdentification"
-    #   identification_arguments: "theirs"
-
-    # dummy_object:
-    #   segmentation_algorithm: "DummySegmentationAlgorithm"
-    #   identification_algorithm: "DummyIdentificationAlgorithm"
+      identification_algorithm: "NewRobotIdentification"
+      identification_arguments: "robot_2"

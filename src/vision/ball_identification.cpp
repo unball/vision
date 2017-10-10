@@ -19,7 +19,7 @@ void BallIdentification::run(){
     CvSeq* largestContour = findLargerBlob(contours);
     auto ball_pose = calcBallPose(largestContour);
     output_info_->object_pose[0] = ball_pose;
-
+    output_info_->found_object.push_back(true);
 }
 
 CvSeq* BallIdentification::findLargerBlob(CvSeq* contours){
