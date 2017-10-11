@@ -39,16 +39,12 @@ void TrackedObject::runTracking()
         orientation_.resize(id_output->object_orientation.size());
 
     for (int i = 0; i < position_.size(); ++i)
-    {
         if (found_objects_[i])
             position_[i] = id_output->object_pose[i];
-    }
 
     for (int i = 0; i < orientation_.size(); ++i)
-    {
         if (found_objects_[i])
             orientation_[i] = id_output->object_orientation[i];
-    }
 
     drawTrackedObject();
 }

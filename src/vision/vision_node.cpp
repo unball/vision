@@ -99,31 +99,19 @@ void publishVisionMessage(ros::Publisher &publisher)
             message.ball_y = 0;
         }
     }
-    if (vision_output.find("robot_0") != vision_output.end())
+    std::string prefix = "robot_";
+    for (int i = 0; i < 3; ++i)
     {
-        if (vision_output["robot_0"].positions.size() == 1)
+        std::string robot = prefix + std::to_string(i);
+        if (vision_output.find(robot) != vision_output.end())
         {
-            message.x[0] = vision_output["robot_0"].positions[0].x;
-            message.y[0] = vision_output["robot_0"].positions[0].y;
-            message.th[0] = vision_output["robot_0"].orientations[0];
-        }
-    }
-    if (vision_output.find("robot_1") != vision_output.end())
-    {
-        if (vision_output["robot_1"].positions.size() == 1)
-        {
-            message.x[1] = vision_output["robot_1"].positions[0].x;
-            message.y[1] = vision_output["robot_1"].positions[0].y;
-            message.th[1] = vision_output["robot_1"].orientations[0];
-        }
-    }
-    if (vision_output.find("robot_2") != vision_output.end())
-    {
-        if (vision_output["robot_2"].positions.size() == 1)
-        {
-            message.x[2] = vision_output["robot_2"].positions[0].x;
-            message.y[2] = vision_output["robot_2"].positions[0].y;
-            message.th[2] = vision_output["robot_2"].orientations[0];
+            if (vision_output[robot].positions.size() == 1)
+            {
+                message.x[i] = vision_output[robot].positions[0].x;
+                message.y[i] = vision_output[robot].positions[0].y;
+                message.th[i] = vision_output[robot].orientations[0];
+                message.found[i] = vision_output[robot].found[0];
+            }
         }
     }
     publisher.publish(message);

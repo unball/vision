@@ -2,15 +2,17 @@
 
 REGISTER_ALGORITHM_DEF(NewRobotIdentification);
 
+static bool show_image = true;
 static bool show_trackbars = true;
 
 void NewRobotIdentification::init()
 {
     window_name_ = arguments_;
-    cv::namedWindow(window_name_);
+    if (show_image)
+        cv::namedWindow(window_name_);
     min_area_ = 80;
     max_area_ = 600;
-    if (show_trackbars)
+    if (show_image and show_trackbars)
     {
         cv::createTrackbar("Min area", window_name_, &min_area_, 2000);
         cv::createTrackbar("Max area", window_name_, &max_area_, 2000);
@@ -67,7 +69,8 @@ void NewRobotIdentification::run()
                                                                         id_rectangles[robot.second].center));
         output_info_->found_object.push_back(true);
     }
-    cv::imshow(window_name_, drawing);
+    if (show_image)
+        cv::imshow(window_name_, drawing);
 }
 
 void NewRobotIdentification::drawRotatedRect(cv::Mat image, cv::RotatedRect rect, cv::Scalar color)

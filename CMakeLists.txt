@@ -18,8 +18,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 
 
 add_message_files(DIRECTORY msg FILES
-  VisionMessage.msg
-  PixelToMetricConversionMessage.msg)
+  VisionMessage.msg)
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(

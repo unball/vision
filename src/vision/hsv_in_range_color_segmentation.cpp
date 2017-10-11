@@ -2,7 +2,7 @@
 
 REGISTER_ALGORITHM_DEF(HSVInRangeColorSegmentation);
 
-static bool show_image = true;
+static bool show_image = false;
 
 void HSVInRangeColorSegmentation::init()
 {
