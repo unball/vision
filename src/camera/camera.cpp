@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
     ROS_INFO("Sending video");
     while(ros::ok()){
         rgb_cap >> rgb_frame.image;
-        //flip(rgb_frame.image, rgb_frame.image, -1);
         rgb_pub.publish(rgb_frame.toImageMsg());
         ros::spinOnce();
         loop_rate.sleep();
