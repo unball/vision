@@ -32,6 +32,7 @@ class ColorCalibration
     cv::Mat segmented_image_;
     cv::FileStorage colorManager_;
     cv::FileStorage colorHandler_;
+    static void callbackbutton(int state, void* datauser){};
 };
 
 

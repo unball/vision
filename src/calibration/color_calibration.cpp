@@ -31,6 +31,7 @@ ColorCalibration::ColorCalibration(){
 
         //create UI
         cv::namedWindow(window_name_);
+        cv::createButton("Save V4L", callbackbutton);
         cv::createTrackbar("HMIN", window_name_, &hsv_min_h_, 360);
         cv::createTrackbar("HMAX", window_name_, &hsv_max_h_, 360);
         cv::createTrackbar("SMIN", window_name_, &hsv_min_s_, 256);
@@ -85,11 +86,13 @@ void ColorCalibration::calibrate(cv::Mat& rgb_input){
             cv::destroyWindow(window_name_);
         else{
             cv::Mat hsv_converted;
-            cv::cvtColor(rgb_input, hsv_converted, CV_BGR2HSV);
-
-            cv::inRange(hsv_converted, cv::Scalar(hsv_min_h_, hsv_min_s_, hsv_min_v_),
+            cv::cvtColor(rgb_input, hsv_converted, CV_BGR2Lab);
+            cv::cvtColor(hsv_converted, hsv_converted, CV_BGR2HSV);
+            
+            cv::inRange(rgb_input, cv::Scalar(hsv_min_h_, hsv_min_s_, hsv_min_v_),
                          cv::Scalar(hsv_max_h_, hsv_max_s_, hsv_max_v_), segmented_image_);
-
+            cv::Mat element = getStructuringElement( cv::MORPH_RECT, cv::Size(3, 3), cv::Point(1, 1));
+            cv::erode( segmented_image_, segmented_image_, element );                         
             cv::imshow(window_name_, segmented_image_);
         }
 
