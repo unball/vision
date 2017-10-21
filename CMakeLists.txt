@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
+find_package(OpenCV REQUIRED)
+
 add_definitions(-std=c++11)
 
 find_package(Boost REQUIRED COMPONENTS system)
@@ -120,3 +122,4 @@ add_dependencies(pixel_to_metric_conversion unball_gencpp)
 target_link_libraries(pixel_to_metric_conversion ${catkin_LIBRARIES})
 
 
+message(STATUS "${catkin_LIBRARIES}")

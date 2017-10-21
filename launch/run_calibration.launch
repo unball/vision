@@ -1,6 +1,6 @@
 <launch>
   <rosparam command="load" file="$(find vision)/config/vision.yaml"/>
   <rosparam command="load" file="$(find vision)/config/image.yaml"/>
-  <node name="RGB" pkg="vision" type="camera" output="screen" args="1"/>
+  <node name="RGB" pkg="vision" type="camera" output="screen" args="0"/>
   <node name="calibration_node" pkg="vision" type="calibration_node" output="screen"/>
 </launch>

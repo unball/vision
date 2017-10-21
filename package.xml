@@ -19,7 +19,9 @@
   <build_depend>sensor_msgs</build_depend>
   <build_depend>opencv2</build_depend>
   <build_depend>message_generation</build_depend>
+  <build_depend>OpenCV</build_depend>
 
+  
   <run_depend>roscpp</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>image_transport</run_depend>

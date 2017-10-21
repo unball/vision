@@ -34,8 +34,6 @@ void FindRobotsColor::preProcessor(cv::Mat input){
                     cv::Scalar(yellow_mat_.at<int>(1,0), yellow_mat_.at<int>(1,1), yellow_mat_.at<int>(1,2)),
                     mask_);
         //applyMorfology();
-
-        cv::imshow("Yellow", mask_);
     }
     else if (arguments_ == "Blue")
     {   
@@ -45,7 +43,6 @@ void FindRobotsColor::preProcessor(cv::Mat input){
                     cv::Scalar(blue_mat_.at<int>(1,0), blue_mat_.at<int>(1,1), blue_mat_.at<int>(1,2)),
                     mask_);
         //applyMorfology();
-        cv::imshow("Blue", mask_);
     }
     else{
         ROS_ERROR("[FIND ROBOTS] COLOR BAD DEFINITION");
