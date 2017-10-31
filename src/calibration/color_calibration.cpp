@@ -84,6 +84,9 @@ void ColorCalibration::calibrate(cv::Mat& rgb_input){
             cv::destroyWindow(window_name_);
         else{
             cv::Mat hsv_converted;
+
+            cv::GaussianBlur(rgb_input, rgb_input, cv::Size(9,9), 2,2);
+
             cv::cvtColor(rgb_input, hsv_converted, CV_BGR2HSV);
 
             cv::inRange(hsv_converted, cv::Scalar(hsv_min_h_, hsv_min_s_, hsv_min_v_),

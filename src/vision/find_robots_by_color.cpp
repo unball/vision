@@ -20,6 +20,8 @@ void FindRobotsColor::init(){
 }
 
 void FindRobotsColor::preProcessor(cv::Mat input){
+    
+    cv::GaussianBlur(input, input, cv::Size(3,3), 0);
     cv::cvtColor(input, input, CV_BGR2HSV);
 
     std::vector<cv::Mat> channels(3);

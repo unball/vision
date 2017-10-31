@@ -40,7 +40,7 @@ void RobotIdentification::init(){
 void RobotIdentification::find(cv::Mat input, cv::Mat rgb_input){
     cv::Mat mask;
     input.copyTo(mask);
-
+    cv::GaussianBlur(rgb_input, rgb_input, cv::Size(3,3), 0);
     std::vector<std::vector<cv::Point>> newcontours;
     std::vector<cv::Vec4i> newhierarchy;
     uchar *p;
