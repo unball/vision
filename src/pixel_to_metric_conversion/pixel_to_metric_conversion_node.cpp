@@ -46,12 +46,11 @@ void receiveVisionMessage(const vision::VisionMessage::ConstPtr &msg_v)
     std::vector<float> x(6), y(6), th(6);
     std::vector<float> ball_location(2);
 
-    ROS_INFO("\n\n[PxToMConvNode]:ReceiveVisionMessage - Receiving vision message");
+    //ROS_INFO("\n\n[PxToMConvNode]:ReceiveVisionMessage - Receiving vision message");
 
     for (int robot_index = 0; robot_index < 6; robot_index++)
     {
-        ROS_INFO("%d x: %f\t y: %f\t th: %f", robot_index, msg_v->x[robot_index], msg_v->y[robot_index],
-            msg_v->th[robot_index]);
+        //ROS_INFO("%d x: %f\t y: %f\t th: %f", robot_index, msg_v->x[robot_index], msg_v->y[robot_index],msg_v->th[robot_index]);
 
         if(msg_v->y[robot_index] > 1 and msg_v->y[robot_index] < 480)
         {
@@ -69,14 +68,13 @@ void receiveVisionMessage(const vision::VisionMessage::ConstPtr &msg_v)
     message.ball_y = msg_v->ball_y;
     convertPixelsToMeters();
 
-    ROS_INFO("\n\n[MeasurementNode]:ReceiveVisionMessage - Sending measurement system message");
+    //ROS_INFO("\n\n[MeasurementNode]:ReceiveVisionMessage - Sending measurement system message");
 
     for (int robot_index = 0; robot_index < 6; robot_index++)
     {
-        ROS_INFO("%d x: %f\t y: %f\t th: %f", robot_index, message.x[robot_index], message.y[robot_index],
-            message.th[robot_index]);
+        //ROS_INFO("%d x: %f\t y: %f\t th: %f", robot_index, message.x[robot_index], message.y[robot_index],message.th[robot_index]);
     }
-    ROS_INFO("Ball: x: %f, y: %f", message.ball_x, message.ball_y);
+    //ROS_INFO("Ball: x: %f, y: %f", message.ball_x, message.ball_y);
 
     publisher.publish(message);
 }
