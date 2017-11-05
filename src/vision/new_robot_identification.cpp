@@ -12,10 +12,12 @@ void NewRobotIdentification::init()
         cv::namedWindow(window_name_);
     min_area_ = 80;
     max_area_ = 600;
+    min_distance_ = 15;
     if (show_image and show_trackbars)
     {
         cv::createTrackbar("Min area", window_name_, &min_area_, 2000);
         cv::createTrackbar("Max area", window_name_, &max_area_, 2000);
+        cv::createTrackbar("Min dist", window_name_, &min_distance_, 50);
     }
 }
 
@@ -53,7 +55,7 @@ void NewRobotIdentification::run()
     }
 
     output_info_ = std::make_shared<IdentificationOutput>();
-    if (min_distance > 15)
+    if (min_distance > min_distance_)
     {
         ROS_DEBUG("[Robot Identification]Window %s: Robot not found", window_name_.c_str());
         output_info_->found_object.push_back(false);

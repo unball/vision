@@ -26,7 +26,7 @@ class NewRobotIdentification : public IdentificationAlgorithm
     float calculateOrientation(cv::Point2f a, cv::Point2f b);
 
     std::string window_name_;
-    int min_area_, max_area_;
+    int min_area_, max_area_, min_distance_;
 };
 
 #endif // VISION_NEW_ROBOT_IDENTIFICATION_H_
