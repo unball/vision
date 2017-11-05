@@ -1,11 +1,11 @@
 vision:
     camera:
-      show_image: true
+      show_image: false
 
     calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
-        calibrate_team_color: false
+        calibrate_team_color: true
 
     object_list:
      - "ball"
