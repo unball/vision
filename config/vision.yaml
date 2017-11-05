@@ -22,7 +22,7 @@ vision:
        - "HSVInRangeColorSegmentation"
        - "HSVInRangeColorSegmentation"
       segmentation_arguments:
-       - "Yellow"
+       - "Blue"
        - "Robot0"
       identification_algorithm: "NewRobotIdentification"
       identification_arguments: "robot_0"
@@ -32,7 +32,7 @@ vision:
        - "HSVInRangeColorSegmentation"
        - "HSVInRangeColorSegmentation"
       segmentation_arguments:
-       - "Yellow"
+       - "Blue"
        - "Robot1"
       identification_algorithm: "NewRobotIdentification"
       identification_arguments: "robot_1"
@@ -42,7 +42,7 @@ vision:
        - "HSVInRangeColorSegmentation"
        - "HSVInRangeColorSegmentation"
       segmentation_arguments:
-       - "Yellow"
+       - "Blue"
        - "Robot2"
       identification_algorithm: "NewRobotIdentification"
       identification_arguments: "robot_2"
