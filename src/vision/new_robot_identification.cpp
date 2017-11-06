@@ -12,7 +12,7 @@ void NewRobotIdentification::init()
         cv::namedWindow(window_name_);
     min_area_ = 80;
     max_area_ = 600;
-    min_distance_ = 15;
+    min_distance_ = 18;
     if (show_image and show_trackbars)
     {
         cv::createTrackbar("Min area", window_name_, &min_area_, 2000);
