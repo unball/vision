@@ -5,7 +5,7 @@ vision:
     calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
-        calibrate_team_color: true
+        calibrate_team_color: false
 
     object_list:
      - "ball"
