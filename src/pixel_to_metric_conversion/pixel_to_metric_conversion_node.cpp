@@ -30,6 +30,7 @@ int main(int argc, char **argv)
     ros::Subscriber sub = n.subscribe("vision_topic", 1, receiveVisionMessage);
     publisher = n.advertise<vision::VisionMessage>("pixel_to_metric_conversion_topic", 1);
 
+    ROS_INFO("Starting pixel-to-metric conversion node");
     while (ros::ok())
     {
         ros::spinOnce();
@@ -44,14 +45,6 @@ void receiveVisionMessage(const vision::VisionMessage::ConstPtr &msg_v)
 {
     message = *msg_v;
     convertPixelsToMeters();
-    ROS_INFO("\n\n[MeasurementNode]:ReceiveVisionMessage - Sending measurement system message");
-
-    for (int robot_index = 0; robot_index < 6; robot_index++)
-    {
-        //ROS_INFO("%d x: %f\t y: %f\t th: %f", robot_index, message.x[robot_index], message.y[robot_index],message.th[robot_index]);
-    }
-    //ROS_INFO("Ball: x: %f, y: %f", message.ball_x, message.ball_y);
-
     publisher.publish(message);
 }
 
