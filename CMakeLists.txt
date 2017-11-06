@@ -20,8 +20,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 
 
 add_message_files(DIRECTORY msg FILES
-  VisionMessage.msg
-  PixelToMetricConversionMessage.msg)
+  VisionMessage.msg)
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
@@ -55,7 +54,9 @@ add_executable(vision_node
   src/vision/dummy_identification_algorithm.cpp
   src/vision/dummy_segmentation_algorithm.cpp
   src/vision/find_robots_by_color.cpp
+  src/vision/hsv_in_range_color_segmentation.cpp
   src/vision/robot_identification.cpp
+  src/vision/new_robot_identification.cpp
   src/vision/identification_algorithm.cpp
   src/vision/identifier.cpp
   src/vision/raw_image.cpp

@@ -1,1 +1,1 @@
-v4l2ctrl -d /dev/video0 -s ../data/camera-settings.config
+v4l2ctrl -d /dev/video0 -l ../data/camera-settings.config

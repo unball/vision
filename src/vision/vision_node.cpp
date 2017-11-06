@@ -99,24 +99,19 @@ void publishVisionMessage(ros::Publisher &publisher)
             message.ball_y = 0;
         }
     }
-    int robot_counter = 0;
-    if (vision_output.find("our_robots") != vision_output.end())
+    std::string prefix = "robot_";
+    for (int i = 0; i < 3; ++i)
     {
-        for (int i = 0; i < vision_output["our_robots"].positions.size(); ++i)
+        std::string robot = prefix + std::to_string(i);
+        if (vision_output.find(robot) != vision_output.end())
         {
-            message.x[robot_counter] = vision_output["our_robots"].positions[i].x;
-            message.y[robot_counter] = vision_output["our_robots"].positions[i].y;
-            message.th[robot_counter] = vision_output["our_robots"].orientations[i];
-            robot_counter++;
-        }
-    }
-    if (vision_output.find("opponent_robots") != vision_output.end())
-    {
-        for (int i = 0; i < vision_output["opponent_robots"].positions.size(); ++i)
-        {
-            message.x[robot_counter] = vision_output["opponent_robots"].positions[i].x;
-            message.y[robot_counter] = vision_output["opponent_robots"].positions[i].y;
-            robot_counter++;
+            if (vision_output[robot].positions.size() == 1)
+            {
+                message.x[i] = vision_output[robot].positions[0].x;
+                message.y[i] = vision_output[robot].positions[0].y;
+                message.th[i] = vision_output[robot].orientations[0];
+                message.found[i] = vision_output[robot].found[0];
+            }
         }
     }
     publisher.publish(message);

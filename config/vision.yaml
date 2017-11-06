@@ -1,36 +1,48 @@
 vision:
     camera:
-      show_image: true
+      show_image: false
 
-    calibration: 
+    calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
         calibrate_team_color: true
 
-
     object_list:
-     # - "dummy_object" 
      - "ball"
-     - "our_robots"
-     - "opponent_robots"
+     - "robot_0"
+     - "robot_1"
+     - "robot_2"
 
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
       identification_algorithm: "BallIdentification"
 
-    our_robots:
-      segmentation_algorithm: "FindRobotsColor"
-      segmentation_arguments: "Yellow"
-      identification_algorithm: "RobotIdentification"
-      identification_arguments: "ours"
+    robot_0:
+      segmentation_algorithm:
+       - "HSVInRangeColorSegmentation"
+       - "HSVInRangeColorSegmentation"
+      segmentation_arguments:
+       - "Blue"
+       - "Robot0"
+      identification_algorithm: "NewRobotIdentification"
+      identification_arguments: "robot_0"
 
-    opponent_robots:
-      segmentation_algorithm: "FindRobotsColor"
-      segmentation_arguments: "Blue"
-      identification_algorithm: "RobotIdentification"
-      identification_arguments: "theirs"
-    
-    dummy_object:
-      segmentation_algorithm: "DummySegmentationAlgorithm"
-      identification_algorithm: "DummyIdentificationAlgorithm"
+    robot_1:
+      segmentation_algorithm:
+       - "HSVInRangeColorSegmentation"
+       - "HSVInRangeColorSegmentation"
+      segmentation_arguments:
+       - "Blue"
+       - "Robot1"
+      identification_algorithm: "NewRobotIdentification"
+      identification_arguments: "robot_1"
 
+    robot_2:
+      segmentation_algorithm:
+       - "HSVInRangeColorSegmentation"
+       - "HSVInRangeColorSegmentation"
+      segmentation_arguments:
+       - "Blue"
+       - "Robot2"
+      identification_algorithm: "NewRobotIdentification"
+      identification_arguments: "robot_2"

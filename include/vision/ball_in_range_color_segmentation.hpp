@@ -18,7 +18,7 @@ class BallInRangeColorSegmentation : public SegmentationAlgorithm
   private:
     REGISTER_ALGORITHM_DEC(BallInRangeColorSegmentation);
     cv::FileStorage colorReader_;
-    std::string window_name_ = "Ball segmetation with inrange";
+    std::string window_name_ = "Ball segmentation with inrange";
     cv::Mat orangeMat;
     cv::Mat rgb_image;
     int kernel_size_ = 5;

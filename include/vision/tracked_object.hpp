@@ -17,24 +17,18 @@
 #include <string>
 #include <memory>
 #include <cmath>
+#include <cstdio>
 
 #include <opencv2/opencv.hpp>
 #include <vision/identification_algorithm.hpp>
 #include <vision/vision_gui.hpp>
-
-struct trackParams
-{
-    cv::Point2f predicted_velocity_ = cv::Point2f(0, 0);
-    cv::Point2f predicted_pose_ = cv::Point2f(320, 240);
-    cv::Point2f previous_pose_;
-};
 
 class TrackedObject
 {
   public:
     TrackedObject(std::string name = "DefaultTrackedObject");
 
-    void runTracking();
+    virtual void runTracking();
 
     bool isName(std::string name);
     std::string getName();
@@ -43,30 +37,17 @@ class TrackedObject
 
     std::vector<cv::Point2f> getPositionVector();
     std::vector<float> getOrientationVector();
+    std::vector<bool> getFoundObjectsVector();
 
   private:
-    bool isOutOfLimits(cv::Point2f);
-    
-    void predict(trackParams *param);
-    void update(trackParams *param, cv::Point2f measured_pose);
-    void resetFilter(trackParams *param);
-    void resetLastPose(trackParams *param);
-    
-    std::vector<cv::Point2f> last_pose_vector_;
-    std::vector<float> last_orientation_vector_;
+    void drawTrackedObject();
 
-    int counter_;
-    float weight_;
-    cv::Scalar opponent_color_;
   protected:
-
     std::string name_;
-
     std::shared_ptr<IdentificationAlgorithm> identification_algorithm_;
-
     std::vector<cv::Point2f> position_;
-
     std::vector<float> orientation_;
+    std::vector<bool> found_objects_;
 };
 
 #endif // VISION_TRACKED_OBJECT_H_

@@ -2,10 +2,13 @@
 
 REGISTER_ALGORITHM_DEF(BallInRangeColorSegmentation);
 
+static bool show_image = false;
+
 void BallInRangeColorSegmentation::init()
 {
     // ROS_INFO("Initializing the ball segmentation algorithm using inrange method.");
-    cv::namedWindow(window_name_);
+    if (show_image)
+        cv::namedWindow(window_name_);
 
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
@@ -34,6 +37,7 @@ void BallInRangeColorSegmentation::run()
 
     cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, elem);
 
-    cv::imshow(window_name_, mask);
+    if (show_image)
+        cv::imshow(window_name_, mask);
     output_image_ = mask;
 }
