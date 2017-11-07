@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "pixel_to_metric_conversion_node");
 
     ros::NodeHandle n;
-    ros::Rate loop_rate(10); // Hz
+    ros::Rate loop_rate(30); // Hz
 
     ros::Subscriber sub = n.subscribe("vision_topic", 1, receiveVisionMessage);
     publisher = n.advertise<vision::VisionMessage>("pixel_to_metric_conversion_topic", 1);
@@ -35,8 +35,9 @@ int main(int argc, char **argv)
     {
         ros::spinOnce();
         loop_rate.sleep();
+        publisher.publish(message);
     }
-
+    
     return 0;
 }
 
@@ -45,7 +46,6 @@ void receiveVisionMessage(const vision::VisionMessage::ConstPtr &msg_v)
 {
     message = *msg_v;
     convertPixelsToMeters();
-    publisher.publish(message);
 }
 
 void convertPixelsToMeters(){
