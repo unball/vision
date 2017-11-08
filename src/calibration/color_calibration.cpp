@@ -22,8 +22,12 @@ ColorCalibration::ColorCalibration(){
     ros::param::get("/vision/calibration/calibrate_team_color", calibrate_);
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
-    colorHandler_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
-
+    try{
+        colorHandler_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
+    }catch(int e){
+        ROS_ERROR("PERSISTANCE ERROR, PLEASE RECALIBRATE ALL PARAMETERS");
+        calibrate_ = true;
+    }
     
 
     if (calibrate_)
@@ -50,11 +54,10 @@ ColorCalibration::ColorCalibration(){
     }
     else
         ROS_INFO("Color already calibrated, to recalibrate change config!");
-
 }
 
 ColorCalibration::~ColorCalibration(){
-    if (calibrate_){
+    if(calibrate_){
         if (not is_blue_saved_)
             colorManager_ << "Blue" << old_blue;
         if (not is_yellow_saved_)
@@ -71,21 +74,21 @@ ColorCalibration::~ColorCalibration(){
         colorManager_.release();
     }
     colorHandler_.release();
+
 }
 
 void ColorCalibration::calibrate(cv::Mat& rgb_input){
     //equalizeIntensity(rgb_input);
-
+    
+  /// Apply the specified morphology operation
     if (calibrate_)
     {
-        
         cv::waitKey(1);
         if (is_blue_saved_ && is_yellow_saved_ && is_orange_saved_ && is_robot0_saved_ && is_robot1_saved_ && is_robot2_saved_)
             cv::destroyWindow(window_name_);
         else{
             cv::Mat hsv_converted;
 
-            cv::GaussianBlur(rgb_input, rgb_input, cv::Size(9,9), 2,2);
 
             cv::cvtColor(rgb_input, hsv_converted, CV_BGR2HSV);
 

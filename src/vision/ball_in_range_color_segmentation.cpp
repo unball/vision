@@ -12,7 +12,11 @@ void BallInRangeColorSegmentation::init()
 
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
-    colorReader_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
+    try{
+        colorReader_ = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
+    }catch(int e){
+        ROS_ERROR("VERIFY 'color_calibration.yaml' file");
+    }
     if (colorReader_.isOpened())
         colorReader_["Orange"] >> orangeMat;
 }

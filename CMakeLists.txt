@@ -66,7 +66,11 @@ add_executable(vision_node
   src/vision/tracker.cpp
   src/vision/vision.cpp
   src/vision/vision_gui.cpp
- )
+  src/calibration/select_field.cpp
+  src/calibration/color_calibration.cpp
+  src/calibration/capture_points.cpp
+  src/calibration/file_manager.cpp
+)
 add_dependencies(vision_node unball_gencpp)
 target_link_libraries(vision_node ${catkin_LIBRARIES})
 

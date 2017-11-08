@@ -11,7 +11,11 @@ void FindRobotsColor::init(){
     auto sourceDir = ros::package::getPath("vision").append("/data/");
     auto filename = "color_calibration.yaml";
 
-    color_reader_ = cv::FileStorage(sourceDir+filename,cv::FileStorage::READ);
+    try{
+        color_reader_ = cv::FileStorage(sourceDir+filename,cv::FileStorage::READ);
+    }catch(int e){
+        ROS_ERROR("VERIFY 'color_calibration.yaml' file");
+    }
     if (color_reader_.isOpened())
     {
         color_reader_["Blue"] >> blue_mat_;

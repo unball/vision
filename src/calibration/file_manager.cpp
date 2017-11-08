@@ -9,7 +9,11 @@ FileManager::FileManager(std::string filename, std::string mode){
     if (mode == "write")
         matrixManager = cv::FileStorage(sourceDir+filename, cv::FileStorage::WRITE);
     else if (mode == "read")
-        matrixManager = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
+        try{
+            matrixManager = cv::FileStorage(sourceDir+filename, cv::FileStorage::READ);
+        }catch(int e){
+            ROS_ERROR("VERIFY 'color_calibration.yaml' file");
+        }
 }
 
 FileManager::~FileManager(){

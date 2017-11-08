@@ -16,11 +16,10 @@ SelectField::SelectField(std::string rgb_window, bool is_rgb){
     dst_points_.push_back(cv::Point2f(320.0,480.0));
     dst_points_.push_back(cv::Point2f(640.0,480.0));
 
-    bool calibrate;
-    ros::param::get("/vision/calibration/calibrate_rectify_matrix", calibrate);
+    ros::param::get("/vision/calibration/calibrate_rectify_matrix", calibrate_);
 
     //if needs calibration
-    if (calibrate == true)
+    if (calibrate_ == true)
         is_done_ = false;
     else //retrive field matrix
     {
@@ -84,14 +83,15 @@ void SelectField::showFrame(cv::Mat rgb_frame){
 }
 
 bool SelectField::isDone(){
+    if(not calibrate_)
     return is_done_;
 }
 
 cv::Mat SelectField::warp(cv::Mat rgb_frame){
-     cv::Mat result;
-
-    if(field_matrix_.rows > 0 and field_matrix_.cols > 0)
+    cv::Mat result;
+    if(field_matrix_.rows > 0 and field_matrix_.cols > 0){
         cv::warpPerspective(rgb_frame, result, field_matrix_, cv::Size(640,480));
+    }
     else
         ROS_ERROR("Field matrix not calculated");
     return result;

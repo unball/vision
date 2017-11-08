@@ -26,6 +26,7 @@ class SelectField
     std::vector<cv::Point2f> dst_points_;
     cv::Mat field_matrix_;
     bool is_done_;
+    bool calibrate_;
 };
 
 #endif

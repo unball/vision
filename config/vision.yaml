@@ -1,18 +1,22 @@
 vision:
     camera:
-      show_image: false
+      show_image: true
 
     calibration:
         calibrate_match_matrix: false
         calibrate_rectify_matrix: false
-        calibrate_team_color: false
+        calibrate_team_color: true
 
     object_list:
+     #- "dummy"
      - "ball"
      - "robot_0"
      - "robot_1"
      - "robot_2"
 
+    dummy:
+      segmentation_algorithm: "DummySegmentationAlgorithm"
+      identification_algorithm: "DummyIdentificationAlgorithm"
     ball:
       segmentation_algorithm: "BallInRangeColorSegmentation"
       identification_algorithm: "BallIdentification"

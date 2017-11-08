@@ -26,6 +26,8 @@ class ColorCalibration
     int hdr_;
     bool is_blue_saved_, is_yellow_saved_, is_orange_saved_, is_robot0_saved_, is_robot1_saved_, is_robot2_saved_;
     bool calibrate_;
+    bool opened_;
+    
 
     std::string window_name_;
     std::string window_name_HDR_;

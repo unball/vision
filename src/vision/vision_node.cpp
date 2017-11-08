@@ -2,6 +2,7 @@
  * @file   vision_node.cpp
  * @author Matheus Vieira Portela
  * @author Gabriel Naves da Silva
+ * @author Manoel Vieira Coelho Neto
  * @date   25/03/2014
  *
  * @attention Copyright (C) 2014 UnBall Robot Soccer Team
@@ -20,33 +21,76 @@
 #include <time.h>
 #include <stdio.h>
 #include <vision/VisionMessage.h>
-
 #include <vision/vision.hpp>
 
+#include <calibration/matching.hpp>
+#include <calibration/select_field.hpp>
+#include <calibration/color_calibration.hpp>
+
 image_transport::Subscriber image_sub;
+
+cv::VideoCapture rgb_cap;
+
+bool selecterstarted = false;
 
 void loadConfig();
 void subscriberSetup(image_transport::ImageTransport &img_transport);
 void receiveFrame(const sensor_msgs::ImageConstPtr& msg);
 void publishVisionMessage(ros::Publisher &publisher);
+cv::Mat getFrameFromCamera();
+cv::Mat calibrate(cv::Mat frame, SelectField *selecter);
 
 
 int main(int argc, char **argv)
 {
+    std::string rgb_select_name = "RGB Calibration";
+    
     srand(time(NULL));
     ros::init(argc, argv, "vision_node");
     ros::NodeHandle node_handle;
     image_transport::ImageTransport img_transport(node_handle);
-    subscriberSetup(img_transport);
+    // subscriberSetup(img_transport);
 
     ros::Publisher publisher = node_handle.advertise<vision::VisionMessage>("vision_topic", 1);
     ros::Rate loop_rate(30);
 
+    rgb_cap = cv::VideoCapture(std::atoi(argv[1]));
+
+    bool show_image=true;
+    // ros::param::get("/vision/camera/show_image", show_image);
+    cv::Mat camera_frame;
+
+    
+    
+    if (!rgb_cap.isOpened())
+    {
+        ROS_ERROR("Could not open of find the rgb video file");
+        return -1;
+    }
+
+    //instatiating things for calibration
+    SelectField selecter(rgb_select_name, true);
+
+    ros::param::get("/vision/calibration/calibrate_rectify_matrix", selecterstarted);
+    selecterstarted = not selecterstarted;
+
+    cv::Mat rgb_fixed;
+    bool showframes = true;    
+    
+
     while (ros::ok())
     {
+        camera_frame = getFrameFromCamera();
+        camera_frame = calibrate(camera_frame, &selecter);
+        Vision::getInstance().setRawImage(camera_frame);
         Vision::getInstance().run();
         publishVisionMessage(publisher);
         ros::spinOnce();
+        if (show_image)
+        {
+            cv::imshow("Camera Raw", camera_frame);
+            cv::waitKey(1);
+        }
         loop_rate.sleep();
     }
 
@@ -115,4 +159,31 @@ void publishVisionMessage(ros::Publisher &publisher)
         }
     }
     publisher.publish(message);
+}
+
+cv::Mat getFrameFromCamera(){
+    cv::Mat frame;
+    rgb_cap >> frame;
+    return frame;
+}
+
+cv::Mat calibrate(cv::Mat frame, SelectField *selecter){
+    cv::Mat rgb_fixed = frame;
+
+    if (not selecterstarted){
+        selecter->start();
+        selecterstarted = true;
+    }
+    else if (not selecter->isDone()){
+        if (not selecter->isDone())
+        {
+            selecter->showFrame(frame);
+            selecter->run();
+        }
+    }
+    else{
+        /*At this point all clicks must be done*/
+        rgb_fixed = selecter->warp(frame);
+    }
+    return rgb_fixed;
 }
