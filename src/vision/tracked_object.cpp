@@ -46,6 +46,7 @@ void TrackedObject::runTracking()
         if (found_objects_[i])
             orientation_[i] = id_output->object_orientation[i];
 
+
     drawTrackedObject();
 }
 

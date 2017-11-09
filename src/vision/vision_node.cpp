@@ -158,6 +158,11 @@ void publishVisionMessage(ros::Publisher &publisher)
             }
         }
     }
+
+    for (int i = 3; i < 6; ++i)
+    {
+        message.found[i] = true;
+    }
     publisher.publish(message);
 }
 

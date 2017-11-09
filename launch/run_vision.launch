@@ -1,5 +1,5 @@
 <launch>
   <rosparam command="load" file="$(find vision)/config/vision.yaml"/>
   <rosparam command="load" file="$(find vision)/config/image.yaml"/>
-  <node name="vision_system" pkg="vision" type="vision_node" output="screen" args="1"/>
+  <node name="vision_system" pkg="vision" type="vision_node" output="screen" args="0"/>
 </launch>

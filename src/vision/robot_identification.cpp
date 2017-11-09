@@ -14,6 +14,8 @@ void RobotIdentification::run(){
 
     output_info_->object_pose = robots_coord_;
     output_info_->object_orientation = robots_orientation_;
+    std::vector<bool>found = {true, true, true};
+    output_info_->found_object = found;
 }
 
 void RobotIdentification::init(){

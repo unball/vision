@@ -13,6 +13,7 @@ vision:
      - "robot_0"
      - "robot_1"
      - "robot_2"
+     - "opponents"
 
     dummy:
       segmentation_algorithm: "DummySegmentationAlgorithm"
@@ -50,3 +51,9 @@ vision:
        - "Robot2"
       identification_algorithm: "NewRobotIdentification"
       identification_arguments: "robot_2"
+
+    opponents:
+      segmentation_algorithm: "FindRobotsColor"
+      segmentation_arguments: "Yellow"
+      identification_algorithm: "RobotIdentification"
+      identification_arguments: "theirs"
