@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   cv_bridge
   message_generation
+  OpenCV REQUIRED
 )
 
 add_definitions(-std=c++11)
